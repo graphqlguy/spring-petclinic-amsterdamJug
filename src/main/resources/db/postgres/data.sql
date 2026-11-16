@@ -32,7 +32,7 @@ INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Jef
 INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=8);
 INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=9);
 INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=10);
-INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Porto', 'Tech', 'Alfândega do Porto, Rua Nova da Alfândega', 'Porto', '2212345678' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=11);
+INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Dev', 'Oxx', 'Overtoom 100', 'Amsterdam', '0123456789' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=11);
 
 INSERT INTO pets (name, birth_date, type_id, owner_id) SELECT 'Leo', '2010-09-07', 1, 1 WHERE NOT EXISTS (SELECT * FROM pets WHERE id=1);
 INSERT INTO pets (name, birth_date, type_id, owner_id) SELECT 'Basil', '2012-08-06', 6, 2 WHERE NOT EXISTS (SELECT * FROM pets WHERE id=2);
@@ -47,7 +47,7 @@ INSERT INTO pets (name, birth_date, type_id, owner_id) SELECT 'Mulligan', '2007-
 INSERT INTO pets (name, birth_date, type_id, owner_id) SELECT 'Freddy', '2010-03-09', 5, 9 WHERE NOT EXISTS (SELECT * FROM pets WHERE id=11);
 INSERT INTO pets (name, birth_date, type_id, owner_id) SELECT 'Lucky', '2010-06-24', 2, 10 WHERE NOT EXISTS (SELECT * FROM pets WHERE id=12);
 INSERT INTO pets (name, birth_date, type_id, owner_id) SELECT 'Sly', '2012-06-08', 1, 10 WHERE NOT EXISTS (SELECT * FROM pets WHERE id=13);
-INSERT INTO pets (name, birth_date, type_id, owner_id) SELECT 'Ronaldo', '2026-01-01', 2, 11 WHERE NOT EXISTS (SELECT * FROM pets WHERE id=14);
+INSERT INTO pets (name, birth_date, type_id, owner_id) SELECT 'Woofy', '2026-01-01', 2, 11 WHERE NOT EXISTS (SELECT * FROM pets WHERE id=14);
 INSERT INTO pets (name, birth_date, type_id, owner_id) SELECT 'Rosa', '2025-06-14', 1, 11 WHERE NOT EXISTS (SELECT * FROM pets WHERE id=15);
 
 INSERT INTO visits (pet_id, vet_id, visit_date, description) SELECT 7, 1, '2013-01-01', 'rabies shot' WHERE NOT EXISTS (SELECT * FROM visits WHERE id=1);
