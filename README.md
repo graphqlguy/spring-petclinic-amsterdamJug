@@ -135,7 +135,7 @@ In Windows PowerShell, that is `$env:PETCLINIC_BACKEND="http://localhost:8090"; 
 
 ## Sample data
 
-The ten owners Spring Petclinic comes with, and Dev Oxx of Overtoom 100 in Amsterdam, with the dog Woofy and the cat Rosa: 11 owners, 15 pets and 10 visits, each visit with its vet.
+The sample data of Spring Petclinic: 10 owners, 13 pets and 4 visits, each visit with its vet.
 
 ## Versions
 
