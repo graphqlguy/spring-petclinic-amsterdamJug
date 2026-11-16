@@ -18,7 +18,7 @@ function BackendStatus({ status }) {
     )
   }
   if (status === 'no-graphql') {
-    return <p>The backend is running. Its GraphQL endpoint arrives in chapter 1.</p>
+    return <p>The backend is running without a GraphQL endpoint at /graphql.</p>
   }
   return null
 }
@@ -31,7 +31,7 @@ export default function HomePage() {
       <img src={pets} alt="Pets" className="mx-auto mb-8 max-w-sm" />
       <section className="rounded border border-spring-light-grey p-5">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg">What the GraphQL API can do so far</h2>
+          <h2 className="text-lg">What the GraphQL API can do</h2>
           <button onClick={reload} className="text-sm text-spring-dark-green underline">
             Check again
           </button>
@@ -44,7 +44,6 @@ export default function HomePage() {
             return (
               <li key={f.key} className="flex items-center gap-3">
                 <span className="w-5 text-center">{live ? '✅' : '🚧'}</span>
-                <span className="w-20 text-spring-grey">Chapter {f.chapter}</span>
                 {live && path ? (
                   <Link to={path} className="text-spring-dark-green underline">
                     {f.title}
@@ -57,7 +56,6 @@ export default function HomePage() {
           })}
           <li className="flex items-center gap-3">
             <span className="w-5 text-center">{chat ? '✅' : '🚧'}</span>
-            <span className="w-20 text-spring-grey">Chapter 5</span>
             <span className={chat ? '' : 'text-spring-grey'}>Clinic assistant</span>
           </li>
         </ul>

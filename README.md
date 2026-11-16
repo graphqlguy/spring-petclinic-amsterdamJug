@@ -1,35 +1,39 @@
-# Spring Petclinic: GraphQL, then agents
+# Spring Petclinic for agents: the Amsterdam JUG demo
 
-> [!IMPORTANT]
-> **This branch is the workshop's starting point.** It is Spring Petclinic with the persistence layer prepared for GraphQL and a React frontend, but without any GraphQL code: we build the API together during the workshop. `starting-point` is the repository's default branch, so cloning the repository puts you where the workshop begins.
->
-> Each chapter has a checkpoint branch with the code as it stands at the end of that chapter, [listed below](#branches), so you can catch up or compare at any point. `main` is the original Spring Petclinic, and `git diff main starting-point` shows everything the starting point prepares. The instructions are in the [`workshop/`](workshop/) folder.
-
-A three-hour hands-on workshop at **Porto Tech Hub**, presented by **Željko Kozina**. First we turn Spring Petclinic into a GraphQL API with Spring for GraphQL. Then we put that API in front of AI agents: as MCP tools curated with GATool, as tools of a chat inside the application, and as a schema an agent explores by itself, first the clinic's and then one that adds nine Portuguese public services.
-
-Start with [the setup page](workshop/00-setup.md). Some downloads are large, so do it before the workshop.
+The demo project of a talk at the **Amsterdam JUG**, presented by **Željko Kozina**. It turns [Spring Petclinic](https://github.com/spring-projects/spring-petclinic) into a GraphQL API with Spring for GraphQL, and then puts that API in front of AI agents with GATool: as MCP tools, as the tools of an assistant inside the application, and as a schema that an agent explores by itself.
 
 ## Branches
 
-Each branch holds the code as it stands at the end of one chapter, exercises included, and builds on the branch before it. `git switch <branch>` catches you up, and `git diff <branch>` compares your work with it.
+The demo is built up on the branches below, and each branch adds to the one before it. `main` is the original Spring Petclinic. `git switch <branch>` moves to a step, and `git diff <branch>` compares your code with it.
 
-| Branch | Code at the end of |
+| Branch | What it adds |
 | --- | --- |
-| [`checkpoint-01-graphql-api`](../../tree/checkpoint-01-graphql-api) | [1. Your first GraphQL service](workshop/01-your-first-graphql-service.md) |
-| [`checkpoint-02-relationships`](../../tree/checkpoint-02-relationships) | [2. Relationships and the N+1 problem](workshop/02-relationships-and-the-n-plus-1-problem.md) |
-| [`checkpoint-03-mutations`](../../tree/checkpoint-03-mutations) | [3. Mutations, input types and a custom scalar](workshop/03-mutations-input-types-and-a-custom-scalar.md) |
-| [`checkpoint-04-curated-operations`](../../tree/checkpoint-04-curated-operations) | [4. Curated operations](workshop/04-curated-operations.md) |
-| [`checkpoint-05-in-app-assistant`](../../tree/checkpoint-05-in-app-assistant) | [5. An assistant inside the application](workshop/05-an-assistant-inside-the-application.md) |
-| [`checkpoint-06-dynamic-tools`](../../tree/checkpoint-06-dynamic-tools) | [6. Dynamic tools](workshop/06-dynamic-tools.md) |
-| [`checkpoint-07-large-schema`](../../tree/checkpoint-07-large-schema) | [7. A large schema built from Portuguese open data](workshop/07-a-large-schema-built-from-portuguese-open-data.md) |
+| [`checkpoint-01-graphql-api`](../../tree/checkpoint-01-graphql-api) | A GraphQL API on Spring Petclinic with Spring for GraphQL: queries for owners and vets with paging, filtering and sorting, the pets of an owner and the visits of a pet and of a vet read in batches to avoid the N+1 problem, mutations with input types for the five writes of the clinic, a `Date` scalar, GraphiQL to try them, and a React frontend that uses the API |
+| [`checkpoint-02-curated-operations`](../../tree/checkpoint-02-curated-operations) | GATool, which serves the frontend's operation files as MCP tools at `/mcp` |
+| [`checkpoint-03-in-app-assistant`](../../tree/checkpoint-03-in-app-assistant) | An assistant in the frontend's chat panel: Spring AI's `ChatClient` on a model in Ollama, with the same operation files as tools inside the application |
+| [`checkpoint-04-dynamic-tools`](../../tree/checkpoint-04-dynamic-tools) | GATool's three dynamic tools (`searchSchema`, `introspectType` and `executeGraphql`) in place of the operation files, over MCP and for the assistant, with an embedding model in Ollama to search the schema |
+| [`checkpoint-05-large-schema`](../../tree/checkpoint-05-large-schema) | A large schema: public data from Amsterdam, the Netherlands, the EU and others, read over REST, OData and SOAP, and a mock mode that answers from recorded responses |
 
-## What the starting point adds to Spring Petclinic
+## What you need
 
-- **Services for every chapter.** Owner, pet, visit and vet services with paging, filtering, sorting and batch lookups, so the workshop writes only GraphQL code.
-- **Lazy, two-way relationships.** GraphQL decides what each request reads. A pet knows its owner, and a visit knows its pet and its vet.
-- **More data.** The ten owners Spring Petclinic comes with, and one from Porto, with a dog and a cat: 11 owners, 15 pets and 10 visits, each visit with its vet.
-- **A React frontend** in [`frontend/`](frontend/) that lights up page by page as the API grows.
-- **The frontend's operations** as `.graphql` files in `src/main/resources/operations`, which the second half hands to an agent as tools.
+| Tool | Version | Check with |
+| --- | --- | --- |
+| JDK | 21 or newer | `java -version` |
+| Node.js | 22 or 24, for the frontend and the MCP Inspector | `node -v` |
+| [Ollama](https://ollama.com/download), from `checkpoint-03-in-app-assistant` on | tested with 0.40.13 | `ollama list` |
+
+Pull the two models the application uses. The assistant needs the chat model from `checkpoint-03-in-app-assistant` on, and the schema search needs the embedding model from `checkpoint-04-dynamic-tools` on:
+
+```bash
+# the chat model of the assistant, 5.2 GB
+ollama pull qwen3:8b
+
+# an embedding model tuned for GraphQL schemas, 639 MB, under the name the project uses
+ollama pull hf.co/xthor/Qwen3-Embedding-0.6B-GraphQL:Q8_0
+ollama cp hf.co/xthor/Qwen3-Embedding-0.6B-GraphQL:Q8_0 qwen3-graphql-embedder
+```
+
+`spring.ai.ollama.chat.model` in `src/main/resources/application.properties` names the chat model, so another model that calls tools works as well.
 
 ## Running the backend
 
@@ -40,11 +44,14 @@ Each branch holds the code as it stands at the end of one chapter, exercises inc
 On Windows, use `mvnw.cmd` in place of `./mvnw`.
 
 - The original Petclinic web pages: http://localhost:8080
-- GraphiQL, once chapter 1 adds it: http://localhost:8080/graphiql
+- GraphiQL: http://localhost:8080/graphiql
+- The MCP endpoint, from `checkpoint-02-curated-operations` on: http://localhost:8080/mcp
+
+From `checkpoint-04-dynamic-tools` on, the application embeds the schema with the embedding model at its first start and caches the result, so later starts are faster.
 
 ## Running the frontend
 
-The frontend needs Node.js. Install its packages the first time, then start it:
+Install its packages the first time, then start it:
 
 ```bash
 cd frontend
@@ -53,6 +60,18 @@ npm run dev
 ```
 
 Open http://localhost:5173. If you see `sh: vite: command not found`, run `npm install` first.
+
+The frontend reads the backend's schema at startup and shows the pages that the API can serve. From `checkpoint-03-in-app-assistant` on, the chat panel opens the assistant.
+
+## Connecting an MCP client
+
+From `checkpoint-02-curated-operations` on, an MCP client can connect. The MCP Inspector is a browser client for MCP servers:
+
+```bash
+npx -y @modelcontextprotocol/inspector@2.9.0
+```
+
+Connect it to `http://localhost:8080/mcp` with the Streamable HTTP transport. The endpoint answers without a sign-in, which suits a demo on a laptop.
 
 ## Changing the port
 
@@ -70,14 +89,19 @@ PETCLINIC_BACKEND=http://localhost:8090 npm run dev
 
 In Windows PowerShell, that is `$env:PETCLINIC_BACKEND="http://localhost:8090"; npm run dev`.
 
+## Sample data
+
+The ten owners Spring Petclinic comes with, and Dev Oxx of Overtoom 100 in Amsterdam, with the dog Woofy and the cat Rosa: 11 owners, 15 pets and 10 visits, each visit with its vet.
+
 ## Versions
 
 | Component | Version |
 |-----------|---------|
-| Java | 21 or newer (tested with 21.0.12 and 25.0.2) |
+| Java | 21 or newer |
 | Spring Boot | 4.1.0 |
+| GATool | 0.1.0, from `checkpoint-02-curated-operations` on |
 | Maven | 3.9.16, through the Maven wrapper `./mvnw` |
-| Node.js | 22 or 24 (tested with 24.10.0) |
+| Node.js | 22 or 24 |
 | Frontend | React 19.2.4, Vite 8.0.1, graphql-js 16.13.1 |
 | Database | H2, in memory |
 

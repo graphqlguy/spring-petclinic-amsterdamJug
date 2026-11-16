@@ -47,7 +47,7 @@ export default function PetFormPage() {
   const editing = Boolean(petId)
   const { available } = useGraphQL()
   const navigate = useNavigate()
-  // Adding needs addPet and editing needs updatePet, which chapter 3's exercise adds
+  // Adding needs addPet and editing needs updatePet
   const ready = available(editing ? 'updatePet' : 'addPet', 'listPetTypes', 'getOwnerDetails')
   const types = useQuery('listPetTypes', {}, { skip: !ready })
   const owner = useQuery('getOwnerDetails', { id: ownerId }, { skip: !ready })

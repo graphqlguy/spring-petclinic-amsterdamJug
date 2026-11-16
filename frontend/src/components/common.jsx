@@ -8,7 +8,7 @@ export function FeaturePending({ featureKey, compact = false }) {
   if (compact) {
     return (
       <p className="rounded border border-dashed border-spring-grey px-4 py-3 text-sm text-spring-grey">
-        {f.title} appear here after chapter {f.chapter}, which adds {f.needs}.
+        {f.title} appear here once the schema has {f.needs}.
       </p>
     )
   }
@@ -17,7 +17,7 @@ export function FeaturePending({ featureKey, compact = false }) {
       <p className="mb-4 text-4xl">🚧</p>
       <h1 className="mb-3 text-2xl">{f.title}</h1>
       <p className="text-spring-grey">
-        This page lights up in chapter {f.chapter}, which adds {f.needs}. Build it, restart the backend, and{' '}
+        This page needs {f.needs}. Add it to the schema, restart the backend, and{' '}
         <Link to="/" className="text-spring-dark-green underline">
           check again
         </Link>

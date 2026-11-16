@@ -6,7 +6,7 @@ import { requestBody } from './client'
 //
 // Result statuses:
 //   'ready'        - the schema was read, `available` says which operations validate
-//   'no-graphql'   - the backend answers, without a /graphql endpoint yet (before chapter 1)
+//   'no-graphql'   - the backend answers, without a /graphql endpoint
 //   'backend-down' - nothing answered on the backend port
 export async function checkSchema(operations) {
   let response
@@ -47,7 +47,7 @@ function hasRootType(schema, document) {
     .every((definition) => schema.getRootType(definition.operation) != null)
 }
 
-// The chat endpoint from chapter 5 takes POST alone, so a GET gets 405 once it exists
+// The chat endpoint takes POST alone, so a GET gets 405 once it exists
 // and 404 before.
 export async function checkChat() {
   try {
