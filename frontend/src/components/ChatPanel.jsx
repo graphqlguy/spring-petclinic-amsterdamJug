@@ -54,7 +54,7 @@ export default function ChatPanel() {
           <div className="bg-spring-brown px-4 py-2 text-sm text-spring-light-grey">Clinic assistant</div>
           <div ref={list} className="flex-1 space-y-3 overflow-y-auto p-3 text-sm">
             {messages.length === 0 && (
-              <p className="text-spring-grey">Ask about owners, pets, vets and visits, or ask it to book a visit.</p>
+              <p className="text-spring-grey">Ask about owners, pets, vets and visits.</p>
             )}
             {messages.map((message, i) =>
               message.from === 'you' ? (
@@ -74,7 +74,7 @@ export default function ChatPanel() {
             <input
               value={question}
               onChange={(event) => setQuestion(event.target.value)}
-              placeholder="Which visits are booked next week?"
+              placeholder="Which vets are surgeons?"
               className="flex-1 px-3 py-2 text-sm focus:outline-none"
             />
             <button className="px-4 text-sm text-spring-dark-green" disabled={waiting}>
