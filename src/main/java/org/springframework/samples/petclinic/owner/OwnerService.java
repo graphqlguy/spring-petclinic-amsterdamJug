@@ -148,7 +148,7 @@ public class OwnerService {
 	}
 
 	// The cities as the database spells them that match the given one in any case and
-	// with or without accents, so that "guimaraes" finds the owners of "Guimarães"
+	// with or without accents, so that "curacao" finds the owners of "Curaçao"
 	private List<String> spellingsOf(String city) {
 		String wanted = Text.withoutAccents(city);
 		return owners.findCities().stream().filter((stored) -> Text.withoutAccents(stored).equals(wanted)).toList();
