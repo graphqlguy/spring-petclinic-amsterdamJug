@@ -1,8 +1,8 @@
 import { Kind, parse, print, visit } from 'graphql'
 
 // Every operation the frontend sends lives as a .graphql file with the backend, in
-// src/main/resources. The files in operations/ are the ones an agent can use as tools
-// from chapter 4 on; the files in operations-ui/ serve the frontend alone.
+// src/main/resources. The files in operations/ are the ones an agent can use as tools;
+// the files in operations-ui/ serve the frontend alone.
 const files = {
   ...import.meta.glob('../../../src/main/resources/operations/**/*.graphql', {
     query: '?raw',

@@ -3,8 +3,8 @@ import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { useGraphQL } from '../context/GraphQLContext'
 
-// The clinic assistant from chapter 5. It sends the question to /api/chat, where the
-// model answers it with the operation files as tools.
+// The clinic assistant. It sends the question to /api/chat, where the model answers it
+// with GATool's tools.
 export default function ChatPanel() {
   const { chat } = useGraphQL()
   const [open, setOpen] = useState(false)

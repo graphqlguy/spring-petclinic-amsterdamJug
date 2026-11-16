@@ -62,7 +62,7 @@ public class VisitService {
 	 * The visits of one vet, newest first.
 	 * <p>
 	 * One SQL statement for each vet: fine for one vet, and deliberately naive for a list
-	 * of them. Chapter 2 replaces it with {@link #findVisitsByVetIds(List)}.
+	 * of them, which {@link #findVisitsByVetIds(List)} reads in one statement.
 	 */
 	public List<Visit> findByVet(Vet vet) {
 		latency.pause();
