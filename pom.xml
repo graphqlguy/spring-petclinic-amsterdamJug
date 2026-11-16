@@ -82,7 +82,7 @@
       <groupId>jakarta.xml.bind</groupId>
       <artifactId>jakarta.xml.bind-api</artifactId>
     </dependency>
-    <!-- Lucene ranks the schema's fields by their words for searchSchema, from chapter 6 on, in the tests and with a hosted model -->
+    <!-- Lucene ranks the schema's fields by their words for searchSchema, in the tests and with a hosted model -->
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-core</artifactId>

@@ -38,7 +38,6 @@ type Query {
 }
 
 "A client of the clinic, who owns one or more pets."
-# We extend the Owner type as the workshop goes on
 type Owner {
     id: ID!
     firstName: String!

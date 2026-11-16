@@ -1,4 +1,4 @@
-# The owner page in chapter 2, once owners have their pets and before the pets have their visits.
+# The owner page for a schema in which owners have their pets and the pets have yet to get their visits.
 query OwnerPets($id: ID!) {
   owner(id: $id) {
     id
