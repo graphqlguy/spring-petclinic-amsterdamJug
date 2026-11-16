@@ -10,8 +10,15 @@ extend type Query {
 	"""
 	The reports of residents of Amsterdam that the city shows on its public map, as GeoJSON:
 	GET /signals/v1/public/signals/geography/.
-	Each one has a place, a category and the time it was made. For example the reports of loose or aggressive dogs:
-	category_slug ["loslopende-agressieve-honden"]. The answer holds at most 4,000 reports.
+	Each one has a place, a sub category and the time it was made.
+	bbox is required. It is one text with four numbers and commas between them: the west longitude, the south latitude,
+	the east longitude and the north latitude. "4.72,52.27,5.08,52.44" holds all of Amsterdam.
+	category_slug narrows the reports to sub categories, and maincategory_slug to main categories. Both take slugs,
+	which are Dutch, and amsterdamSignalsCategories lists them. The sub categories about animals are
+	loslopende-agressieve-honden (loose or aggressive dogs), ratten (rats), duiven (pigeons), meeuwen (gulls),
+	wespen (wasps), dode-dieren (dead animals), overig-dieren (other animals) and eikenprocessierups (oak
+	processionary caterpillar). A sub category is enough by itself, and the city answers 400 for a slug it does not know.
+	The answer holds at most 4,000 reports. They do not come in the order of time, so compare created_at to find the newest.
 	"""
 	amsterdamSignalsGeography(
 		"""
@@ -19,20 +26,27 @@ extend type Query {
 		separated by commas. All of Amsterdam is 4.72,52.27,5.08,52.44.
 		"""
 		bbox: String!
-		"The slugs of main categories from amsterdamSignalsCategories, for example overlast-van-dieren (nuisance from animals)."
+		"""
+		The slugs of main categories from amsterdamSignalsCategories, for example overlast-van-dieren (nuisance from animals).
+		Leave it out when category_slug names the sub categories.
+		"""
 		maincategory_slug: [String!]
 		"""
-		The slugs of sub categories, for example loslopende-agressieve-honden (loose or aggressive dogs), ratten (rats),
-		wespen (wasps), dode-dieren (dead animals) or eikenprocessierups (oak processionary caterpillar).
+		The slugs of sub categories from amsterdamSignalsCategories, for example ratten (rats), wespen (wasps) or
+		dode-dieren (dead animals).
 		"""
 		category_slug: [String!]
-		"The field to sort by, for example created_at."
+		"The field to sort by, for example created_at. The city accepts it, and the reports of this field keep their own order."
 		ordering: String
 	): AmsterdamSignalsGeography
 
 	"""
 	The main categories a report in Amsterdam can have, each with its sub categories:
 	GET /signals/v1/public/terms/categories/.
+	The city has 13 main categories, such as overlast-van-dieren (nuisance from animals) and afval (waste), with about
+	160 sub categories between them. A category has a Dutch name and a slug, and the slug is what the arguments
+	maincategory_slug and category_slug of amsterdamSignalsGeography take. Some sub categories sit where a reader
+	may not look for them: loose dogs belong to overlast-van-en-door-personen-of-groepen (nuisance from people or groups).
 	"""
 	amsterdamSignalsCategories(
 		"The page to return, starting at 1."

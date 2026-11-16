@@ -10,11 +10,16 @@ extend type Query {
 	"""
 	Searches the publications of Europe PMC, for example the papers on a disease of dogs: SOAP operation
 	searchPublications.
+	queryString takes plain words, or the query syntax of Europe PMC such as TITLE:"feline leukemia" AND PUB_YEAR:2026.
+	In the answer, hitCount is the number of publications that match, and resultList.result holds one page of them
+	with the title, the journal and the dates of each. A page has 25 publications unless pageSize says otherwise.
+	The most relevant publications come first. sort changes that: P_PDATE_D desc puts the newest first and CITED desc
+	the most cited. Europe PMC answers a sort it does not know with the fault "Search service is temporarily unavailable".
 	"""
 	europePmcSearchPublications(
 		"""
 		The search, in words or in the query syntax of Europe PMC, at most 1,500 characters.
-		Examples: canine parvovirus vaccine, or TITLE:"feline leukemia" AND PUB_YEAR:2026
+		Examples: feline infectious peritonitis treatment, or TITLE:"feline leukemia" AND PUB_YEAR:2026
 		"""
 		queryString: String!
 		"How much to return for each publication: idlist for the ids only, or lite for the main fields. Europe PMC uses lite when it is left out."
@@ -64,11 +69,11 @@ type EuropePmcResponse {
 	nextCursorMark: String
 	"The request as Europe PMC understood it."
 	request: EuropePmcRequest
-	"The publications a search found."
+	"The publications a search found. Only europePmcSearchPublications fills it."
 	resultList: EuropePmcResultList
-	"The publications that cite the publication."
+	"The publications that cite the publication. Only europePmcGetCitations fills it."
 	citationList: EuropePmcCitationList
-	"The publications the publication refers to."
+	"The publications the publication refers to. Only europePmcGetReferences fills it."
 	referenceList: EuropePmcReferenceList
 }
 

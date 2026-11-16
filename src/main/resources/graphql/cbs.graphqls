@@ -3,12 +3,18 @@
 # OData query options $filter, $top and $skip, and the answer comes back with the names CBS
 # gives its properties. The quoted texts of the columns are the Title and the Description
 # CBS publishes in the DataProperties of each table.
+#
+# CBS speaks OData version 3. A $filter compares with eq, ne, gt and lt, joins conditions with
+# and, or and brackets, and matches a part of a text with substringof('part',Column) or
+# startswith(Column,'part'). Texts are compared with their capitals, and a text sits in single quotes.
 
 extend type Query {
 
 	"""
 	The tables of Statistics Netherlands (CBS), from its catalogue: GET /ODataCatalog/Tables.
-	The catalogue holds Dutch and English tables. Filter with Language eq 'en' for the English ones.
+	The catalogue holds Dutch and English tables. filter is an OData $filter over the properties of a table:
+	Language eq 'en' and substringof('prices',Title) finds the English tables with prices in their title.
+	The Identifier of a table is what the table argument of the other cbs fields takes.
 	One table with every field is about 2,500 tokens, so select only the fields the question needs.
 	"""
 	cbsTables(
@@ -53,7 +59,10 @@ extend type Query {
 
 	"""
 	The periods one CBS table has figures for, oldest first: GET /ODataFeed/odata/{table}/Periods.
-	Null when CBS does not have the table.
+	The Key of a period is what the Periods column of the table's figures holds: 2026MM04 for the month of April 2026,
+	2026KW01 for a quarter and 2025JJ00 for the whole year 2025. The last period of the list is the latest one CBS has
+	published, and a year gets its JJ00 period once its last month is published.
+	filter is an OData $filter, for example substringof('2026',Key). Null when CBS does not have the table.
 	"""
 	cbsPeriods(
 		"The Identifier of the table, for example 86144ENG."
@@ -69,7 +78,12 @@ extend type Query {
 	"""
 	The expenditure categories of CBS table 86144ENG, the European harmonised index of consumer prices (HICP) of the
 	Netherlands: GET /ODataFeed/odata/86144ENG/ExpenditureCategories.
-	A category is a group of goods or services, such as 094500 Veterinary services. Its Key filters cbs86144ENGTypedDataSet.
+	A category is a group of goods or services, from 000000 All items down to a detailed class such as
+	094500 Veterinary services. Its Title starts with the six digits of its code. Its Key is what the
+	ExpenditureCategories column of cbs86144ENGTypedDataSet holds, and for most categories it is CPI and the code:
+	the Key of 011000 Food is CPI011000.
+	filter is an OData $filter over Key and Title, for example substringof('Veterinary',Title). CBS compares
+	texts with their capitals, so 'veterinary' does not match.
 	"""
 	cbs86144ENGExpenditureCategories(
 		"An OData $filter expression, sent to CBS as written. Example: substringof('Veterinary',Title)"
@@ -83,14 +97,24 @@ extend type Query {
 	"""
 	The figures of CBS table 86144ENG, "Consumer prices; HICP 2025=100, index and rates of change":
 	GET /ODataFeed/odata/86144ENG/TypedDataSet.
-	Each row holds the figures of one expenditure category in one period, monthly and yearly, from January 1996.
-	The table has more than 150,000 rows, in the order of ExpenditureCategories and then Periods, so filter on both.
+	The HICP is the European measure of inflation, which Eurostat compares between countries. It covers what consumers
+	spend on Dutch territory. Each row holds the figures of one expenditure category in one period: HICP_1 is the
+	index, AnnualRateOfChangeHICP_5 its change in % on the same period a year before, and WeightingCoefficient_7
+	the weight of the category in total spending.
+	The periods are months (2026MM04 is April 2026) and whole years (2025JJ00), from January 1996.
+	filter is an OData $filter over the columns ExpenditureCategories and Periods, which hold the keys that
+	cbs86144ENGExpenditureCategories and cbsPeriods list.
+	ExpenditureCategories eq 'CPI011000' and substringof('2026MM',Periods) returns the months of 2026 for food,
+	oldest first, so the last row is the latest month CBS has published. To read several categories in one call, join them
+	with or inside brackets: (ExpenditureCategories eq 'CPI011000' or ExpenditureCategories eq 'CPI012000') and substringof('2026MM',Periods).
+	CBS ignores a condition on a column of figures. The table has more than 150,000 rows, and a call without a
+	condition on Periods starts at 1996, where the annual rates of change are still empty.
 	"""
 	cbs86144ENGTypedDataSet(
 		"""
 		An OData $filter expression, sent to CBS as written. CBS applies conditions on ExpenditureCategories and Periods.
 		It ignores a condition on a column of values, such as HICP_1, and then answers with unfiltered rows.
-		Example: ExpenditureCategories eq 'CPI094500' and substringof('2026MM',Periods)
+		Example: ExpenditureCategories eq 'CPI011000' and substringof('2026MM',Periods)
 		"""
 		filter: String
 		"The number of rows to return, sent as $top."
@@ -102,10 +126,15 @@ extend type Query {
 	"""
 	The expenditure categories of CBS table 86141ENG, the consumer price index (CPI) of the Netherlands:
 	GET /ODataFeed/odata/86141ENG/ExpenditureCategories.
-	A category is a group of goods or services, such as 093200 Pets and pet products. Its Key filters cbs86141ENGTypedDataSet.
+	A category is a group of goods or services, from 000000 All items down to a detailed class such as
+	093200 Pets and pet products. Its Title starts with the six digits of its code. Its Key is what the
+	ExpenditureCategories column of cbs86141ENGTypedDataSet holds, and for most categories it is CPI and the code:
+	the Key of 011000 Food is CPI011000.
+	filter is an OData $filter over Key and Title, for example substringof('pet',Title). CBS compares texts with
+	their capitals, so 'pets' and 'Pets' find different titles.
 	"""
 	cbs86141ENGExpenditureCategories(
-		"An OData $filter expression, sent to CBS as written. Example: substringof('Pets',Title)"
+		"An OData $filter expression, sent to CBS as written. Example: substringof('pet',Title)"
 		filter: String
 		"The number of categories to return, sent as $top."
 		top: Int = 100
@@ -116,14 +145,24 @@ extend type Query {
 	"""
 	The figures of CBS table 86141ENG, "Consumer prices; CPI 2025=100, index and rates of change":
 	GET /ODataFeed/odata/86141ENG/TypedDataSet.
-	Each row holds the figures of one expenditure category in one period, monthly and yearly, from December 2009.
-	The rows come in the order of ExpenditureCategories and then Periods, so filter on both.
+	The CPI is the national measure of inflation of the Netherlands. It covers what Dutch households spend. Each row
+	holds the figures of one expenditure category in one period: CPI_1 is the index, AnnualRateOfChangeCPI_5 its
+	change in % on the same period a year before, and WeightingCoefficient_7 the weight of the category in total
+	spending.
+	The periods are months (2026MM04 is April 2026) and whole years (2025JJ00), from December 2009.
+	filter is an OData $filter over the columns ExpenditureCategories and Periods, which hold the keys that
+	cbs86141ENGExpenditureCategories and cbsPeriods list.
+	ExpenditureCategories eq 'CPI011000' and substringof('2026MM',Periods) returns the months of 2026 for food,
+	oldest first, so the last row is the latest month CBS has published. To read several categories in one call, join them
+	with or inside brackets: (ExpenditureCategories eq 'CPI011000' or ExpenditureCategories eq 'CPI012000') and substringof('2026MM',Periods).
+	CBS ignores a condition on a column of figures. A call without a condition on Periods starts at 2009, where
+	several columns are still empty.
 	"""
 	cbs86141ENGTypedDataSet(
 		"""
 		An OData $filter expression, sent to CBS as written. CBS applies conditions on ExpenditureCategories and Periods.
 		It ignores a condition on a column of values, such as CPI_1, and then answers with unfiltered rows.
-		Example: ExpenditureCategories eq 'CPI093200' and substringof('2026MM',Periods)
+		Example: ExpenditureCategories eq 'CPI011000' and substringof('2026MM',Periods)
 		"""
 		filter: String
 		"The number of rows to return, sent as $top."
@@ -135,7 +174,10 @@ extend type Query {
 	"""
 	The farm animals of CBS table 84952ENG, the livestock on agricultural holdings in the Netherlands:
 	GET /ODataFeed/odata/84952ENG/FarmAnimals.
-	The list has 59 kinds, such as cattle, sheep, goats, pigs and poultry. A Key filters cbs84952ENGTypedDataSet.
+	The list has 59 kinds, such as cattle, sheep, goats, pigs and poultry. The Key of a kind, for example A028972,
+	is what the FarmAnimals column of cbs84952ENGTypedDataSet holds.
+	filter is an OData $filter over Key and Title, for example substringof('Sheep',Title). CBS compares texts
+	with their capitals.
 	"""
 	cbs84952ENGFarmAnimals(
 		"An OData $filter expression, sent to CBS as written. Example: substringof('Sheep',Title)"
@@ -149,7 +191,11 @@ extend type Query {
 	"""
 	The figures of CBS table 84952ENG, "Livestock on agricultural holdings: reference date 1 April and 1 December":
 	GET /ODataFeed/odata/84952ENG/TypedDataSet.
-	Each row holds the number of one kind of farm animal on one reference date, from April 2018.
+	Each row holds the number of one kind of farm animal on one reference date, from April 2018. The reference
+	dates are 1 April (2026MM04) and 1 December (2025MM12).
+	filter is an OData $filter over the columns FarmAnimals and Periods, which hold the keys that
+	cbs84952ENGFarmAnimals and cbsPeriods list: FarmAnimals eq 'A028972' and substringof('2026',Periods).
+	CBS ignores a condition on the column Livestock_1.
 	"""
 	cbs84952ENGTypedDataSet(
 		"""
@@ -312,7 +358,7 @@ type CbsCategory {
 type Cbs86144ENGTypedDataSet {
 	"The number of the row in the table, starting at 0."
 	ID: Int
-	"The Key of the expenditure category, from cbs86144ENGExpenditureCategories."
+	"The Key of the expenditure category, for example CPI011000 for 011000 Food, from cbs86144ENGExpenditureCategories."
 	ExpenditureCategories: String
 	"The Key of the period, from cbsPeriods: 2026MM04 for April 2026, 2025JJ00 for the year 2025."
 	Periods: String
@@ -328,7 +374,11 @@ type Cbs86144ENGTypedDataSet {
 	AnnualRateOfChangeHICP_5: Float
 	"Annual rate of change HICP-CT, in %. \"Percentage change of the HICP constant taxes compared with the same period previous year.\""
 	AnnualRateOfChangeHICPCT_6: Float
-	"Weighting coefficient. \"The weighting coefficient reflects the share (in hundred thousandths) of the total consumer expenditure.\""
+	"""
+	Weighting coefficient. "The weighting coefficient reflects the share (in hundred thousandths) of the total consumer expenditure."
+	1,000 stands for 1% of all spending. CBS sets the weights once a year, so every month of a year holds the same
+	number, and the months of the current year hold the weight of today.
+	"""
 	WeightingCoefficient_7: Int
 }
 
@@ -336,7 +386,7 @@ type Cbs86144ENGTypedDataSet {
 type Cbs86141ENGTypedDataSet {
 	"The number of the row in the table, starting at 0."
 	ID: Int
-	"The Key of the expenditure category, from cbs86141ENGExpenditureCategories."
+	"The Key of the expenditure category, for example CPI011000 for 011000 Food, from cbs86141ENGExpenditureCategories."
 	ExpenditureCategories: String
 	"The Key of the period, from cbsPeriods: 2026MM04 for April 2026, 2025JJ00 for the year 2025."
 	Periods: String
@@ -352,7 +402,11 @@ type Cbs86141ENGTypedDataSet {
 	AnnualRateOfChangeCPI_5: Float
 	"Annual rate of change derived CPI, in %. \"Percentage change of the derived CPI compared with the same period previous year.\""
 	AnnualRateOfChangeDerivedCPI_6: Float
-	"Weighting coefficient. \"The weighting coefficient reflects the share (in hundred thousandths) of the total consumer expenditure.\""
+	"""
+	Weighting coefficient. "The weighting coefficient reflects the share (in hundred thousandths) of the total consumer expenditure."
+	1,000 stands for 1% of all spending. CBS sets the weights once a year, so every month of a year holds the same
+	number, and the months of the current year hold the weight of today.
+	"""
 	WeightingCoefficient_7: Int
 }
 

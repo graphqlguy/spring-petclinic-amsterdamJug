@@ -13,7 +13,9 @@ extend type Query {
 
 	"""
 	The feed additives of the EU register, 100 on a page: GET /feed-additives/feed-additives-list.
-	An additive is a policy item with a code, a name and a category. Taurine is additive_code 3a370.
+	An additive is a policy item with a code, a name and a category. The register cannot be searched by name, so
+	the other fields take the code of an additive: 3a370 is taurine, 3a672a is vitamin A, 3a910 is L-carnitine and
+	E 526 is calcium hydroxide. Without a code the list comes in pages, and after takes the token of the next page.
 	"""
 	euFeedAdditivesList(
 		"The code of the additive, for example 3a370 or E 526."
@@ -25,9 +27,10 @@ extend type Query {
 	"""
 	The authorisations of feed additives with their legislation, 100 on a page:
 	GET /feed-additives/feed-additives-details.
-	Each row names the animal species an additive is authorised for, the dates, and one legal act. An additive
-	has a row for each authorisation and each act. For example additive_code 3a370 answers whether taurine is
-	authorised for cats and dogs.
+	Each row names the animal species an additive is authorised for, the day the authorisation ends, whether it is
+	being phased out, and one legal act. An additive has a row for each authorisation and each act, so one additive
+	can have rows with different end dates. The species are written as the legal act writes them, often as families
+	such as Canidae and Felidae. additive_code takes the code of an additive from euFeedAdditivesList.
 	"""
 	euFeedAdditivesDetails(
 		"The code of the additive, for example 3a370."

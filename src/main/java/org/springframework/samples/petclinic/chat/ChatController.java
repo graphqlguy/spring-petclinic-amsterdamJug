@@ -47,6 +47,10 @@ class ChatController {
 				names, classification, museum specimens and sightings of species (GBIF, Naturalis and iNaturalist).
 				For a question on any of these topics, search the schema before you decide the API cannot answer it.
 				When an answer comes from a public service, name the service.
+				Write a GraphQL document on one line that starts with the word query. A document that calls
+				the same field twice needs an alias for each call, as in a: field(...) b: field(...).
+				When a call fails, read the error and change the document before you try again.
+				State only figures that a tool returned. When the tools did not return the answer, say that.
 				Today is %s. Answer briefly.""".formatted(this.clock.today().format(DAY));
 		return chatClient.prompt()
 			.system(system)
