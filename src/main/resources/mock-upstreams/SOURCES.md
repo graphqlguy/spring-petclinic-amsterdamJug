@@ -1,0 +1,20 @@
+# The public services behind the large schema
+
+The `mock` profile answers with the responses in this folder, recorded from the live services. The newest recordings are from 15 November 2026 at 17:00 UTC. Each service below is credited as its publisher asks, or as the source where we did not find a licence. Apart from the contact details named at the end, the recordings are reproduced as the services sent them.
+
+| Service | Publisher | Address | Terms |
+|---|---|---|---|
+| GBIF, the names and occurrences of species | GBIF, the Global Biodiversity Information Facility, and the institutions that publish through it | https://api.gbif.org | Each dataset and each occurrence names its own licence. The recordings hold records under CC0 1.0, CC BY 4.0 and CC BY-NC 4.0. GBIF asks its users to cite the data whichever licence a record carries, so credit the publisher that a record names. |
+| RASFF Window, the EU's Rapid Alert System for Food and Feed | European Commission, Directorate-General for Health and Food Safety | https://webgate.ec.europa.eu/rasff-window | The Commission licenses its content under CC BY 4.0, by its Decision of 12 December 2011 on the reuse of Commission documents: give credit and indicate changes. |
+| EU register of feed additives | European Commission, Directorate-General for Health and Food Safety | https://api.datalake.sante.service.ec.europa.eu/feed-additives | The same reuse policy of the Commission: CC BY 4.0, give credit and indicate changes. |
+| Open data of Statistics Netherlands | CBS, Statistics Netherlands | https://opendata.cbs.nl | CC BY 4.0. CBS asks every reuse to state that the data were sourced from CBS. |
+| Luchtmeetnet, the air quality of the Netherlands | Luchtmeetnet | https://api.luchtmeetnet.nl | Its API documentation names a fair use policy, and we did not find a licence for the API. Credit www.luchtmeetnet.nl as the source. |
+| Netherlands Biodiversity API | Naturalis Biodiversity Center | https://api.biodiversitydata.nl | The specimens in the recordings carry CC0 1.0 in their licence field. Credit Naturalis as the source. |
+| Signalen, the reports about public space | City of Amsterdam | https://api.meldingen.amsterdam.nl | We did not find a licence for the public part of the API. Credit the City of Amsterdam as the source. The recordings hold the place, the category and the time of each report, which is what the city shows on its public map. |
+| iNaturalist | iNaturalist and its observers | https://api.inaturalist.org | Each observer chooses the licence of their observations and photos, and each record names it in `license_code` and in its attribution text. The recordings hold records under CC0, CC BY, CC BY-SA, CC BY-ND, CC BY-NC and CC BY-NC-ND, and the link to one photo with all rights reserved. They keep every attribution text as iNaturalist wrote it, and they hold links to the photos without the image files. |
+| Europe PMC | Europe PMC, run by EMBL-EBI | https://www.ebi.ac.uk/europepmc/webservices/soap | Europe PMC gives free access to the metadata of publications, and the publications stay under the copyright of their authors and publishers. The recordings hold titles, authors and journal details, without abstracts or full texts. |
+| openFDA, adverse events in animals | U.S. Food and Drug Administration | https://api.fda.gov | Public domain, under CC0 1.0. openFDA asks for this credit: "Data provided by the U.S. Food and Drug Administration (https://open.fda.gov)". |
+
+The recordings leave out contact details. Every email address reads `contact@example.org` and every telephone number reads `+00 000 00 00 00`. The names of dataset contacts, authors and observers are kept, because the licences ask for credit. The live services return the contact details.
+
+The terms were read on 16 November 2026 from the pages of CBS, openFDA and the European Commission, and from the licence fields of the recordings for GBIF, Naturalis and iNaturalist. A publisher can change its terms, so read its own page before you reuse the data.

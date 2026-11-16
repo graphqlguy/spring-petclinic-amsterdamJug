@@ -102,7 +102,7 @@ Start the backend with the `mock` profile:
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=mock
 ```
 
-A [WireMock](https://wiremock.org) server inside the application then answers in place of the ten services, on port 9091, from the 303 answers recorded in `src/main/resources/mock-upstreams`. The profile also sets the application's clock to 15 November 2026 at 17:00 UTC, the time of the newest recordings, so the assistant takes that day as today. The tests start the application with this profile, so they run without the internet.
+A [WireMock](https://wiremock.org) server inside the application then answers in place of the ten services, on port 9091, from the 303 answers recorded in `src/main/resources/mock-upstreams`. [`SOURCES.md`](src/main/resources/mock-upstreams/SOURCES.md) in that folder credits the ten services and names their reuse terms. The profile also sets the application's clock to 15 November 2026 at 17:00 UTC, the time of the newest recordings, so the assistant takes that day as today. The tests start the application with this profile, so they run without the internet.
 
 ## Questions to ask
 
