@@ -10,7 +10,7 @@ type Query {
     "Every owner of the clinic, in one list, without filters."
     ownersAll: [Owner!]! @deprecated(reason: "Unbounded. Use 'owners' instead.")
 
-    "One owner, or null when no owner has the id. The owners query gives the ids of owners."
+    "One owner. The owners query gives the ids of owners. If an owner cannot be found for the given id, the result is null."
     owner(id: ID!): Owner
 
     """
@@ -30,7 +30,7 @@ type Query {
     "Every vet of the clinic, with their specialties."
     vets: [Vet!]!
 
-    "One vet. The vets query gives the ids of vets. An id that no vet has returns a NOT_FOUND error."
+    "One vet. The vets query gives the ids of vets. If a vet cannot be found for the given id, the API returns a NOT_FOUND error."
     vet(id: ID!): Vet
 
     "The kinds of pet the clinic treats, sorted by name. The addPet and updatePet mutations take their ids as typeId."
@@ -131,7 +131,7 @@ type Specialty {
 """
 Changes the clinic's data.
 A value that breaks a rule returns one BAD_REQUEST error for each field, and the data stays as it was.
-An id that does not exist returns a NOT_FOUND error.
+If an owner, a pet, a vet or a pet type cannot be found for a given id, the API returns a NOT_FOUND error.
 """
 type Mutation {
     """
