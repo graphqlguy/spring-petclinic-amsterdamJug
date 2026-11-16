@@ -39,7 +39,7 @@ class OwnerServiceTests {
 
 	@Test
 	void findAllOrdersByLastName() {
-		assertThat(owners.findAll()).hasSize(11)
+		assertThat(owners.findAll()).hasSize(10)
 			.extracting(Owner::getLastName)
 			.startsWith("Black", "Coleman", "Davis");
 	}
@@ -59,7 +59,7 @@ class OwnerServiceTests {
 		assertThat(madison.totalElements()).isEqualTo(4);
 
 		OwnerPage blank = owners.findOwners(new OwnerFilter(" ", ""), 0, 10, null);
-		assertThat(blank.totalElements()).isEqualTo(11);
+		assertThat(blank.totalElements()).isEqualTo(10);
 	}
 
 	@Test
@@ -84,7 +84,7 @@ class OwnerServiceTests {
 		assertThat(first.hasNext()).isTrue();
 
 		OwnerPage last = owners.findOwners(null, 1, 6, null);
-		assertThat(last.content()).hasSize(5);
+		assertThat(last.content()).hasSize(4);
 		assertThat(last.isLast()).isTrue();
 		assertThat(last.hasPrevious()).isTrue();
 
@@ -98,7 +98,7 @@ class OwnerServiceTests {
 		Owner owner = owners
 			.addOwner(new AddOwnerInput("Anna", "de Vries", "Overtoom 12", "Amsterdam", "0612345678"));
 		assertThat(owner.getId()).isNotNull();
-		assertThat(owners.findAll()).hasSize(12);
+		assertThat(owners.findAll()).hasSize(11);
 	}
 
 	@Test
