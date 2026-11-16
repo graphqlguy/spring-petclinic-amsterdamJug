@@ -1,0 +1,30 @@
+{
+  "value": [
+    {
+      "policy_item_id": 3386808,
+      "policy_item_code": "POL-FEED-IMPORT-1225",
+      "cat_funct_grp": "3 a) Nutritional additives - Vitamins, pro-vitamins and chemically well-defined substances having similar effect",
+      "display_name": "Taurine",
+      "additive_code": "3a370",
+      "other_codes": null,
+      "subclass": "Vitamins, provitamins and chemically well-defined substances having a similar effect",
+      "footnote": null,
+      "annexes": "2",
+      "to_be_phased_out": "Yes",
+      "fip_url": "https://ec.europa.eu/food/food-feed-portal/screen/feed-additives/search/details/POL-FEED-IMPORT-1225"
+    },
+    {
+      "policy_item_id": 3386808,
+      "policy_item_code": "POL-FEED-IMPORT-1225",
+      "cat_funct_grp": "3 a) Nutritional additives - Vitamins, pro-vitamins and chemically well-defined substances having similar effect",
+      "display_name": "Taurine",
+      "additive_code": "3a370",
+      "other_codes": null,
+      "subclass": "Vitamins, provitamins and chemically well-defined substances having a similar effect",
+      "footnote": null,
+      "annexes": "1",
+      "to_be_phased_out": "No",
+      "fip_url": "https://ec.europa.eu/food/food-feed-portal/screen/feed-additives/search/details/POL-FEED-IMPORT-1225"
+    }
+  ]
+}

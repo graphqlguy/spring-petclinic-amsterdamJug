@@ -1,0 +1,112 @@
+{
+ "mappings": [
+  {
+   "name": "iNaturalist place autocomplete",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/inaturalist/v1/places/autocomplete"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "inaturalist/place-autocomplete.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.inaturalist.org/v1/places/autocomplete?q=Amsterdam, NH&per_page=3, and served for any arguments"
+   }
+  },
+  {
+   "name": "iNaturalist place details",
+   "priority": 5,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/inaturalist/v1/places/[^/]+"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "inaturalist/place-details.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.inaturalist.org/v1/places/17309, and served for any id"
+   }
+  },
+  {
+   "name": "iNaturalist taxon autocomplete",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/inaturalist/v1/taxa/autocomplete"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "inaturalist/taxon-autocomplete.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.inaturalist.org/v1/taxa/autocomplete?q=hedgehog&per_page=3, and served for any arguments"
+   }
+  },
+  {
+   "name": "iNaturalist taxon search",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/inaturalist/v1/taxa"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "inaturalist/taxon-search.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.inaturalist.org/v1/taxa?q=dog&rank=species&per_page=3, and served for any arguments"
+   }
+  },
+  {
+   "name": "iNaturalist taxon details",
+   "priority": 5,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/inaturalist/v1/taxa/[^/]+"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "inaturalist/taxon-details.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.inaturalist.org/v1/taxa/47144, and served for any id"
+   }
+  },
+  {
+   "name": "iNaturalist observation species counts",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/inaturalist/v1/observations/species_counts"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "inaturalist/observation-species-counts.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.inaturalist.org/v1/observations/species_counts?place_id=17309&iconic_taxa=Mammalia&year=2026&per_page=5, and served for any arguments"
+   }
+  }
+ ]
+}

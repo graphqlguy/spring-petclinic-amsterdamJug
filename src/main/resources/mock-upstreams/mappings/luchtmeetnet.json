@@ -1,0 +1,202 @@
+{
+ "mappings": [
+  {
+   "name": "Luchtmeetnet stations",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/luchtmeetnet/open_api/stations"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "luchtmeetnet/stations.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.luchtmeetnet.nl/open_api/stations?organisation_id=4&page=1, the stations of GGD Amsterdam, and served for any arguments"
+   }
+  },
+  {
+   "name": "Luchtmeetnet station NL49012",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/luchtmeetnet/open_api/stations/NL49012"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "luchtmeetnet/station-NL49012.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.luchtmeetnet.nl/open_api/stations/NL49012"
+   }
+  },
+  {
+   "name": "Luchtmeetnet measurements of station NL49012",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/luchtmeetnet/open_api/stations/NL49012/measurements"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "luchtmeetnet/station-NL49012-measurements.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.luchtmeetnet.nl/open_api/stations/NL49012/measurements?formula=NO2&page=1, and served for any arguments"
+   }
+  },
+  {
+   "name": "Luchtmeetnet: a station that does not exist",
+   "priority": 5,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/luchtmeetnet/open_api/stations/.*"
+   },
+   "response": {
+    "status": 404,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "body": "{\"reason\": \"not_found\", \"message\": \"Not Found\"}"
+   },
+   "metadata": {
+    "description": "Recorded for the station NOPE"
+   }
+  },
+  {
+   "name": "Luchtmeetnet measurements",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/luchtmeetnet/open_api/measurements"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "luchtmeetnet/measurements.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.luchtmeetnet.nl/open_api/measurements?station_number=NL49012&formula=NO2&start=2026-11-14T00:00:00&end=2026-11-14T06:00:00&order_by=timestamp_measured&order_direction=asc&page=1, and served for any arguments"
+   }
+  },
+  {
+   "name": "Luchtmeetnet lki",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/luchtmeetnet/open_api/lki"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "luchtmeetnet/lki.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.luchtmeetnet.nl/open_api/lki?station_number=NL49012&start=2026-11-14T00:00:00&end=2026-11-14T06:00:00&order_by=timestamp_measured&order_direction=asc&page=1, and served for any arguments"
+   }
+  },
+  {
+   "name": "Luchtmeetnet concentrations",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/luchtmeetnet/open_api/concentrations"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "luchtmeetnet/concentrations.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.luchtmeetnet.nl/open_api/concentrations?formula=NO2&latitude=52.37&longitude=4.89, and served for any arguments"
+   }
+  },
+  {
+   "name": "Luchtmeetnet components",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/luchtmeetnet/open_api/components"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "luchtmeetnet/components.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.luchtmeetnet.nl/open_api/components?page=1&order_by=formula, and served for any arguments"
+   }
+  },
+  {
+   "name": "Luchtmeetnet component NO2",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/luchtmeetnet/open_api/components/NO2"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "luchtmeetnet/component-NO2.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.luchtmeetnet.nl/open_api/components/NO2"
+   }
+  },
+  {
+   "name": "Luchtmeetnet: a component that does not exist",
+   "priority": 5,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/luchtmeetnet/open_api/components/.*"
+   },
+   "response": {
+    "status": 404,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "body": "{\"reason\": \"not_found\", \"message\": \"Not Found\"}"
+   },
+   "metadata": {
+    "description": "Recorded for the component NOPE"
+   }
+  },
+  {
+   "name": "Luchtmeetnet organisations",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/luchtmeetnet/open_api/organisations"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "luchtmeetnet/organisations.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.luchtmeetnet.nl/open_api/organisations?page=1, and served for any arguments"
+   }
+  }
+ ]
+}

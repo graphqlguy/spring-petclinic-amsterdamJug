@@ -1,0 +1,227 @@
+# Europe PMC is the European archive of life science literature, run by the European Bioinformatics
+# Institute (EMBL-EBI) near Cambridge. It holds papers on veterinary medicine among all others. Its
+# SOAP web service at https://www.ebi.ac.uk/europepmc/webservices/soap works without a key. Each
+# field below is one SOAP request, named after its operation in the WSDL. The arguments go out as
+# the elements of the request under their own names, and the answer comes back with the element
+# names of the response. The types follow the types of the WSDL.
+
+extend type Query {
+
+	"""
+	Searches the publications of Europe PMC, for example the papers on a disease of dogs: SOAP operation
+	searchPublications.
+	"""
+	europePmcSearchPublications(
+		"""
+		The search, in words or in the query syntax of Europe PMC, at most 1,500 characters.
+		Examples: canine parvovirus vaccine, or TITLE:"feline leukemia" AND PUB_YEAR:2026
+		"""
+		queryString: String!
+		"How much to return for each publication: idlist for the ids only, or lite for the main fields. Europe PMC uses lite when it is left out."
+		resultType: String
+		"The mark of the page to return: * for the first page, and the nextCursorMark of an answer for the page after it."
+		cursorMark: String = "*"
+		"The number of publications on a page. Europe PMC returns 25 when it is left out."
+		pageSize: Int
+		"The field to sort by and the direction, for example CITED desc or P_PDATE_D desc for the newest first."
+		sort: String
+		"Whether to also search for synonyms of the words of the query."
+		synonym: Boolean
+	): EuropePmcResponse
+
+	"The publications that cite a publication: SOAP operation getCitations."
+	europePmcGetCitations(
+		"The id of the publication, for example 37766175."
+		id: String!
+		"The source of the publication, for example MED."
+		source: String!
+		"The page to return, starting at 0."
+		offSet: Int
+		"The number of citations on a page. Europe PMC returns 25 when it is left out."
+		pageSize: Int
+	): EuropePmcResponse
+
+	"The publications that a publication refers to, in the order of its reference list: SOAP operation getReferences."
+	europePmcGetReferences(
+		"The id of the publication, for example 37766175."
+		id: String!
+		"The source of the publication, for example MED."
+		source: String!
+		"The page to return, starting at 0."
+		offSet: Int
+		"The number of references on a page. Europe PMC returns 25 when it is left out."
+		pageSize: Int
+	): EuropePmcResponse
+}
+
+"The answer of an operation of Europe PMC, with the elements of responseWrapper in the WSDL."
+type EuropePmcResponse {
+	"The version of the web service."
+	version: String
+	"The number of publications that match, of which the answer holds one page."
+	hitCount: Int
+	"The cursorMark of the next page of a search."
+	nextCursorMark: String
+	"The request as Europe PMC understood it."
+	request: EuropePmcRequest
+	"The publications a search found."
+	resultList: EuropePmcResultList
+	"The publications that cite the publication."
+	citationList: EuropePmcCitationList
+	"The publications the publication refers to."
+	referenceList: EuropePmcReferenceList
+}
+
+"A request as Europe PMC understood it."
+type EuropePmcRequest {
+	"The search."
+	queryString: String
+	"The result type Europe PMC used: IDLIST, LITE or CORE."
+	resultType: String
+	"The mark of the page."
+	cursorMark: String
+	"The number of entries on a page."
+	pageSize: Int
+	"The sort order."
+	sort: String
+	"Whether synonyms were searched."
+	synonym: String
+	"The id of the publication."
+	id: String
+	"The source of the publication."
+	source: String
+	"The number of the page."
+	offSet: Int
+}
+
+"The publications a search found."
+type EuropePmcResultList {
+	"One entry for each publication."
+	result: [EuropePmcResult!]
+}
+
+"A publication in Europe PMC, with the elements a lite result has."
+type EuropePmcResult {
+	"The id of the publication in its source."
+	id: String
+	"The source of the record: MED for PubMed and MEDLINE, PMC for PubMed Central, PPR for preprints, AGR for Agricola, PAT for patents."
+	source: String
+	"The PubMed id."
+	pmid: String
+	"The PubMed Central id, for a publication with its full text there."
+	pmcid: String
+	"The ids of the full text."
+	fullTextIdList: EuropePmcFullTextIdList
+	"The Digital Object Identifier."
+	doi: String
+	"The title."
+	title: String
+	"The authors as one text, for example Pearce J, Spibey N, Sutton D, Tarpey I."
+	authorString: String
+	"The title of the journal."
+	journalTitle: String
+	"The issue of the journal."
+	issue: String
+	"The volume of the journal."
+	journalVolume: String
+	"The year of publication."
+	pubYear: String
+	"The ISSN of the journal."
+	journalIssn: String
+	"The pages, or the number of the article."
+	pageInfo: String
+	"The types of publication, for example research-article; journal article."
+	pubType: String
+	"Whether the publication is open access: Y or N."
+	isOpenAccess: String
+	"Whether Europe PMC holds the full text: Y or N."
+	inEPMC: String
+	"Whether PubMed Central holds the full text: Y or N."
+	inPMC: String
+	"Whether a PDF is available: Y or N."
+	hasPDF: String
+	"Whether the publication has references in Europe PMC: Y or N."
+	hasReferences: String
+	"The number of publications that cite it."
+	citedByCount: Int
+	"The day Europe PMC first indexed the publication, written YYYY-MM-DD."
+	firstIndexDate: String
+	"The day the publication first appeared, written YYYY-MM-DD."
+	firstPublicationDate: String
+}
+
+"The ids of the full text of a publication."
+type EuropePmcFullTextIdList {
+	"The ids, for example PMC12390283."
+	fullTextId: [String!]
+}
+
+"The publications that cite a publication."
+type EuropePmcCitationList {
+	"One entry for each citing publication."
+	citation: [EuropePmcCitation!]
+}
+
+"A publication that cites another one."
+type EuropePmcCitation {
+	"The id of the citing publication in its source."
+	id: String
+	"The source of the record, for example MED."
+	source: String
+	"The types of publication, for example research-article; journal article."
+	citationType: String
+	"The title."
+	title: String
+	"The authors as one text."
+	authorString: String
+	"The abbreviated title of the journal, for example Vet Anim Sci."
+	journalAbbreviation: String
+	"The year of publication."
+	pubYear: Int
+	"The volume of the journal."
+	volume: String
+	"The issue of the journal."
+	issue: String
+	"The pages, or the number of the article."
+	pageInfo: String
+	"The number of publications that cite it."
+	citedByCount: Int
+}
+
+"The publications a publication refers to."
+type EuropePmcReferenceList {
+	"One entry for each reference."
+	reference: [EuropePmcReference!]
+}
+
+"A publication in the reference list of another one."
+type EuropePmcReference {
+	"The id of the referenced publication in its source, when Europe PMC found it."
+	id: String
+	"The source of the record, for example MED."
+	source: String
+	"The type of publication, for example JOURNAL ARTICLE."
+	citationType: String
+	"The title."
+	title: String
+	"The authors as one text."
+	authorString: String
+	"The abbreviated title of the journal, for example Vet Microbiol."
+	journalAbbreviation: String
+	"The issue of the journal."
+	issue: String
+	"The year of publication."
+	pubYear: Int
+	"The volume of the journal."
+	volume: String
+	"The ISSN of the print edition of the journal."
+	ISSN: String
+	"The ISSN of the electronic edition of the journal."
+	ESSN: String
+	"The pages, or the number of the article."
+	pageInfo: String
+	"The position in the reference list, starting at 1."
+	citedOrder: Int
+	"Whether Europe PMC matched the reference to a record of its own: Y or N."
+	match: String
+}

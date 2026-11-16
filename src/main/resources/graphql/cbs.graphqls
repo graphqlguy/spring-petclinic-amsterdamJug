@@ -1,0 +1,369 @@
+# Statistics Netherlands (CBS) publishes its tables as OData at https://opendata.cbs.nl.
+# Each field below is one GET request. The arguments filter, top and skip go to CBS as the
+# OData query options $filter, $top and $skip, and the answer comes back with the names CBS
+# gives its properties. The quoted texts of the columns are the Title and the Description
+# CBS publishes in the DataProperties of each table.
+
+extend type Query {
+
+	"""
+	The tables of Statistics Netherlands (CBS), from its catalogue: GET /ODataCatalog/Tables.
+	The catalogue holds Dutch and English tables. Filter with Language eq 'en' for the English ones.
+	One table with every field is about 2,500 tokens, so select only the fields the question needs.
+	"""
+	cbsTables(
+		"""
+		An OData $filter expression, sent to CBS as written.
+		Example: Language eq 'en' and substringof('prices',Title) and Frequency ne 'Discontinued'
+		"""
+		filter: String
+		"The number of tables to return, sent as $top."
+		top: Int = 20
+		"The number of tables to pass over first, sent as $skip."
+		skip: Int
+	): [CbsTable!]
+
+	"""
+	The title, the period and the explanation of one CBS table: GET /ODataFeed/odata/{table}/TableInfos.
+	CBS answers with a list of one entry. Null when CBS does not have the table.
+	"""
+	cbsTableInfos(
+		"The Identifier of the table, for example 86144ENG."
+		table: String!
+	): [CbsTableInfo!]
+
+	"""
+	The columns of one CBS table: GET /ODataFeed/odata/{table}/DataProperties.
+	Each entry is a dimension, the time dimension or a topic, which is a column of values, with its unit.
+	Null when CBS does not have the table.
+	"""
+	cbsDataProperties(
+		"The Identifier of the table, for example 86144ENG."
+		table: String!
+	): [CbsDataProperty!]
+
+	"""
+	The groups that the categories of one CBS table belong to: GET /ODataFeed/odata/{table}/CategoryGroups.
+	Null when CBS does not have the table.
+	"""
+	cbsCategoryGroups(
+		"The Identifier of the table, for example 86144ENG."
+		table: String!
+	): [CbsCategoryGroup!]
+
+	"""
+	The periods one CBS table has figures for, oldest first: GET /ODataFeed/odata/{table}/Periods.
+	Null when CBS does not have the table.
+	"""
+	cbsPeriods(
+		"The Identifier of the table, for example 86144ENG."
+		table: String!
+		"An OData $filter expression, sent to CBS as written. Example: substringof('2026',Key)"
+		filter: String
+		"The number of periods to return, sent as $top."
+		top: Int = 100
+		"The number of periods to pass over first, sent as $skip."
+		skip: Int
+	): [CbsPeriod!]
+
+	"""
+	The expenditure categories of CBS table 86144ENG, the European harmonised index of consumer prices (HICP) of the
+	Netherlands: GET /ODataFeed/odata/86144ENG/ExpenditureCategories.
+	A category is a group of goods or services, such as 094500 Veterinary services. Its Key filters cbs86144ENGTypedDataSet.
+	"""
+	cbs86144ENGExpenditureCategories(
+		"An OData $filter expression, sent to CBS as written. Example: substringof('Veterinary',Title)"
+		filter: String
+		"The number of categories to return, sent as $top."
+		top: Int = 100
+		"The number of categories to pass over first, sent as $skip."
+		skip: Int
+	): [CbsCategory!]
+
+	"""
+	The figures of CBS table 86144ENG, "Consumer prices; HICP 2025=100, index and rates of change":
+	GET /ODataFeed/odata/86144ENG/TypedDataSet.
+	Each row holds the figures of one expenditure category in one period, monthly and yearly, from January 1996.
+	The table has more than 150,000 rows, in the order of ExpenditureCategories and then Periods, so filter on both.
+	"""
+	cbs86144ENGTypedDataSet(
+		"""
+		An OData $filter expression, sent to CBS as written. CBS applies conditions on ExpenditureCategories and Periods.
+		It ignores a condition on a column of values, such as HICP_1, and then answers with unfiltered rows.
+		Example: ExpenditureCategories eq 'CPI094500' and substringof('2026MM',Periods)
+		"""
+		filter: String
+		"The number of rows to return, sent as $top."
+		top: Int = 100
+		"The number of rows to pass over first, sent as $skip."
+		skip: Int
+	): [Cbs86144ENGTypedDataSet!]
+
+	"""
+	The expenditure categories of CBS table 86141ENG, the consumer price index (CPI) of the Netherlands:
+	GET /ODataFeed/odata/86141ENG/ExpenditureCategories.
+	A category is a group of goods or services, such as 093200 Pets and pet products. Its Key filters cbs86141ENGTypedDataSet.
+	"""
+	cbs86141ENGExpenditureCategories(
+		"An OData $filter expression, sent to CBS as written. Example: substringof('Pets',Title)"
+		filter: String
+		"The number of categories to return, sent as $top."
+		top: Int = 100
+		"The number of categories to pass over first, sent as $skip."
+		skip: Int
+	): [CbsCategory!]
+
+	"""
+	The figures of CBS table 86141ENG, "Consumer prices; CPI 2025=100, index and rates of change":
+	GET /ODataFeed/odata/86141ENG/TypedDataSet.
+	Each row holds the figures of one expenditure category in one period, monthly and yearly, from December 2009.
+	The rows come in the order of ExpenditureCategories and then Periods, so filter on both.
+	"""
+	cbs86141ENGTypedDataSet(
+		"""
+		An OData $filter expression, sent to CBS as written. CBS applies conditions on ExpenditureCategories and Periods.
+		It ignores a condition on a column of values, such as CPI_1, and then answers with unfiltered rows.
+		Example: ExpenditureCategories eq 'CPI093200' and substringof('2026MM',Periods)
+		"""
+		filter: String
+		"The number of rows to return, sent as $top."
+		top: Int = 100
+		"The number of rows to pass over first, sent as $skip."
+		skip: Int
+	): [Cbs86141ENGTypedDataSet!]
+
+	"""
+	The farm animals of CBS table 84952ENG, the livestock on agricultural holdings in the Netherlands:
+	GET /ODataFeed/odata/84952ENG/FarmAnimals.
+	The list has 59 kinds, such as cattle, sheep, goats, pigs and poultry. A Key filters cbs84952ENGTypedDataSet.
+	"""
+	cbs84952ENGFarmAnimals(
+		"An OData $filter expression, sent to CBS as written. Example: substringof('Sheep',Title)"
+		filter: String
+		"The number of farm animals to return, sent as $top."
+		top: Int = 100
+		"The number of farm animals to pass over first, sent as $skip."
+		skip: Int
+	): [CbsCategory!]
+
+	"""
+	The figures of CBS table 84952ENG, "Livestock on agricultural holdings: reference date 1 April and 1 December":
+	GET /ODataFeed/odata/84952ENG/TypedDataSet.
+	Each row holds the number of one kind of farm animal on one reference date, from April 2018.
+	"""
+	cbs84952ENGTypedDataSet(
+		"""
+		An OData $filter expression, sent to CBS as written. CBS applies conditions on FarmAnimals and Periods.
+		It ignores a condition on Livestock_1, and then answers with unfiltered rows.
+		Example: FarmAnimals eq 'A028972' and substringof('2026',Periods)
+		"""
+		filter: String
+		"The number of rows to return, sent as $top."
+		top: Int = 100
+		"The number of rows to pass over first, sent as $skip."
+		skip: Int
+	): [Cbs84952ENGTypedDataSet!]
+}
+
+"One table in the catalogue of Statistics Netherlands (CBS), with the properties of the Tables list of the catalogue."
+type CbsTable {
+	"When CBS last updated the entry, for example 2026-11-10T06:30:00."
+	Updated: String
+	"The identifier that the table argument of the other cbs fields takes, for example 86144ENG."
+	Identifier: String
+	"The full title of the table, for example Consumer prices; HICP 2025=100, index and rates of change."
+	Title: String
+	"The title in fewer words."
+	ShortTitle: String
+	"What the table holds, in a few paragraphs."
+	ShortDescription: String
+	"What the table holds, in one or two lines."
+	Summary: String
+	"When CBS last changed the figures."
+	Modified: String
+	"When CBS last changed the descriptions."
+	MetaDataModified: String
+	"Why CBS last delivered the table, for example Update or Discontinued."
+	ReasonDelivery: String
+	"Who produced the figures, for example CBS."
+	Source: String
+	"The language of the table: en or nl."
+	Language: String
+	"The catalogue the table belongs to, for example CBS."
+	Catalog: String
+	"How often CBS publishes new figures, for example Monthly or Yearly. Discontinued for a table CBS has stopped updating."
+	Frequency: String
+	"The first and the last period of the table, for example 1996 January - 2026 October."
+	Period: String
+	"The summary as HTML, with links."
+	SummaryAndLinks: String
+	"The address of the table at the ODataApi endpoint of CBS."
+	ApiUrl: String
+	"The address of the table at the ODataFeed endpoint of CBS, which the cbs fields call."
+	FeedUrl: String
+	"The $filter of the selection the CBS website opens the table with."
+	DefaultSelection: String
+	"The number of rows of the table."
+	RecordCount: Int
+	"The number of columns of the table."
+	ColumnCount: Int
+}
+
+"The description of one CBS table, with the properties of its TableInfos list."
+type CbsTableInfo {
+	"The full title of the table, for example Consumer prices; HICP 2025=100, index and rates of change."
+	Title: String
+	"The title in fewer words."
+	ShortTitle: String
+	"The identifier of the table, for example 86144ENG."
+	Identifier: String
+	"What the table holds, in one or two lines."
+	Summary: String
+	"When CBS last changed the figures, for example 2026-11-10T06:30:00."
+	Modified: String
+	"Why CBS last delivered the table, for example Update or Discontinued."
+	ReasonDelivery: String
+	"The language of the table: en or nl."
+	Language: String
+	"The catalogue the table belongs to, for example CBS."
+	Catalog: String
+	"How often CBS publishes new figures, for example Monthly or Yearly."
+	Frequency: String
+	"The first and the last period of the table, for example 1996 January - 2026 October."
+	Period: String
+	"What the table holds, in a few paragraphs."
+	ShortDescription: String
+	"The full explanation of the table, with definitions and links. It is about 2,000 tokens."
+	Description: String
+	"The $filter of the selection the CBS website opens the table with."
+	DefaultSelection: String
+	"Who produced the figures, for example CBS."
+	Source: String
+	"When CBS last changed the descriptions."
+	MetaDataModified: String
+}
+
+"One column of a CBS table, with the properties of its DataProperties list."
+type CbsDataProperty {
+	"The number of the column, which the ParentID of another column refers to."
+	ID: Int
+	"The position of the column in the table, starting at 0."
+	Position: Int
+	"The ID of the group of topics the column belongs to."
+	ParentID: Int
+	"Dimension, TimeDimension, GeoDimension, TopicGroup or Topic. A Topic is a column of values."
+	Type: String
+	"The name of the column in the TypedDataSet of the table, for example HICP_1."
+	Key: String
+	"The name of the column in words, for example Annual rate of change HICP."
+	Title: String
+	"What the column measures, in a sentence or two."
+	Description: String
+	"The type of the values of a topic, for example Double or Long."
+	Datatype: String
+	"The unit of the values of a topic, for example % or 2025=100."
+	Unit: String
+	"The number of decimals of the values of a topic."
+	Decimals: Int
+}
+
+"One group of categories of a CBS table, with the properties of its CategoryGroups list."
+type CbsCategoryGroup {
+	"The number the CategoryGroupID of a category refers to."
+	ID: Int
+	"The Key of the dimension the group belongs to, for example ExpenditureCategories."
+	DimensionKey: String
+	"The name of the group, for example Divisions."
+	Title: String
+	"What the group holds."
+	Description: String
+	"The ID of the group this group is part of."
+	ParentID: Int
+}
+
+"One period of a CBS table, with the properties of its Periods list."
+type CbsPeriod {
+	"The key the Periods column of the TypedDataSet holds: 2026MM04 for a month, 2026KW01 for a quarter, 2026JJ00 for a year."
+	Key: String
+	"The period in words, for example 2026 April."
+	Title: String
+	"A remark on the figures of the period, for example Provisional figures."
+	Description: String
+	"Whether the figures are final. CBS writes it in Dutch in its English tables too: Definitief (final) or Voorlopig (provisional)."
+	Status: String
+}
+
+"One category of a dimension of a CBS table, with the properties CBS gives the lists of its dimensions."
+type CbsCategory {
+	"""
+	The key the column of the dimension holds in the TypedDataSet, for example CPI094500.
+	Some keys end with spaces, such as 'T001112  '. Copy a key into a filter as it is written here.
+	"""
+	Key: String
+	"The name of the category, for example 094500 Veterinary services, etc."
+	Title: String
+	"What the category includes and leaves out."
+	Description: String
+	"The ID of the group of categories it belongs to."
+	CategoryGroupID: Int
+}
+
+"One row of CBS table 86144ENG, the European harmonised index of consumer prices (HICP) of the Netherlands."
+type Cbs86144ENGTypedDataSet {
+	"The number of the row in the table, starting at 0."
+	ID: Int
+	"The Key of the expenditure category, from cbs86144ENGExpenditureCategories."
+	ExpenditureCategories: String
+	"The Key of the period, from cbsPeriods: 2026MM04 for April 2026, 2025JJ00 for the year 2025."
+	Periods: String
+	"HICP, 2025=100. \"Index number that measures the price change of goods and services purchased by consumers for their own consumption on Dutch territory.\""
+	HICP_1: Float
+	"HICP constant taxes, 2025=100. \"The HICP constant taxes excludes the effect of changes in the rates of product-related taxes (e.g. VAT and duty on alcohol and tobacco) and subsidies.\""
+	HICPConstantTaxes_2: Float
+	"Monthly rate of change HICP, in %. \"Percentage change of the HICP compared with previous month.\""
+	MonthlyRateOfChangeHICP_3: Float
+	"Monthly rate of change HICP-CT, in %. \"Percentage change of the HICP constant taxes compared with previous month.\""
+	MonthlyRateOfChangeHICPCT_4: Float
+	"Annual rate of change HICP, in %. \"Percentage change of the HICP compared with the same period previous year.\""
+	AnnualRateOfChangeHICP_5: Float
+	"Annual rate of change HICP-CT, in %. \"Percentage change of the HICP constant taxes compared with the same period previous year.\""
+	AnnualRateOfChangeHICPCT_6: Float
+	"Weighting coefficient. \"The weighting coefficient reflects the share (in hundred thousandths) of the total consumer expenditure.\""
+	WeightingCoefficient_7: Int
+}
+
+"One row of CBS table 86141ENG, the consumer price index (CPI) of the Netherlands."
+type Cbs86141ENGTypedDataSet {
+	"The number of the row in the table, starting at 0."
+	ID: Int
+	"The Key of the expenditure category, from cbs86141ENGExpenditureCategories."
+	ExpenditureCategories: String
+	"The Key of the period, from cbsPeriods: 2026MM04 for April 2026, 2025JJ00 for the year 2025."
+	Periods: String
+	"CPI, 2025=100. \"Index number that measures the price change of goods and services purchased by Dutch households for their own consumption.\""
+	CPI_1: Float
+	"Derived CPI, 2025=100. \"The derived consumer price index excludes the effect of changes in the rates of product-related taxes (e.g. VAT and duty on alcohol and tobacco) and subsidies.\""
+	DerivedCPI_2: Float
+	"Monthly rate of change CPI, in %. \"Percentage change of the CPI compared with previous month.\""
+	MonthlyRateOfChangeCPI_3: Float
+	"Monthly rate of change derived CPI, in %. \"Percentage change of the derived CPI compared with previous month.\""
+	MonthlyRateOfChangeDerivedCPI_4: Float
+	"Annual rate of change CPI, in %. \"Percentage change of the CPI compared with the same period previous year.\""
+	AnnualRateOfChangeCPI_5: Float
+	"Annual rate of change derived CPI, in %. \"Percentage change of the derived CPI compared with the same period previous year.\""
+	AnnualRateOfChangeDerivedCPI_6: Float
+	"Weighting coefficient. \"The weighting coefficient reflects the share (in hundred thousandths) of the total consumer expenditure.\""
+	WeightingCoefficient_7: Int
+}
+
+"One row of CBS table 84952ENG, the livestock on agricultural holdings in the Netherlands."
+type Cbs84952ENGTypedDataSet {
+	"The number of the row in the table, starting at 0."
+	ID: Int
+	"The Key of the kind of farm animal, from cbs84952ENGFarmAnimals."
+	FarmAnimals: String
+	"The Key of the reference date, from cbsPeriods: 2026MM04 for 1 April 2026, 2025MM12 for 1 December 2025."
+	Periods: String
+	"Livestock, x 1000: the number of animals in thousands."
+	Livestock_1: Int
+}

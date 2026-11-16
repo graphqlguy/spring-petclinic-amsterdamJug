@@ -1,0 +1,21 @@
+{
+  "odata.metadata":"https://opendata.cbs.nl/ODataFeed/OData/84952ENG/$metadata#Cbs.OData.WebAPI.CategoryGroups","value":[
+    {
+      "ID":0,"DimensionKey":"FarmAnimals","Title":"Grazing livestock","Description":"","ParentID":null
+    },{
+      "ID":1,"DimensionKey":"FarmAnimals","Title":"Cattle","Description":"","ParentID":0
+    },{
+      "ID":2,"DimensionKey":"FarmAnimals","Title":"Sheep","Description":"","ParentID":0
+    },{
+      "ID":3,"DimensionKey":"FarmAnimals","Title":"Goats","Description":"","ParentID":0
+    },{
+      "ID":4,"DimensionKey":"FarmAnimals","Title":"Housed animals","Description":"","ParentID":null
+    },{
+      "ID":5,"DimensionKey":"FarmAnimals","Title":"Chickens","Description":"","ParentID":4
+    },{
+      "ID":6,"DimensionKey":"FarmAnimals","Title":"Ducks and turkeys","Description":"","ParentID":4
+    },{
+      "ID":7,"DimensionKey":"FarmAnimals","Title":"Pigs","Description":"","ParentID":4
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "odata.metadata":"https://opendata.cbs.nl/ODataFeed/OData/86141ENG/$metadata#Cbs.OData.WebAPI.TypedDataSet","value":[
+    {
+      "ID":61310,"ExpenditureCategories":"CPI094500","Periods":"2026MM01","CPI_1":103.93,"DerivedCPI_2":103.93,"MonthlyRateOfChangeCPI_3":2.2,"MonthlyRateOfChangeDerivedCPI_4":2.2,"AnnualRateOfChangeCPI_5":5.6,"AnnualRateOfChangeDerivedCPI_6":5.6,"WeightingCoefficient_7":270
+    },{
+      "ID":61311,"ExpenditureCategories":"CPI094500","Periods":"2026MM02","CPI_1":103.93,"DerivedCPI_2":103.93,"MonthlyRateOfChangeCPI_3":0.0,"MonthlyRateOfChangeDerivedCPI_4":0.0,"AnnualRateOfChangeCPI_5":5.6,"AnnualRateOfChangeDerivedCPI_6":5.6,"WeightingCoefficient_7":270
+    },{
+      "ID":61312,"ExpenditureCategories":"CPI094500","Periods":"2026MM03","CPI_1":103.93,"DerivedCPI_2":103.93,"MonthlyRateOfChangeCPI_3":0.0,"MonthlyRateOfChangeDerivedCPI_4":0.0,"AnnualRateOfChangeCPI_5":5.6,"AnnualRateOfChangeDerivedCPI_6":5.6,"WeightingCoefficient_7":270
+    },{
+      "ID":61313,"ExpenditureCategories":"CPI094500","Periods":"2026MM04","CPI_1":106.28,"DerivedCPI_2":106.28,"MonthlyRateOfChangeCPI_3":2.3,"MonthlyRateOfChangeDerivedCPI_4":2.3,"AnnualRateOfChangeCPI_5":6.3,"AnnualRateOfChangeDerivedCPI_6":6.3,"WeightingCoefficient_7":270
+    },{
+      "ID":61314,"ExpenditureCategories":"CPI094500","Periods":"2026MM05","CPI_1":106.28,"DerivedCPI_2":106.28,"MonthlyRateOfChangeCPI_3":0.0,"MonthlyRateOfChangeDerivedCPI_4":0.0,"AnnualRateOfChangeCPI_5":6.3,"AnnualRateOfChangeDerivedCPI_6":6.3,"WeightingCoefficient_7":270
+    },{
+      "ID":61315,"ExpenditureCategories":"CPI094500","Periods":"2026MM06","CPI_1":106.28,"DerivedCPI_2":106.28,"MonthlyRateOfChangeCPI_3":0.0,"MonthlyRateOfChangeDerivedCPI_4":0.0,"AnnualRateOfChangeCPI_5":6.3,"AnnualRateOfChangeDerivedCPI_6":6.3,"WeightingCoefficient_7":270
+    },{
+      "ID":61316,"ExpenditureCategories":"CPI094500","Periods":"2026MM07","CPI_1":106.38,"DerivedCPI_2":106.38,"MonthlyRateOfChangeCPI_3":0.1,"MonthlyRateOfChangeDerivedCPI_4":0.1,"AnnualRateOfChangeCPI_5":6.6,"AnnualRateOfChangeDerivedCPI_6":6.6,"WeightingCoefficient_7":270
+    },{
+      "ID":61317,"ExpenditureCategories":"CPI094500","Periods":"2026MM08","CPI_1":106.38,"DerivedCPI_2":106.38,"MonthlyRateOfChangeCPI_3":0.0,"MonthlyRateOfChangeDerivedCPI_4":0.0,"AnnualRateOfChangeCPI_5":6.6,"AnnualRateOfChangeDerivedCPI_6":6.6,"WeightingCoefficient_7":270
+    },{
+      "ID":61318,"ExpenditureCategories":"CPI094500","Periods":"2026MM09","CPI_1":106.38,"DerivedCPI_2":106.38,"MonthlyRateOfChangeCPI_3":0.0,"MonthlyRateOfChangeDerivedCPI_4":0.0,"AnnualRateOfChangeCPI_5":6.6,"AnnualRateOfChangeDerivedCPI_6":6.6,"WeightingCoefficient_7":270
+    },{
+      "ID":61319,"ExpenditureCategories":"CPI094500","Periods":"2026MM10","CPI_1":107.32,"DerivedCPI_2":107.32,"MonthlyRateOfChangeCPI_3":0.9,"MonthlyRateOfChangeDerivedCPI_4":0.9,"AnnualRateOfChangeCPI_5":5.5,"AnnualRateOfChangeDerivedCPI_6":5.5,"WeightingCoefficient_7":270
+    }
+  ]
+}

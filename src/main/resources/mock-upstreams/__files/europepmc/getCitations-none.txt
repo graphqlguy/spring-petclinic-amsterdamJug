@@ -1,0 +1,8 @@
+
+--uuid:107090d9-a3f4-4b08-9ea3-a15be37e8800
+Content-Type: text/xml; charset=UTF-8
+Content-Transfer-Encoding: binary
+Content-ID: <root.message@cxf.apache.org>
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><ns4:getCitationsResponse xmlns:slx="http://www.scholix.org" xmlns:epmc="https://www.europepmc.org/data" xmlns:ns4="http://webservice.cdb.ebi.ac.uk/"><return><version>6.9</version><hitCount>0</hitCount><request><id>0</id><source>MED</source><offSet>0</offSet><pageSize>25</pageSize></request><citationList/></return></ns4:getCitationsResponse></soap:Body></soap:Envelope>
+--uuid:107090d9-a3f4-4b08-9ea3-a15be37e8800--

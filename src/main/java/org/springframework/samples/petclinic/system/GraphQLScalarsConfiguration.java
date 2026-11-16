@@ -11,7 +11,8 @@ class GraphQLScalarsConfiguration {
 
 	@Bean
 	RuntimeWiringConfigurer scalars() {
-		return (wiring) -> wiring.scalar(ExtendedScalars.Date);
+		// GBIF counts more than 3 billion occurrences, past the 2,147,483,647 of Int
+		return (wiring) -> wiring.scalar(ExtendedScalars.Date).scalar(ExtendedScalars.GraphQLLong);
 	}
 
 }

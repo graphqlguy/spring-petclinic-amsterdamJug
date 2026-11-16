@@ -1,0 +1,364 @@
+{
+ "mappings": [
+  {
+   "name": "CBS catalogue: Tables",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataCatalog/Tables"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/catalog-Tables.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataCatalog/Tables?$filter=Language eq 'en' and substringof('HICP',Title) and Frequency ne 'Discontinued'&$top=5, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86144ENG: TableInfos",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86144ENG/TableInfos"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86144ENG-TableInfos.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86144ENG/TableInfos, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86144ENG: DataProperties",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86144ENG/DataProperties"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86144ENG-DataProperties.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86144ENG/DataProperties, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86144ENG: CategoryGroups",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86144ENG/CategoryGroups"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86144ENG-CategoryGroups.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86144ENG/CategoryGroups, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86144ENG: Periods",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86144ENG/Periods"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86144ENG-Periods.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86144ENG/Periods?$filter=substringof('2026',Key), and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86144ENG: ExpenditureCategories",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86144ENG/ExpenditureCategories"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86144ENG-ExpenditureCategories.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86144ENG/ExpenditureCategories?$filter=substringof('pets',Title) or substringof('Pets',Title) or substringof('Veterinary',Title), and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86144ENG: TypedDataSet",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86144ENG/TypedDataSet"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86144ENG-TypedDataSet.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86144ENG/TypedDataSet?$filter=ExpenditureCategories eq 'CPI094500' and substringof('2026MM',Periods)&$top=100, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86141ENG: TableInfos",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86141ENG/TableInfos"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86141ENG-TableInfos.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86141ENG/TableInfos, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86141ENG: DataProperties",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86141ENG/DataProperties"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86141ENG-DataProperties.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86141ENG/DataProperties, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86141ENG: CategoryGroups",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86141ENG/CategoryGroups"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86141ENG-CategoryGroups.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86141ENG/CategoryGroups, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86141ENG: Periods",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86141ENG/Periods"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86141ENG-Periods.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86141ENG/Periods?$filter=substringof('2026',Key), and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86141ENG: ExpenditureCategories",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86141ENG/ExpenditureCategories"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86141ENG-ExpenditureCategories.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86141ENG/ExpenditureCategories?$filter=substringof('pets',Title) or substringof('Pets',Title) or substringof('Veterinary',Title), and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 86141ENG: TypedDataSet",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/86141ENG/TypedDataSet"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/86141ENG-TypedDataSet.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/86141ENG/TypedDataSet?$filter=ExpenditureCategories eq 'CPI094500' and substringof('2026MM',Periods)&$top=100, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 84952ENG: TableInfos",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/84952ENG/TableInfos"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/84952ENG-TableInfos.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/84952ENG/TableInfos, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 84952ENG: DataProperties",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/84952ENG/DataProperties"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/84952ENG-DataProperties.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/84952ENG/DataProperties, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 84952ENG: CategoryGroups",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/84952ENG/CategoryGroups"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/84952ENG-CategoryGroups.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/84952ENG/CategoryGroups, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 84952ENG: Periods",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/84952ENG/Periods"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/84952ENG-Periods.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/84952ENG/Periods, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 84952ENG: FarmAnimals",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/84952ENG/FarmAnimals"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/84952ENG-FarmAnimals.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/84952ENG/FarmAnimals, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS 84952ENG: TypedDataSet",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/cbs/ODataFeed/odata/84952ENG/TypedDataSet"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "cbs/84952ENG-TypedDataSet.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://opendata.cbs.nl/ODataFeed/odata/84952ENG/TypedDataSet?$filter=substringof('2026',Periods)&$top=100, and served for any arguments"
+   }
+  },
+  {
+   "name": "CBS: a table that does not exist",
+   "priority": 5,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/cbs/ODataFeed/odata/.*"
+   },
+   "response": {
+    "status": 404,
+    "headers": {
+     "Content-Type": "text/html; charset=utf-8"
+    },
+    "body": "<!DOCTYPE html><html><head><title>The resource cannot be found.</title></head><body></body></html>"
+   },
+   "metadata": {
+    "description": "CBS answers 404 with an HTML page for a table or a list it does not have, shortened here to its title"
+   }
+  }
+ ]
+}

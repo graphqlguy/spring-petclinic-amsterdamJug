@@ -1,0 +1,58 @@
+{
+ "mappings": [
+  {
+   "name": "EU feed additives list",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/eu-feed-additives/feed-additives/feed-additives-list"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "eu-feed-additives/list.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.datalake.sante.service.ec.europa.eu/feed-additives/feed-additives-list?format=json&additive_code=3a370&api-version=v2.0, and served for any arguments"
+   }
+  },
+  {
+   "name": "EU feed additives details",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/eu-feed-additives/feed-additives/feed-additives-details"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "eu-feed-additives/details.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.datalake.sante.service.ec.europa.eu/feed-additives/feed-additives-details?format=json&additive_code=3a370&api-version=v2.0, and served for any arguments"
+   }
+  },
+  {
+   "name": "EU feed additives authorizations",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/eu-feed-additives/feed-additives/feed-additives-authorizations"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "eu-feed-additives/authorizations.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.datalake.sante.service.ec.europa.eu/feed-additives/feed-additives-authorizations?format=json&to_be_phased_out=Yes&api-version=v2.0, and served for any arguments"
+   }
+  }
+ ]
+}

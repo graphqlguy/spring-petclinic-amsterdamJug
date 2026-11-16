@@ -1,0 +1,156 @@
+# The European Commission keeps the EU register of feed additives: the substances that may be added
+# to the food of animals, pet food included, and the animals each one is authorised for. Its
+# health department (DG SANTE) publishes the register at
+# https://api.datalake.sante.service.ec.europa.eu/feed-additives without a key. Each field below is
+# one GET request. The arguments go to the Commission as query parameters of the same name, and the
+# answer comes back with the names the API gives its fields. The descriptions of the fields follow
+# the data dictionary of the Commission's guide "Feed Additives - APIs".
+#
+# The API cannot search by the name of an additive or by animal. Each operation accepts the
+# filters listed here, and answers 500 for any other parameter.
+
+extend type Query {
+
+	"""
+	The feed additives of the EU register, 100 on a page: GET /feed-additives/feed-additives-list.
+	An additive is a policy item with a code, a name and a category. Taurine is additive_code 3a370.
+	"""
+	euFeedAdditivesList(
+		"The code of the additive, for example 3a370 or E 526."
+		additive_code: String
+		"The token of the next page: the value of $after in the nextLink of the page before."
+		after: String
+	): EuFeedAdditivesList
+
+	"""
+	The authorisations of feed additives with their legislation, 100 on a page:
+	GET /feed-additives/feed-additives-details.
+	Each row names the animal species an additive is authorised for, the dates, and one legal act. An additive
+	has a row for each authorisation and each act. For example additive_code 3a370 answers whether taurine is
+	authorised for cats and dogs.
+	"""
+	euFeedAdditivesDetails(
+		"The code of the additive, for example 3a370."
+		additive_code: String
+		"The policy item code, for example POL-FEED-IMPORT-1225."
+		policy_item_code: String
+		"The policy item ID, for example 3386808."
+		policy_item_id: Int
+		"The token of the next page: the value of $after in the nextLink of the page before."
+		after: String
+	): EuFeedAdditiveAuthorisations
+
+	"""
+	The authorisations of feed additives by status or by category, 100 on a page:
+	GET /feed-additives/feed-additives-authorizations.
+	For example to_be_phased_out Yes lists the authorisations that are ending, several of them for cats and dogs.
+	"""
+	euFeedAdditivesAuthorizations(
+		"The phase-out status: Yes, No, Partially or Not authorised."
+		to_be_phased_out: String
+		"The category and functional group, written as cat_funct_grp gives it, for example 1 k) Technological additives - Silage additives."
+		cat_funct_grp: String
+		"The token of the next page: the value of $after in the nextLink of the page before."
+		after: String
+	): EuFeedAdditiveAuthorisations
+}
+
+"One page of feed additives."
+type EuFeedAdditivesList {
+	"The additives of this page."
+	value: [EuFeedAdditive!]
+	"The web address of the next page. Its $after parameter holds the token the after argument takes. Null on the last page."
+	nextLink: String
+}
+
+"A feed additive in the EU register."
+type EuFeedAdditive {
+	"ID of the policy item."
+	policy_item_id: Int
+	"Policy item code, for example POL-FEED-IMPORT-1225."
+	policy_item_code: String
+	"Category and functional group, for example 3 a) Nutritional additives - Vitamins, pro-vitamins and chemically well-defined substances having similar effect."
+	cat_funct_grp: String
+	"The name of the additive, for example Taurine."
+	display_name: String
+	"Additive code, for example 3a370."
+	additive_code: String
+	"Additive other code(s)."
+	other_codes: String
+	"Sub classification (old classification)."
+	subclass: String
+	"Footnote."
+	footnote: String
+	"Additive to be phased out: Yes when all its authorisations are ending, No when none are, Partially when some are, Not authorised when they have expired."
+	to_be_phased_out: String
+	"URL of the additive on the Food and Feed Information Portal (FIP)."
+	fip_url: String
+}
+
+"One page of authorisations."
+type EuFeedAdditiveAuthorisations {
+	"The rows of this page."
+	value: [EuFeedAdditiveAuthorisation!]
+	"The web address of the next page. Its $after parameter holds the token the after argument takes. Null on the last page."
+	nextLink: String
+}
+
+"One authorisation of a feed additive, with one of its legal acts."
+type EuFeedAdditiveAuthorisation {
+	"ID of the policy item."
+	policy_item_id: Int
+	"Policy item code, for example POL-FEED-IMPORT-1225."
+	policy_item_code: String
+	"Category and functional group."
+	cat_funct_grp: String
+	"Additive name, for example Taurine."
+	additive_name: String
+	"Additive code, for example 3a370. Some additives have a dot in place of a code."
+	additive_code: String
+	"Additive other code(s)."
+	other_codes: String
+	"Sub classification (old classification)."
+	subclassification: String
+	"Footnote."
+	footnote: String
+	"Whether this authorisation is to be phased out: Yes, No, or Not authorised when it has expired."
+	to_be_phased_out: String
+	"The ID of the authorisation."
+	authorisation_id: Int
+	"Authorisation code, an internal code, for example AUTH-FEED-IMPORT-119."
+	authorisation_code: String
+	"Animal species the additive is authorised for, as free text, for example Cats and dogs or All animal species."
+	animal_species: String
+	"Entry date of the authorisation in the register, for example 2023-01-17T12:00:00."
+	auth_entry_date: String
+	"Authorisation date."
+	auth_date: String
+	"Expiry date of the authorisation."
+	auth_expiry_date: String
+	"Authorisation included in annex: Yes or No."
+	included_in_annex: String
+	"Message regarding the authorisation."
+	message: String
+	"Request for the renewal of the authorisation introduced on time: Yes or No."
+	auth_renewal_on_time: String
+	"Request for the renewal of the authorisation withdrawn."
+	auth_renewal_withdrawn: String
+	"The date the request for the renewal of the authorisation was withdrawn."
+	auth_renewal_withdrawn_date: String
+	"Holder of the authorisation."
+	authorisation_holder: String
+	"Display order of the legislations of the authorisation, starting at 0."
+	display_order: Int
+	"Purpose of the legislation, for example Authorised by, Amended by or Repealed by."
+	legislation_purpose: String
+	"Reference of the legislation, for example Commission Implementing Regulation (EU) 2023/61 of 5 January 2023."
+	legislation_reference: String
+	"Official Journal reference of the legislation, for example OJ L 4, 06.01.2023, p. 24."
+	legislation_oj_ref: String
+	"Publication date of the legislation."
+	legislation_pub_date: String
+	"URL of the legislation on EUR-Lex."
+	legislation_url: String
+	"URL of the additive on the Food and Feed Information Portal (FIP)."
+	fip_url: String
+}

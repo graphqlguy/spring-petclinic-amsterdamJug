@@ -1,0 +1,415 @@
+{
+  "meta": {
+    "disclaimer": "Do not rely on openFDA to make decisions regarding medical care. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated. We may limit or otherwise restrict your access to the API in line with our Terms of Service.",
+    "terms": "https://open.fda.gov/terms/",
+    "license": "https://open.fda.gov/license/",
+    "last_updated": "2026-10-05",
+    "results": {
+      "skip": 0,
+      "limit": 3,
+      "total": 26143
+    }
+  },
+  "results": [
+    {
+      "treated_for_ae": "true",
+      "reaction": [
+        {
+          "veddra_version": "21",
+          "veddra_term_code": "2801",
+          "veddra_term_name": "Lack of efficacy (endoparasite) - whipworm",
+          "number_of_animals_affected": "1",
+          "accuracy": "Actual"
+        },
+        {
+          "veddra_version": "21",
+          "veddra_term_code": "2282",
+          "veddra_term_name": "Medication error NOS",
+          "number_of_animals_affected": "1",
+          "accuracy": "Actual"
+        },
+        {
+          "veddra_version": "21",
+          "veddra_term_code": "3039",
+          "veddra_term_name": "Intentional misuse",
+          "number_of_animals_affected": "1",
+          "accuracy": "Actual"
+        }
+      ],
+      "receiver": {
+        "organization": "Food and Drug Administration Center for Veterinary Medicine",
+        "street_address": "7500 Standish Place (HFV-210) Room N403",
+        "city": "Rockville",
+        "state": "MD",
+        "postal_code": "20855",
+        "country": "USA"
+      },
+      "unique_aer_id_number": "USA-USFDACVM-2026-US-035565",
+      "original_receive_date": "20260626",
+      "number_of_animals_affected": "1",
+      "primary_reporter": "Other Health Care Professional",
+      "number_of_animals_treated": "1",
+      "secondary_reporter": "Animal Owner",
+      "drug": [
+        {
+          "first_exposure_date": "20250701",
+          "last_exposure_date": "20250701",
+          "administered_by": "Veterinarian",
+          "route": "Subcutaneous",
+          "dose": {
+            "numerator": "1.30",
+            "numerator_unit": "mL",
+            "denominator": "1",
+            "denominator_unit": "Animal"
+          },
+          "used_according_to_label": "false",
+          "off_label_use": "Indication Off-Label",
+          "previous_exposure_to_drug": "false",
+          "ae_abated_after_stopping_drug": "false",
+          "ae_reappeared_after_resuming_drug": "false",
+          "lot_number": "UNKNOWN",
+          "brand_name": "MSK",
+          "dosage_form": "Suspension",
+          "manufacturer": {
+            "name": "MSK",
+            "registration_number": "USA-USFDACVM-N141519"
+          },
+          "atc_vet_code": "QP54AB02",
+          "active_ingredients": [
+            {
+              "name": "Moxidectin",
+              "dose": {
+                "numerator": "1",
+                "numerator_unit": "Unknown",
+                "denominator": "1",
+                "denominator_unit": "Unknown"
+              }
+            }
+          ]
+        }
+      ],
+      "health_assessment_prior_to_exposure": {
+        "condition": "Good",
+        "assessed_by": "Veterinarian"
+      },
+      "onset_date": "20260626",
+      "foreign_or_domestic": "Domestic",
+      "report_id": "N141519",
+      "animal": {
+        "species": "Dog",
+        "gender": "Male",
+        "reproductive_status": "Intact",
+        "female_animal_physiological_status": "NOT APPLICABLE",
+        "age": {
+          "min": "2.00",
+          "unit": "Year",
+          "qualifier": "Measured"
+        },
+        "weight": {
+          "min": "35.471",
+          "unit": "Kilogram",
+          "qualifier": "Measured"
+        },
+        "breed": {
+          "is_crossbred": "true",
+          "breed_component": "Terrier - Bull - American Pit"
+        }
+      },
+      "type_of_information": "Both Safety And Lack Of Expected Effectiveness",
+      "serious_ae": "true",
+      "outcome": [
+        {
+          "medical_status": "Ongoing",
+          "number_of_animals_affected": "1"
+        }
+      ]
+    },
+    {
+      "treated_for_ae": "true",
+      "reaction": [
+        {
+          "veddra_version": "21",
+          "veddra_term_code": "517",
+          "veddra_term_name": "Facial swelling (see also Skin)",
+          "number_of_animals_affected": "1",
+          "accuracy": "Actual"
+        }
+      ],
+      "receiver": {
+        "organization": "Food and Drug Administration Center for Veterinary Medicine",
+        "street_address": "7500 Standish Place (HFV-210) Room N403",
+        "city": "Rockville",
+        "state": "MD",
+        "postal_code": "20855",
+        "country": "USA"
+      },
+      "unique_aer_id_number": "USA-USFDACVM-2026-US-035646",
+      "original_receive_date": "20260626",
+      "number_of_animals_affected": "1",
+      "primary_reporter": "Other Health Care Professional",
+      "number_of_animals_treated": "1",
+      "secondary_reporter": "Animal Owner",
+      "drug": [
+        {
+          "first_exposure_date": "20260501",
+          "last_exposure_date": "20260501",
+          "administered_by": "Other Health Care Professional",
+          "route": "Subcutaneous",
+          "dose": {
+            "numerator": "1.70",
+            "numerator_unit": "mL",
+            "denominator": "1",
+            "denominator_unit": "Animal"
+          },
+          "used_according_to_label": "true",
+          "lot_number": "842475",
+          "brand_name": "MSK",
+          "dosage_form": "Suspension",
+          "manufacturer": {
+            "name": "MSK",
+            "registration_number": "USA-USFDACVM-N141519"
+          },
+          "atc_vet_code": "QP54AB02",
+          "active_ingredients": [
+            {
+              "name": "Moxidectin",
+              "dose": {
+                "numerator": "1",
+                "numerator_unit": "Unknown",
+                "denominator": "1",
+                "denominator_unit": "Unknown"
+              }
+            }
+          ]
+        },
+        {
+          "first_exposure_date": "20260501",
+          "last_exposure_date": "20260501",
+          "administered_by": "Unknown",
+          "route": "Unknown",
+          "lot_number": "not given",
+          "brand_name": "MSK",
+          "dosage_form": "Unassigned",
+          "manufacturer": {
+            "name": "MSK"
+          },
+          "active_ingredients": [
+            {
+              "name": "Leptospirosis Vaccine",
+              "dose": {
+                "numerator": "1",
+                "numerator_unit": "Unknown",
+                "denominator": "1",
+                "denominator_unit": "Unknown"
+              }
+            }
+          ]
+        },
+        {
+          "first_exposure_date": "20260501",
+          "last_exposure_date": "20260501",
+          "administered_by": "Unknown",
+          "route": "Unknown",
+          "lot_number": "not given",
+          "brand_name": "MSK",
+          "dosage_form": "Unassigned",
+          "manufacturer": {
+            "name": "MSK"
+          },
+          "active_ingredients": [
+            {
+              "name": "Canine Influenza Vaccine",
+              "dose": {
+                "numerator": "1",
+                "numerator_unit": "Unknown",
+                "denominator": "1",
+                "denominator_unit": "Unknown"
+              }
+            }
+          ]
+        },
+        {
+          "first_exposure_date": "20260501",
+          "last_exposure_date": "20260501",
+          "administered_by": "Unknown",
+          "route": "Unknown",
+          "lot_number": "not given",
+          "brand_name": "MSK",
+          "dosage_form": "Unassigned",
+          "manufacturer": {
+            "name": "MSK"
+          },
+          "active_ingredients": [
+            {
+              "name": "Oral Bordatella Vaccine",
+              "dose": {
+                "numerator": "1",
+                "numerator_unit": "Unknown",
+                "denominator": "1",
+                "denominator_unit": "Unknown"
+              }
+            }
+          ]
+        },
+        {
+          "first_exposure_date": "20260501",
+          "last_exposure_date": "20260501",
+          "administered_by": "Unknown",
+          "route": "Unknown",
+          "lot_number": "not given",
+          "brand_name": "MSK",
+          "dosage_form": "Unassigned",
+          "manufacturer": {
+            "name": "MSK"
+          },
+          "active_ingredients": [
+            {
+              "name": "Fluralaner",
+              "dose": {
+                "numerator": "1",
+                "numerator_unit": "Unknown",
+                "denominator": "1",
+                "denominator_unit": "Unknown"
+              }
+            }
+          ]
+        }
+      ],
+      "duration": {
+        "value": "1",
+        "unit": "Day"
+      },
+      "health_assessment_prior_to_exposure": {
+        "condition": "Good",
+        "assessed_by": "Veterinarian"
+      },
+      "onset_date": "20260501",
+      "foreign_or_domestic": "Domestic",
+      "report_id": "N141519",
+      "animal": {
+        "species": "Dog",
+        "gender": "Female",
+        "reproductive_status": "Unknown",
+        "female_animal_physiological_status": "Not applicable",
+        "age": {
+          "min": "11.00",
+          "unit": "Year",
+          "qualifier": "Measured"
+        },
+        "weight": {
+          "min": "35.743",
+          "unit": "Kilogram",
+          "qualifier": "Measured"
+        },
+        "breed": {
+          "is_crossbred": "false",
+          "breed_component": "Crossbred Canine/dog"
+        }
+      },
+      "type_of_information": "Safety Issue",
+      "serious_ae": "true",
+      "outcome": [
+        {
+          "medical_status": "Recovered/Normal",
+          "number_of_animals_affected": "1"
+        }
+      ]
+    },
+    {
+      "treated_for_ae": "false",
+      "reaction": [
+        {
+          "veddra_version": "21",
+          "veddra_term_code": "334",
+          "veddra_term_name": "Vomiting",
+          "number_of_animals_affected": "1",
+          "accuracy": "Actual"
+        }
+      ],
+      "receiver": {
+        "organization": "Food and Drug Administration Center for Veterinary Medicine",
+        "street_address": "7500 Standish Place (HFV-210) Room N403",
+        "city": "Rockville",
+        "state": "MD",
+        "postal_code": "20855",
+        "country": "USA"
+      },
+      "unique_aer_id_number": "USA-USFDACVM-2026-US-035558",
+      "original_receive_date": "20260626",
+      "number_of_animals_affected": "1",
+      "primary_reporter": "Animal Owner",
+      "number_of_animals_treated": "1",
+      "drug": [
+        {
+          "first_exposure_date": "20260626",
+          "last_exposure_date": "20260626",
+          "administered_by": "Animal Owner",
+          "route": "Oral",
+          "dose": {
+            "numerator": "48",
+            "numerator_unit": "Milligram",
+            "denominator": "1",
+            "denominator_unit": "Animal"
+          },
+          "used_according_to_label": "true",
+          "ae_abated_after_stopping_drug": "false",
+          "ae_reappeared_after_resuming_drug": "false",
+          "lot_number": "NOT GIVEN",
+          "brand_name": "MSK",
+          "dosage_form": "Tablet, chewable",
+          "manufacturer": {
+            "name": "MSK",
+            "registration_number": "USA-USFDACVM-N141521"
+          },
+          "atc_vet_code": "QP54AB52",
+          "active_ingredients": [
+            {
+              "name": "Pyrantel Pamoate;Sarolaner",
+              "dose": {
+                "numerator": "1",
+                "numerator_unit": "Unknown",
+                "denominator": "1",
+                "denominator_unit": "Unknown"
+              }
+            }
+          ]
+        }
+      ],
+      "health_assessment_prior_to_exposure": {
+        "condition": "Unknown",
+        "assessed_by": "Veterinarian"
+      },
+      "onset_date": "20260626",
+      "foreign_or_domestic": "Domestic",
+      "report_id": "N141521",
+      "animal": {
+        "species": "Dog",
+        "gender": "Female",
+        "reproductive_status": "Neutered",
+        "female_animal_physiological_status": "NOT APPLICABLE",
+        "age": {
+          "min": "18.00",
+          "unit": "Month",
+          "qualifier": "Measured"
+        },
+        "weight": {
+          "min": "25.855",
+          "unit": "Kilogram",
+          "qualifier": "Measured"
+        },
+        "breed": {
+          "is_crossbred": "false",
+          "breed_component": "Retriever - Golden"
+        }
+      },
+      "type_of_information": "Safety Issue",
+      "serious_ae": "false",
+      "outcome": [
+        {
+          "medical_status": "Recovered/Normal",
+          "number_of_animals_affected": "1"
+        }
+      ]
+    }
+  ]
+}

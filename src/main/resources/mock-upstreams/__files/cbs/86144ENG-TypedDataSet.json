@@ -1,0 +1,25 @@
+{
+  "odata.metadata":"https://opendata.cbs.nl/ODataFeed/OData/86144ENG/$metadata#Cbs.OData.WebAPI.TypedDataSet","value":[
+    {
+      "ID":111590,"ExpenditureCategories":"CPI094500","Periods":"2026MM01","HICP_1":103.93,"HICPConstantTaxes_2":103.93,"MonthlyRateOfChangeHICP_3":2.2,"MonthlyRateOfChangeHICPCT_4":2.2,"AnnualRateOfChangeHICP_5":5.6,"AnnualRateOfChangeHICPCT_6":5.6,"WeightingCoefficient_7":333
+    },{
+      "ID":111591,"ExpenditureCategories":"CPI094500","Periods":"2026MM02","HICP_1":103.93,"HICPConstantTaxes_2":103.93,"MonthlyRateOfChangeHICP_3":0.0,"MonthlyRateOfChangeHICPCT_4":0.0,"AnnualRateOfChangeHICP_5":5.6,"AnnualRateOfChangeHICPCT_6":5.6,"WeightingCoefficient_7":333
+    },{
+      "ID":111592,"ExpenditureCategories":"CPI094500","Periods":"2026MM03","HICP_1":103.93,"HICPConstantTaxes_2":103.93,"MonthlyRateOfChangeHICP_3":0.0,"MonthlyRateOfChangeHICPCT_4":0.0,"AnnualRateOfChangeHICP_5":5.6,"AnnualRateOfChangeHICPCT_6":5.6,"WeightingCoefficient_7":333
+    },{
+      "ID":111593,"ExpenditureCategories":"CPI094500","Periods":"2026MM04","HICP_1":106.28,"HICPConstantTaxes_2":106.28,"MonthlyRateOfChangeHICP_3":2.3,"MonthlyRateOfChangeHICPCT_4":2.3,"AnnualRateOfChangeHICP_5":6.3,"AnnualRateOfChangeHICPCT_6":6.3,"WeightingCoefficient_7":333
+    },{
+      "ID":111594,"ExpenditureCategories":"CPI094500","Periods":"2026MM05","HICP_1":106.28,"HICPConstantTaxes_2":106.28,"MonthlyRateOfChangeHICP_3":0.0,"MonthlyRateOfChangeHICPCT_4":0.0,"AnnualRateOfChangeHICP_5":6.3,"AnnualRateOfChangeHICPCT_6":6.3,"WeightingCoefficient_7":333
+    },{
+      "ID":111595,"ExpenditureCategories":"CPI094500","Periods":"2026MM06","HICP_1":106.28,"HICPConstantTaxes_2":106.28,"MonthlyRateOfChangeHICP_3":0.0,"MonthlyRateOfChangeHICPCT_4":0.0,"AnnualRateOfChangeHICP_5":6.3,"AnnualRateOfChangeHICPCT_6":6.3,"WeightingCoefficient_7":333
+    },{
+      "ID":111596,"ExpenditureCategories":"CPI094500","Periods":"2026MM07","HICP_1":106.38,"HICPConstantTaxes_2":106.38,"MonthlyRateOfChangeHICP_3":0.1,"MonthlyRateOfChangeHICPCT_4":0.1,"AnnualRateOfChangeHICP_5":6.6,"AnnualRateOfChangeHICPCT_6":6.6,"WeightingCoefficient_7":333
+    },{
+      "ID":111597,"ExpenditureCategories":"CPI094500","Periods":"2026MM08","HICP_1":106.38,"HICPConstantTaxes_2":106.38,"MonthlyRateOfChangeHICP_3":0.0,"MonthlyRateOfChangeHICPCT_4":0.0,"AnnualRateOfChangeHICP_5":6.6,"AnnualRateOfChangeHICPCT_6":6.6,"WeightingCoefficient_7":333
+    },{
+      "ID":111598,"ExpenditureCategories":"CPI094500","Periods":"2026MM09","HICP_1":106.38,"HICPConstantTaxes_2":106.38,"MonthlyRateOfChangeHICP_3":0.0,"MonthlyRateOfChangeHICPCT_4":0.0,"AnnualRateOfChangeHICP_5":6.6,"AnnualRateOfChangeHICPCT_6":6.6,"WeightingCoefficient_7":333
+    },{
+      "ID":111599,"ExpenditureCategories":"CPI094500","Periods":"2026MM10","HICP_1":107.32,"HICPConstantTaxes_2":107.32,"MonthlyRateOfChangeHICP_3":0.9,"MonthlyRateOfChangeHICPCT_4":0.9,"AnnualRateOfChangeHICP_5":5.5,"AnnualRateOfChangeHICPCT_6":5.5,"WeightingCoefficient_7":333
+    }
+  ]
+}

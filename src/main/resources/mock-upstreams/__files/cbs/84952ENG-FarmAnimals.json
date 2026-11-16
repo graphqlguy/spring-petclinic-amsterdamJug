@@ -1,0 +1,123 @@
+{
+  "odata.metadata":"https://opendata.cbs.nl/ODataFeed/OData/84952ENG/$metadata#Cbs.OData.WebAPI.FarmAnimals","value":[
+    {
+      "Key":"A028972","Title":"Cattle (total)","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A028977","Title":"Young cattle for milk (total)","Description":"Young stock - dairy cattle.","CategoryGroupID":1
+    },{
+      "Key":"A043973","Title":"Young cattle for milk, < 1 year, female","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A043974","Title":"Young cattle for milk, < 1 year, male","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A043975","Title":"Young cattle for milk, 1-2 years, female","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A043976","Title":"Young cattle for milk, 1-2 years, male","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A043977","Title":"Young cattle for milk, >= 2 years, fem.","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A028975","Title":"Dairy cows (>= 2 years)","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A028979","Title":"Veal calves (total)","Description":"Veal calves for the production of white veal or rose veal (under 1 year).","CategoryGroupID":1
+    },{
+      "Key":"A043978","Title":"Calves for ros\u00e9 meat (< 1 year)","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A043979","Title":"Calves for white meat (< 1 year)","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A043980","Title":"Young cattle for meat (total)","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A043981","Title":"Young cattle for meat < 1 year, female","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A043982","Title":"Young cattle for meat < 1 year, male","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A043983","Title":"Young cattle for meat 1-2 years, female","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A043984","Title":"Young cattle for meat 1-2 years, male","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A043985","Title":"Young cattle for meat >= 2 years, female","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A028976","Title":"Other cattle (total)","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A028982","Title":"Bulls (>= 2 years) (total)","Description":"","CategoryGroupID":1
+    },{
+      "Key":"A028984","Title":"Sheep (total)","Description":"","CategoryGroupID":2
+    },{
+      "Key":"A047792","Title":"Sheep 0 to 7 months","Description":"","CategoryGroupID":2
+    },{
+      "Key":"A047790","Title":"Sheep for milking 7 months to 1 year","Description":"","CategoryGroupID":2
+    },{
+      "Key":"A047791","Title":"Sheep for milking older than 1 year","Description":"","CategoryGroupID":2
+    },{
+      "Key":"A047785","Title":"Other sheep 7 months to 1 year","Description":"","CategoryGroupID":2
+    },{
+      "Key":"A047786","Title":"Other sheep older than 1 year","Description":"","CategoryGroupID":2
+    },{
+      "Key":"A047787","Title":"Rams >= 7 months","Description":"","CategoryGroupID":2
+    },{
+      "Key":"A028985","Title":"Goats (total)","Description":"","CategoryGroupID":3
+    },{
+      "Key":"A047772","Title":"Goats 0 to 7 months","Description":"","CategoryGroupID":3
+    },{
+      "Key":"A047777","Title":"Dairy goats 7 months to 1 year","Description":"","CategoryGroupID":3
+    },{
+      "Key":"A043995","Title":"Dairy goats 1 year or older","Description":"","CategoryGroupID":3
+    },{
+      "Key":"A047784","Title":"Other goats 7 months to 1 year","Description":"","CategoryGroupID":3
+    },{
+      "Key":"A043997","Title":"Other goats 1 year or older","Description":"","CategoryGroupID":3
+    },{
+      "Key":"A047767","Title":"Male goats 7 months or older","Description":"","CategoryGroupID":3
+    },{
+      "Key":"A028996","Title":"Chickens (total)","Description":"","CategoryGroupID":5
+    },{
+      "Key":"A028997","Title":"Laying hens (total)","Description":"Hens for the production of eggs for consumption.\r\nUntil 2004 includes parent birds of laying hens.","CategoryGroupID":5
+    },{
+      "Key":"A044003","Title":"Laying hens for rearing","Description":"Laying hens younger than 18 weeks","CategoryGroupID":5
+    },{
+      "Key":"A044004","Title":"Laying hens for production (< 20 months)","Description":"Laying hens, 18 weeks up to 20 months","CategoryGroupID":5
+    },{
+      "Key":"A044005","Title":"Laying hens for production (>=20 months)","Description":"Laying hens 20 months or older","CategoryGroupID":5
+    },{
+      "Key":"A044006","Title":"Breeding stock for laying hens (total)","Description":"","CategoryGroupID":5
+    },{
+      "Key":"A047778","Title":"Breeding stock for laying hens, rearing","Description":"","CategoryGroupID":5
+    },{
+      "Key":"A047779","Title":"Breeding stock for laying hens prod.","Description":"Breeding stock for laying hens for production","CategoryGroupID":5
+    },{
+      "Key":"A028999","Title":"Broilers","Description":"Chicks of meat breeds, that are slaughtered about 6 weeks old.","CategoryGroupID":5
+    },{
+      "Key":"A028998","Title":"Breeding stock for broilers (total)","Description":"Broiler breeders (hens and roosters). Before 1995 the agricultural census only regsiterd the number of hens.","CategoryGroupID":5
+    },{
+      "Key":"A047780","Title":"Breeding stock for broilers, rearing","Description":"","CategoryGroupID":5
+    },{
+      "Key":"A047781","Title":"Breeding stock for broilers; production","Description":"","CategoryGroupID":5
+    },{
+      "Key":"A029000","Title":"Ducks for slaughter","Description":"","CategoryGroupID":6
+    },{
+      "Key":"A029001","Title":"Turkeys","Description":"","CategoryGroupID":6
+    },{
+      "Key":"A028991","Title":"Pigs (total)","Description":"","CategoryGroupID":7
+    },{
+      "Key":"A044023","Title":"Piglets < 20 kg, still with the sow","Description":"","CategoryGroupID":7
+    },{
+      "Key":"A047773","Title":"Young pigs < 50 kg","Description":"","CategoryGroupID":7
+    },{
+      "Key":"A044019","Title":"Pigs for fattening, >=50 kg (total)","Description":"","CategoryGroupID":7
+    },{
+      "Key":"A044020","Title":"Pigs for fattening, 50 - 80 kg","Description":"","CategoryGroupID":7
+    },{
+      "Key":"A044021","Title":"Pigs for fattening, 80 - 110 kg","Description":"","CategoryGroupID":7
+    },{
+      "Key":"A044022","Title":"Pigs for fattening, >= 110 kg","Description":"","CategoryGroupID":7
+    },{
+      "Key":"A047768","Title":"Breeding pigs >= 50 kg","Description":"","CategoryGroupID":7
+    },{
+      "Key":"A044013","Title":"Sows, >= 50 kg, mated","Description":"","CategoryGroupID":7
+    },{
+      "Key":"A044014","Title":"Sows, >= 50 kg, with piglets","Description":"","CategoryGroupID":7
+    },{
+      "Key":"A047774","Title":"Young sows","Description":"","CategoryGroupID":7
+    },{
+      "Key":"A047783","Title":"Other breeding pigs","Description":"","CategoryGroupID":7
+    }
+  ]
+}

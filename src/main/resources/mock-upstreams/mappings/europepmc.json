@@ -1,0 +1,119 @@
+{
+ "mappings": [
+  {
+   "name": "Europe PMC searchPublications: an empty query",
+   "priority": 1,
+   "request": {
+    "method": "POST",
+    "urlPath": "/europepmc/europepmc/webservices/soap",
+    "bodyPatterns": [
+     {
+      "matchesXPath": "//*[local-name()='searchPublications'][not(normalize-space(queryString))]"
+     }
+    ]
+   },
+   "response": {
+    "status": 500,
+    "headers": {
+     "Content-Type": "text/xml;charset=UTF-8"
+    },
+    "bodyFileName": "europepmc/fault-no-query.txt"
+   },
+   "metadata": {
+    "description": "Recorded for an empty queryString: a SOAP fault with HTTP status 500"
+   }
+  },
+  {
+   "name": "Europe PMC searchPublications",
+   "priority": 2,
+   "request": {
+    "method": "POST",
+    "urlPath": "/europepmc/europepmc/webservices/soap",
+    "bodyPatterns": [
+     {
+      "matchesXPath": "//*[local-name()='searchPublications']"
+     }
+    ]
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "multipart/related; type=\"text/xml\"; boundary=\"uuid:b7c3d28c-d27c-48d3-aeeb-7e02c621ec0b\"; start=\"<root.message@cxf.apache.org>\"; start-info=\"text/xml\""
+    },
+    "bodyFileName": "europepmc/searchPublications.txt"
+   },
+   "metadata": {
+    "description": "Recorded from https://www.ebi.ac.uk/europepmc/webservices/soap for the query canine parvovirus vaccine with resultType lite and pageSize 3, and served for any query. The answer is multipart/related, as Europe PMC sends it"
+   }
+  },
+  {
+   "name": "Europe PMC getCitations: a publication without citations",
+   "priority": 1,
+   "request": {
+    "method": "POST",
+    "urlPath": "/europepmc/europepmc/webservices/soap",
+    "bodyPatterns": [
+     {
+      "matchesXPath": "//*[local-name()='getCitations'][id='0']"
+     }
+    ]
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "multipart/related; type=\"text/xml\"; boundary=\"uuid:107090d9-a3f4-4b08-9ea3-a15be37e8800\"; start=\"<root.message@cxf.apache.org>\"; start-info=\"text/xml\""
+    },
+    "bodyFileName": "europepmc/getCitations-none.txt"
+   },
+   "metadata": {
+    "description": "Recorded for the id 0"
+   }
+  },
+  {
+   "name": "Europe PMC getCitations",
+   "priority": 2,
+   "request": {
+    "method": "POST",
+    "urlPath": "/europepmc/europepmc/webservices/soap",
+    "bodyPatterns": [
+     {
+      "matchesXPath": "//*[local-name()='getCitations']"
+     }
+    ]
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "multipart/related; type=\"text/xml\"; boundary=\"uuid:6a238c27-82d8-4fa2-b02c-8812cc875cb5\"; start=\"<root.message@cxf.apache.org>\"; start-info=\"text/xml\""
+    },
+    "bodyFileName": "europepmc/getCitations.txt"
+   },
+   "metadata": {
+    "description": "Recorded from https://www.ebi.ac.uk/europepmc/webservices/soap for the id 37766175 of the source MED with pageSize 3, and served for any id"
+   }
+  },
+  {
+   "name": "Europe PMC getReferences",
+   "priority": 2,
+   "request": {
+    "method": "POST",
+    "urlPath": "/europepmc/europepmc/webservices/soap",
+    "bodyPatterns": [
+     {
+      "matchesXPath": "//*[local-name()='getReferences']"
+     }
+    ]
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "multipart/related; type=\"text/xml\"; boundary=\"uuid:9b578324-960a-484e-b0a1-ce811076ebd5\"; start=\"<root.message@cxf.apache.org>\"; start-info=\"text/xml\""
+    },
+    "bodyFileName": "europepmc/getReferences.txt"
+   },
+   "metadata": {
+    "description": "Recorded from https://www.ebi.ac.uk/europepmc/webservices/soap for the id 37766175 of the source MED with pageSize 3, and served for any id"
+   }
+  }
+ ]
+}

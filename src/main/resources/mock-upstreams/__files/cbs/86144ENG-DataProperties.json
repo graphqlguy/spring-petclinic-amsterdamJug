@@ -1,0 +1,23 @@
+{
+  "odata.metadata":"https://opendata.cbs.nl/ODataFeed/OData/86144ENG/$metadata#Cbs.OData.WebAPI.DataProperties","value":[
+    {
+      "odata.type":"Cbs.OData.Dimension","ID":0,"Position":0,"ParentID":null,"Type":"Dimension","Key":"ExpenditureCategories","Title":"Expenditure categories","Description":""
+    },{
+      "odata.type":"Cbs.OData.TimeDimension","ID":1,"Position":1,"ParentID":null,"Type":"TimeDimension","Key":"Periods","Title":"Periods","Description":"","ReleasePolicy":true
+    },{
+      "odata.type":"Cbs.OData.Topic","ID":2,"Position":2,"ParentID":null,"Type":"Topic","Key":"HICP_1","Title":"HICP","Description":"Index number that measures the price change of goods and services purchased by consumers for their own consumption on Dutch territory.","Datatype":"Double","Unit":"2025=100","Decimals":2,"Default":"Impossible"
+    },{
+      "odata.type":"Cbs.OData.Topic","ID":3,"Position":3,"ParentID":null,"Type":"Topic","Key":"HICPConstantTaxes_2","Title":"HICP constant taxes","Description":"The HICP constant taxes excludes the effect of changes in the rates of product-related taxes (e.g. VAT and duty on alcohol and tobacco) and subsidies.","Datatype":"Double","Unit":"2025=100","Decimals":2,"Default":"Impossible"
+    },{
+      "odata.type":"Cbs.OData.Topic","ID":4,"Position":4,"ParentID":null,"Type":"Topic","Key":"MonthlyRateOfChangeHICP_3","Title":"Monthly rate of change HICP","Description":"Percentage change of the HICP compared with previous month.","Datatype":"Double","Unit":"%","Decimals":1,"Default":"Impossible"
+    },{
+      "odata.type":"Cbs.OData.Topic","ID":5,"Position":5,"ParentID":null,"Type":"Topic","Key":"MonthlyRateOfChangeHICPCT_4","Title":"Monthly rate of change HICP-CT","Description":"Percentage change of the HICP constant taxes compared with previous month.","Datatype":"Double","Unit":"%","Decimals":1,"Default":"Impossible"
+    },{
+      "odata.type":"Cbs.OData.Topic","ID":6,"Position":6,"ParentID":null,"Type":"Topic","Key":"AnnualRateOfChangeHICP_5","Title":"Annual rate of change HICP","Description":"Percentage change of the HICP compared with the same period previous year.","Datatype":"Double","Unit":"%","Decimals":1,"Default":"Impossible"
+    },{
+      "odata.type":"Cbs.OData.Topic","ID":7,"Position":7,"ParentID":null,"Type":"Topic","Key":"AnnualRateOfChangeHICPCT_6","Title":"Annual rate of change HICP-CT","Description":"Percentage change of the HICP constant taxes compared with the same period previous year.","Datatype":"Double","Unit":"%","Decimals":1,"Default":"Impossible"
+    },{
+      "odata.type":"Cbs.OData.Topic","ID":8,"Position":8,"ParentID":null,"Type":"Topic","Key":"WeightingCoefficient_7","Title":"Weighting coefficient","Description":"The weighting coefficient reflects the share (in hundred thousandths) of the total consumer expenditure.","Datatype":"Long","Unit":"Coefficient","Decimals":0,"Default":"Impossible"
+    }
+  ]
+}

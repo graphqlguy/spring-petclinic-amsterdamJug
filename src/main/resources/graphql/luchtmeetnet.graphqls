@@ -1,0 +1,316 @@
+# Luchtmeetnet is the air quality network of the Netherlands, run by the national health
+# institute RIVM, GGD Amsterdam and the regional environment agencies. Its API at
+# https://api.luchtmeetnet.nl/open_api publishes the stations and their hourly measurements.
+# Each field below is one GET request. The arguments go to Luchtmeetnet as query parameters
+# of the same name, and the answer comes back with the names Luchtmeetnet gives its attributes.
+
+extend type Query {
+
+	"The stations that measure the air quality in the Netherlands, 25 on a page: GET /open_api/stations."
+	luchtmeetnetStations(
+		"The page to return, starting at 1."
+		page: Int
+		"The attribute to sort by, for example number."
+		order_by: String
+		"The id of an organisation from luchtmeetnetOrganisations, to list its stations only. GGD Amsterdam is 4."
+		organisation_id: Int
+	): LuchtmeetnetStations
+
+	"One station, with its place and what it measures: GET /open_api/stations/{number}. Null when Luchtmeetnet does not have it."
+	luchtmeetnetStation(
+		"The number of the station, for example NL49012 for Amsterdam-Van Diemenstraat."
+		number: String!
+	): LuchtmeetnetStationAnswer
+
+	"""
+	The hourly measurements of one station, latest first: GET /open_api/stations/{number}/measurements.
+	Null when Luchtmeetnet does not have the station.
+	"""
+	luchtmeetnetStationMeasurements(
+		"The number of the station, for example NL49012."
+		number: String!
+		"The page to return, starting at 1."
+		page: Int
+		"The attribute to sort by, for example timestamp_measured."
+		order: String
+		"The direction of the sort: asc or desc."
+		order_direction: String
+		"The formula of a component, to return its measurements only, for example NO2."
+		formula: String
+	): LuchtmeetnetMeasurements
+
+	"""
+	The hourly measurements of all stations: GET /open_api/measurements.
+	Luchtmeetnet answers at most 7 days at a time. For a longer period, or without start and end, it answers
+	the last 7 days of the period.
+	"""
+	luchtmeetnetMeasurements(
+		"The number of a station, to return its measurements only, for example NL49012."
+		station_number: String
+		"The formula of a component, to return its measurements only, for example NO2."
+		formula: String
+		"The page to return, starting at 1."
+		page: Int
+		"The attribute to sort by, for example timestamp_measured."
+		order_by: String
+		"The direction of the sort: asc or desc."
+		order_direction: String
+		"The start of the period, for example 2026-11-14T00:00:00."
+		start: String
+		"The end of the period, for example 2026-11-14T06:00:00."
+		end: String
+	): LuchtmeetnetMeasurements
+
+	"""
+	The air quality index (LKI, luchtkwaliteitsindex) that Luchtmeetnet calculates for each station and hour:
+	GET /open_api/lki. The index runs from 1 for good air to 11 for very bad air.
+	Luchtmeetnet answers at most 7 days at a time.
+	"""
+	luchtmeetnetLki(
+		"The number of a station, to return its index only, for example NL49012."
+		station_number: String
+		"The page to return, starting at 1. A page holds 100 values."
+		page: Int
+		"The attribute to sort by, for example timestamp_measured."
+		order_by: String
+		"The direction of the sort: asc or desc."
+		order_direction: String
+		"The start of the period, for example 2026-11-14T00:00:00."
+		start: String
+		"The end of the period, for example 2026-11-14T06:00:00."
+		end: String
+	): LuchtmeetnetLkiValues
+
+	"""
+	The current and the predicted concentrations of one component at a place, hour by hour:
+	GET /open_api/concentrations.
+	"""
+	luchtmeetnetConcentrations(
+		"The component: LKI, NO2, O3, PM10 or PM25."
+		formula: String!
+		"The latitude of the place in degrees (WGS 84), for example 52.37 for Amsterdam."
+		latitude: Float!
+		"The longitude of the place in degrees (WGS 84), for example 4.89 for Amsterdam."
+		longitude: Float!
+	): LuchtmeetnetConcentrations
+
+	"The components that the stations measure, such as nitrogen dioxide and particulate matter: GET /open_api/components."
+	luchtmeetnetComponents(
+		"The page to return, starting at 1."
+		page: Int
+		"The attribute to sort by, for example formula."
+		order_by: String
+	): LuchtmeetnetComponents
+
+	"One component, with its description and its limits: GET /open_api/components/{formula}. Null when Luchtmeetnet does not have it."
+	luchtmeetnetComponent(
+		"The formula of the component, for example NO2."
+		formula: String!
+	): LuchtmeetnetComponentAnswer
+
+	"The organisations that run the stations: GET /open_api/organisations."
+	luchtmeetnetOrganisations(
+		"The page to return, starting at 1."
+		page: Int
+	): LuchtmeetnetOrganisations
+}
+
+"The paging of a list of Luchtmeetnet."
+type LuchtmeetnetPagination {
+	"The number of the first page."
+	first_page: Int
+	"The number of the page before this one."
+	prev_page: Int
+	"The numbers of all pages."
+	page_list: [Int!]
+	"The number of this page."
+	current_page: Int
+	"The number of the last page."
+	last_page: Int
+	"The number of the page after this one."
+	next_page: Int
+}
+
+"A text in Dutch and in English."
+type LuchtmeetnetText {
+	"The text in Dutch."
+	NL: String
+	"The text in English."
+	EN: String
+}
+
+"One page of stations."
+type LuchtmeetnetStations {
+	"The paging of the list."
+	pagination: LuchtmeetnetPagination
+	"The stations of this page."
+	data: [LuchtmeetnetStationSummary!]
+}
+
+"A station in the list of stations."
+type LuchtmeetnetStationSummary {
+	"The number of the station, for example NL49012."
+	number: String
+	"The name of the location, for example Amsterdam-Van Diemenstraat."
+	location: String
+}
+
+"The answer for one station."
+type LuchtmeetnetStationAnswer {
+	"The station."
+	data: LuchtmeetnetStation
+}
+
+"A station that measures the air quality."
+type LuchtmeetnetStation {
+	"The name of the location."
+	location: String
+	"A description of the station in English and in Dutch."
+	description: LuchtmeetnetText
+	"The geographical location of the station."
+	geometry: LuchtmeetnetGeometry
+	"The kind of place the station stands in: regional, municipal, traffic, industrial or other."
+	type: String
+	"The name of the municipality."
+	municipality: String
+	"The name of the province."
+	province: String
+	"The name of the organisation that runs the station."
+	organisation: String
+	"The year the station was started."
+	year_start: String
+	"A web address with more about the station."
+	url: String
+	"The formulas of the components the station measures."
+	components: [String!]
+}
+
+"A point on the map, as GeoJSON."
+type LuchtmeetnetGeometry {
+	"The kind of geometry: point."
+	type: String
+	"The longitude and then the latitude, in degrees."
+	coordinates: [Float!]
+}
+
+"One page of measurements."
+type LuchtmeetnetMeasurements {
+	"The paging of the list."
+	pagination: LuchtmeetnetPagination
+	"The measurements of this page."
+	data: [LuchtmeetnetMeasurement!]
+}
+
+"One hourly measurement of one component at one station."
+type LuchtmeetnetMeasurement {
+	"The number of the station. The measurements of one station leave it out."
+	station_number: String
+	"The measured value in micrograms per cubic metre (μg/m3)."
+	value: Float
+	"The formula of the measured component, for example NO2."
+	formula: String
+	"When the measurement was made, as ISO 8601, for example 2026-11-14T00:00:00+00:00."
+	timestamp_measured: String
+	"The start of the hour the measurement covers."
+	timestamp_measured_start: String
+	"The end of the hour the measurement covers."
+	timestamp_measured_end: String
+}
+
+"One page of the air quality index."
+type LuchtmeetnetLkiValues {
+	"The paging of the list."
+	pagination: LuchtmeetnetPagination
+	"The values of this page."
+	data: [LuchtmeetnetLkiValue!]
+}
+
+"The air quality index of one station in one hour."
+type LuchtmeetnetLkiValue {
+	"The number of the station."
+	station_number: String
+	"Always LKI."
+	formula: String
+	"The index, from 1 for good air to 11 for very bad air."
+	value: Float
+	"The hour the index is for, as ISO 8601."
+	timestamp_measured: String
+}
+
+"The concentrations of one component at a place."
+type LuchtmeetnetConcentrations {
+	"The concentrations, one for each hour."
+	data: [LuchtmeetnetConcentration!]
+}
+
+"The concentration of one component at a place in one hour."
+type LuchtmeetnetConcentration {
+	"The component: LKI, NO2, O3, PM10 or PM25."
+	formula: String
+	"The concentration in micrograms per cubic metre (μg/m3), or the index from 1 to 11 for LKI."
+	value: Float
+	"The hour the value is for, as ISO 8601. An hour in the future holds a prediction."
+	timestamp_measured: String
+}
+
+"One page of components."
+type LuchtmeetnetComponents {
+	"The paging of the list."
+	pagination: LuchtmeetnetPagination
+	"The components of this page."
+	data: [LuchtmeetnetComponentSummary!]
+}
+
+"A component in the list of components."
+type LuchtmeetnetComponentSummary {
+	"The chemical formula of the component, for example NO2."
+	formula: String
+	"The name of the component in English and in Dutch."
+	name: LuchtmeetnetText
+}
+
+"The answer for one component."
+type LuchtmeetnetComponentAnswer {
+	"The component."
+	data: LuchtmeetnetComponent
+}
+
+"A substance in the air that the stations measure."
+type LuchtmeetnetComponent {
+	"The chemical formula of the component, for example NO2."
+	formula: String
+	"The name of the component in English and in Dutch."
+	name: LuchtmeetnetText
+	"A description of the component in English and in Dutch. Luchtmeetnet sends each text as the JSON document of its editor."
+	description: LuchtmeetnetText
+	"The levels that Luchtmeetnet rates a concentration of this component by."
+	limits: [LuchtmeetnetLimit!]
+}
+
+"One level of a component: concentrations from lowerband to upperband get this rating."
+type LuchtmeetnetLimit {
+	"The rating of the level, from 1 for the lowest concentrations to 11 for the highest."
+	rating: Int
+	"The concentration the level starts at, in micrograms per cubic metre. Null for the lowest level."
+	lowerband: Float
+	"The concentration the level ends at, in micrograms per cubic metre."
+	upperband: Float
+	"The colour the Luchtmeetnet website shows the level in, as a hex code."
+	color: String
+}
+
+"One page of organisations."
+type LuchtmeetnetOrganisations {
+	"The paging of the list."
+	pagination: LuchtmeetnetPagination
+	"The organisations of this page."
+	data: [LuchtmeetnetOrganisation!]
+}
+
+"An organisation that runs stations."
+type LuchtmeetnetOrganisation {
+	"The id of the organisation, which the organisation_id argument of luchtmeetnetStations takes."
+	id: Int
+	"The name of the organisation in English and in Dutch."
+	name: LuchtmeetnetText
+}

@@ -1,0 +1,262 @@
+# iNaturalist is a community of naturalists who share sightings of animals and plants, run by a
+# non-profit in California. Its API at https://api.inaturalist.org/v1 reads without a key. Each
+# field below is one GET request, named after the operation in the API document. The arguments go
+# to iNaturalist as query parameters of the same name, and the answer comes back with the names
+# iNaturalist gives its fields. An argument that takes several values takes them separated by
+# commas, as the API does.
+
+extend type Query {
+
+	"""
+	Places whose name starts with a text, such as a city, a park or a country: GET /v1/places/autocomplete.
+	The id of a place filters inaturalistObservationSpeciesCounts. Amsterdam is 17309.
+	"""
+	inaturalistPlaceAutocomplete(
+		"The start of the name, or an ID for an exact match. Example: Amsterdam, NH"
+		q: String!
+		"The field to sort by, for example area."
+		order_by: String
+		"The number of places to return."
+		per_page: Int
+	): InaturalistPlaces
+
+	"The places with an ID: GET /v1/places/{id}. The results are empty when iNaturalist does not have the place."
+	inaturalistPlaceDetails(
+		"The ID or the slug of a place, or several IDs separated by commas. Example: 17309"
+		id: String!
+	): InaturalistPlaces
+
+	"Animals, plants and other taxa that match the search: GET /v1/taxa. The most observed come first."
+	inaturalistTaxonSearch(
+		"The start of a name, scientific or common, or an ID for an exact match. Example: dog"
+		q: String
+		"Whether the taxon is active, which means iNaturalist uses it for new sightings."
+		is_active: Boolean
+		"The ID of the parent of the taxon."
+		parent_id: Int
+		"The rank of the taxon, or several separated by commas. Example: species"
+		rank: String
+		"The level of the rank, for example 70 for kingdom, 50 for class, 40 for order, 30 for family, 20 for genus and 10 for species."
+		rank_level: Int
+		"The number of taxa on a page, at most 200."
+		per_page: Int
+		"The page to return, starting at 1."
+		page: Int
+		"The language of the common names, for example en or nl."
+		locale: String
+		"The ID of a place, to prefer the common names used there."
+		preferred_place_id: Int
+		"The direction of the sort: asc or desc."
+		order: String
+		"The field to sort by, for example observations_count."
+		order_by: String
+	): InaturalistTaxa
+
+	"""
+	The taxa with an ID, each with its ancestors and its children: GET /v1/taxa/{id}.
+	The results are empty when iNaturalist does not have the taxon.
+	"""
+	inaturalistTaxonDetails(
+		"The ID of a taxon, or up to 30 separated by commas. Example: 47144 for the domestic dog."
+		id: String!
+	): InaturalistTaxa
+
+	"Taxa whose name starts with a text: GET /v1/taxa/autocomplete."
+	inaturalistTaxonAutocomplete(
+		"The start of a name, scientific or common, or an ID for an exact match. Example: hedgehog"
+		q: String!
+		"Whether the taxon is active, which means iNaturalist uses it for new sightings."
+		is_active: Boolean
+		"The ID of a taxon, to search among it and its descendants only. Several go separated by commas."
+		taxon_id: String
+		"The rank of the taxon, or several separated by commas. Example: species"
+		rank: String
+		"The level of the rank, for example 20 for genus and 10 for species."
+		rank_level: Int
+		"The number of taxa to return, at most 30."
+		per_page: Int
+		"The language of the common names, for example en or nl."
+		locale: String
+		"The ID of a place, to prefer the common names used there."
+		preferred_place_id: Int
+	): InaturalistTaxa
+
+	"""
+	The species that were observed, each with its number of observations, most observed first:
+	GET /v1/observations/species_counts.
+	For example, the mammals seen in Amsterdam in 2026: place_id 17309, iconic_taxa Mammalia, year 2026.
+	The API has 103 parameters for this operation, and the arguments below are the ones about place, taxon and time.
+	"""
+	inaturalistObservationSpeciesCounts(
+		"The ID of the place the observation was made in, or several separated by commas. Amsterdam is 17309."
+		place_id: String
+		"The ID of a taxon, to count observations of it and its descendants only. Several go separated by commas."
+		taxon_id: String
+		"The iconic taxon the species belongs to, or several separated by commas: Mammalia, Aves, Reptilia, Amphibia, Actinopterygii, Mollusca, Arachnida, Insecta, Plantae, Fungi, Protozoa, Chromista or Animalia."
+		iconic_taxa: String
+		"The year of the observation, or several separated by commas."
+		year: String
+		"The month of the observation as a number from 1 to 12, or several separated by commas."
+		month: String
+		"The first day of the observations, written YYYY-MM-DD."
+		d1: String
+		"The last day of the observations, written YYYY-MM-DD."
+		d2: String
+		"The latitude of the centre of a circle to search in. It goes with lng and radius."
+		lat: Float
+		"The longitude of the centre of the circle."
+		lng: Float
+		"The radius of the circle in kilometres."
+		radius: Float
+		"The quality of the observation: casual, needs_id or research."
+		quality_grade: String
+		"Whether the animal was captive or the plant cultivated."
+		captive: Boolean
+		"Whether the species is native to the place of the observation."
+		native: Boolean
+		"Whether the species was introduced to the place of the observation."
+		introduced: Boolean
+		"The language of the common names, for example en or nl."
+		locale: String
+		"The ID of a place, to prefer the common names used there."
+		preferred_place_id: Int
+		"The page to return, starting at 1."
+		page: Int
+		"The number of species on a page, at most 500."
+		per_page: Int
+	): InaturalistSpeciesCounts
+}
+
+"One page of places."
+type InaturalistPlaces {
+	"The number of places that match."
+	total_results: Int
+	"The number of this page."
+	page: Int
+	"The number of places on a page."
+	per_page: Int
+	"The places of this page."
+	results: [InaturalistPlace!]
+}
+
+"A place in iNaturalist, such as a country, a city or a park."
+type InaturalistPlace {
+	"The ID of the place, which the place_id argument takes."
+	id: Int
+	"The universally unique identifier of the place."
+	uuid: String
+	"The name of the place in a web address, for example amsterdam-noord-holland-nl."
+	slug: String
+	"The name of the place, for example Amsterdam."
+	name: String
+	"The name with the region and the country, for example Amsterdam, NH, NL."
+	display_name: String
+	"The administrative level: -10 for a continent, 0 for a country, 10 for a state, 20 for a county, 30 for a town, 100 for a park. Null for a place the community added."
+	admin_level: Int
+	"The IDs of the places this place lies in, largest first, ending with its own ID."
+	ancestor_place_ids: [Int!]
+	"The centre of the place, as latitude,longitude."
+	location: String
+}
+
+"One page of taxa."
+type InaturalistTaxa {
+	"The number of taxa that match."
+	total_results: Int
+	"The number of this page."
+	page: Int
+	"The number of taxa on a page."
+	per_page: Int
+	"The taxa of this page."
+	results: [InaturalistTaxon!]
+}
+
+"One page of species with their number of observations."
+type InaturalistSpeciesCounts {
+	"The number of species that match."
+	total_results: Int
+	"The number of this page."
+	page: Int
+	"The number of species on a page."
+	per_page: Int
+	"The species of this page."
+	results: [InaturalistSpeciesCount!]
+}
+
+"One species with its number of observations."
+type InaturalistSpeciesCount {
+	"The number of observations of the species that match."
+	count: Int
+	"The species."
+	taxon: InaturalistTaxon
+}
+
+"A species or another group of animals or plants in iNaturalist."
+type InaturalistTaxon {
+	"The ID of the taxon, which the taxon_id argument takes."
+	id: Int
+	"The rank, for example species, genus or family."
+	rank: String
+	"The level of the rank: 70 for kingdom, 50 for class, 40 for order, 30 for family, 20 for genus, 10 for species."
+	rank_level: Float
+	"The scientific name, for example Canis familiaris."
+	name: String
+	"The common name iNaturalist prefers for the locale, for example Domestic Dog."
+	preferred_common_name: String
+	"The name that matched the search text."
+	matched_term: String
+	"The ID of the iconic taxon the taxon belongs to."
+	iconic_taxon_id: Int
+	"The name of the iconic taxon, one of the large groups iNaturalist shows with an icon, for example Mammalia or Aves."
+	iconic_taxon_name: String
+	"The ID of the parent of the taxon."
+	parent_id: Int
+	"The IDs of the ancestors, highest rank first."
+	ancestor_ids: [Int!]
+	"The IDs of the ancestors as one text with slashes between them."
+	ancestry: String
+	"Whether iNaturalist uses the taxon for new sightings."
+	is_active: Boolean
+	"Whether the taxon is extinct."
+	extinct: Boolean
+	"The number of observations of the taxon in all of iNaturalist."
+	observations_count: Int
+	"The web address of the Wikipedia article."
+	wikipedia_url: String
+	"The start of the Wikipedia article, as HTML. Taxon details only."
+	wikipedia_summary: String
+	"The photo iNaturalist shows for the taxon."
+	default_photo: InaturalistPhoto
+	"The ancestors of the taxon, highest rank first. Taxon details only."
+	ancestors: [InaturalistTaxon!]
+	"The taxa directly below the taxon. Taxon details only."
+	children: [InaturalistTaxon!]
+	"How the species came to the place of the search: native, endemic or introduced. Species counts for a place only."
+	preferred_establishment_means: String
+	"How the species came to a place, with the place. Species counts for a place only."
+	establishment_means: InaturalistEstablishmentMeans
+}
+
+"How a species came to a place."
+type InaturalistEstablishmentMeans {
+	"native, endemic or introduced."
+	establishment_means: String
+	"The place it holds for."
+	place: InaturalistPlace
+}
+
+"A photo of a taxon."
+type InaturalistPhoto {
+	"The ID of the photo."
+	id: Int
+	"The code of the licence, for example cc-by-nc. Null when all rights are reserved."
+	license_code: String
+	"The credit line of the photo, which names the photographer and the licence."
+	attribution: String
+	"The web address of the photo as a small square."
+	url: String
+	"The web address of the photo as a small square."
+	square_url: String
+	"The web address of the photo at medium size."
+	medium_url: String
+}

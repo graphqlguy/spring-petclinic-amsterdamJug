@@ -1,0 +1,21 @@
+{
+  "odata.metadata":"https://opendata.cbs.nl/ODataFeed/OData/86141ENG/$metadata#Cbs.OData.WebAPI.CategoryGroups","value":[
+    {
+      "ID":0,"DimensionKey":"ExpenditureCategories","Title":"All groups","Description":"","ParentID":null
+    },{
+      "ID":1,"DimensionKey":"ExpenditureCategories","Title":"All items","Description":null,"ParentID":0
+    },{
+      "ID":2,"DimensionKey":"ExpenditureCategories","Title":"Divisions","Description":"Divisions contain the first level of the ECOICOP classification ","ParentID":0
+    },{
+      "ID":3,"DimensionKey":"ExpenditureCategories","Title":"Groups","Description":"Groups contain the second level of the ECOICOP classification ","ParentID":0
+    },{
+      "ID":4,"DimensionKey":"ExpenditureCategories","Title":"Classes","Description":"Classes contain the third level of the ECOICOP classification ","ParentID":0
+    },{
+      "ID":5,"DimensionKey":"ExpenditureCategories","Title":"Subclasses","Description":"Subclasses contain the fourth level of the ECOICOP classification ","ParentID":0
+    },{
+      "ID":6,"DimensionKey":"ExpenditureCategories","Title":"Microclasses","Description":"Microclasses contain the fifth level of the ECOICOP classification","ParentID":0
+    },{
+      "ID":7,"DimensionKey":"ExpenditureCategories","Title":"Special aggregates","Description":null,"ParentID":0
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "odata.metadata":"https://opendata.cbs.nl/ODataFeed/OData/84952ENG/$metadata#Cbs.OData.WebAPI.Periods","value":[
+    {
+      "Key":"2018MM04","Title":"2018 April","Description":"","Status":"Definitief"
+    },{
+      "Key":"2018MM12","Title":"2018 December","Description":"","Status":"Definitief"
+    },{
+      "Key":"2019MM04","Title":"2019 April","Description":"","Status":"Definitief"
+    },{
+      "Key":"2019MM12","Title":"2019 December","Description":"","Status":"Definitief"
+    },{
+      "Key":"2020MM04","Title":"2020 April","Description":"","Status":"Definitief"
+    },{
+      "Key":"2020MM12","Title":"2020 December","Description":"","Status":"Definitief"
+    },{
+      "Key":"2021MM04","Title":"2021 April","Description":"","Status":"Definitief"
+    },{
+      "Key":"2021MM12","Title":"2021 December","Description":"","Status":"Definitief"
+    },{
+      "Key":"2022MM04","Title":"2022 April","Description":"","Status":"Definitief"
+    },{
+      "Key":"2022MM12","Title":"2022 December","Description":"Provisional figures","Status":"Definitief"
+    },{
+      "Key":"2023MM04","Title":"2023 April","Description":"","Status":"Definitief"
+    },{
+      "Key":"2023MM12","Title":"2023 December","Description":"","Status":"Definitief"
+    },{
+      "Key":"2024MM04","Title":"2024 April","Description":"","Status":"Definitief"
+    },{
+      "Key":"2024MM12","Title":"2024 December","Description":"","Status":"Definitief"
+    },{
+      "Key":"2025MM04","Title":"2025 April","Description":"","Status":"Definitief"
+    },{
+      "Key":"2025MM12","Title":"2025 December","Description":"Provisional figures","Status":"Voorlopig"
+    },{
+      "Key":"2026MM04","Title":"2026 April","Description":"Provisional figures","Status":"Voorlopig"
+    }
+  ]
+}

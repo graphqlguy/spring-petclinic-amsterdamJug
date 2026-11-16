@@ -1,0 +1,25 @@
+{
+  "odata.metadata":"https://opendata.cbs.nl/ODataFeed/OData/86141ENG/$metadata#Cbs.OData.WebAPI.Periods","value":[
+    {
+      "Key":"2026MM01","Title":"2026 January","Description":"","Status":"Definitief"
+    },{
+      "Key":"2026MM02","Title":"2026 February","Description":"","Status":"Definitief"
+    },{
+      "Key":"2026MM03","Title":"2026 March","Description":"","Status":"Definitief"
+    },{
+      "Key":"2026MM04","Title":"2026 April","Description":"","Status":"Definitief"
+    },{
+      "Key":"2026MM05","Title":"2026 May","Description":"","Status":"Definitief"
+    },{
+      "Key":"2026MM06","Title":"2026 June","Description":"","Status":"Definitief"
+    },{
+      "Key":"2026MM07","Title":"2026 July","Description":"","Status":"Definitief"
+    },{
+      "Key":"2026MM08","Title":"2026 August","Description":"","Status":"Definitief"
+    },{
+      "Key":"2026MM09","Title":"2026 September","Description":"","Status":"Definitief"
+    },{
+      "Key":"2026MM10","Title":"2026 October","Description":"Provisional figures.","Status":"Voorlopig"
+    }
+  ]
+}

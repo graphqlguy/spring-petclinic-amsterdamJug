@@ -1,0 +1,153 @@
+{
+ "mappings": [
+  {
+   "name": "Amsterdam signals geography: a category that does not exist",
+   "priority": 1,
+   "request": {
+    "method": "GET",
+    "urlPath": "/amsterdam-signals/signals/v1/public/signals/geography/",
+    "queryParameters": {
+     "category_slug": {
+      "equalTo": "nope"
+     }
+    }
+   },
+   "response": {
+    "status": 400,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "body": "{\"category_slug\":[\"Selecteer een geldige keuze. nope is geen beschikbare keuze.\"]}"
+   },
+   "metadata": {
+    "description": "Recorded for category_slug=nope"
+   }
+  },
+  {
+   "name": "Amsterdam signals geography",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/amsterdam-signals/signals/v1/public/signals/geography/"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "amsterdam-signals/signals-geography.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.meldingen.amsterdam.nl/signals/v1/public/signals/geography/?bbox=4.72,52.27,5.08,52.44&maincategory_slug=overlast-van-en-door-personen-of-groepen&category_slug=loslopende-agressieve-honden, and served for any arguments"
+   }
+  },
+  {
+   "name": "Amsterdam signals categories",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/amsterdam-signals/signals/v1/public/terms/categories/"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "amsterdam-signals/categories.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.meldingen.amsterdam.nl/signals/v1/public/terms/categories/?page_size=3, and served for any arguments. The signature of the icon links, which expires, is removed."
+   }
+  },
+  {
+   "name": "Amsterdam signals category overlast-van-dieren",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/amsterdam-signals/signals/v1/public/terms/categories/overlast-van-dieren/"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "amsterdam-signals/category.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.meldingen.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/. The signature of the icon links, which expires, is removed."
+   }
+  },
+  {
+   "name": "Amsterdam signals sub categories of overlast-van-dieren",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/amsterdam-signals/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "amsterdam-signals/sub-categories.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.meldingen.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/. The signature of the icon links, which expires, is removed."
+   }
+  },
+  {
+   "name": "Amsterdam signals sub category loslopende-agressieve-honden",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/amsterdam-signals/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/loslopende-agressieve-honden/"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "amsterdam-signals/sub-category.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.meldingen.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/loslopende-agressieve-honden/. The signature of the icon links, which expires, is removed."
+   }
+  },
+  {
+   "name": "Amsterdam signals: a category that does not exist",
+   "priority": 5,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/amsterdam-signals/signals/v1/public/terms/categories/.*"
+   },
+   "response": {
+    "status": 404,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "body": "{\"detail\":\"No Category matches the given query.\"}"
+   },
+   "metadata": {
+    "description": "Recorded for the category nope"
+   }
+  },
+  {
+   "name": "Amsterdam signals areas",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/amsterdam-signals/signals/v1/public/areas/"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "amsterdam-signals/areas.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.meldingen.amsterdam.nl/signals/v1/public/areas/?type_code=stadsdeel&page_size=3, and served for any arguments"
+   }
+  }
+ ]
+}

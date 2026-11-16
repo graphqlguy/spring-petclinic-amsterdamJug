@@ -1,0 +1,114 @@
+{
+ "mappings": [
+  {
+   "name": "openFDA: a limit above 1000",
+   "priority": 1,
+   "request": {
+    "method": "GET",
+    "urlPath": "/openfda/animalandveterinary/event.json",
+    "queryParameters": {
+     "limit": {
+      "equalTo": "2000"
+     }
+    }
+   },
+   "response": {
+    "status": 400,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": "{\n  \"error\": {\n    \"code\": \"BAD_REQUEST\",\n    \"message\": \"Limit cannot exceed 1000 results for search requests. Use the skip or search_after param to get additional results.\"\n  }\n}"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.fda.gov/animalandveterinary/event.json?limit=2000"
+   }
+  },
+  {
+   "name": "openFDA: a search without matches",
+   "priority": 1,
+   "request": {
+    "method": "GET",
+    "urlPath": "/openfda/animalandveterinary/event.json",
+    "queryParameters": {
+     "search": {
+      "contains": "Zzz"
+     }
+    }
+   },
+   "response": {
+    "status": 404,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"No matches found!\"\n  }\n}"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.fda.gov/animalandveterinary/event.json?search=animal.species:\"Zzz\""
+   }
+  },
+  {
+   "name": "openFDA animal and veterinary events: count by date",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/openfda/animalandveterinary/event.json",
+    "queryParameters": {
+     "count": {
+      "equalTo": "original_receive_date"
+     }
+    }
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "openfda/counts-by-date.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.fda.gov/animalandveterinary/event.json?search=animal.species:\"Cat\" AND original_receive_date:[20260601 TO 20260605]&count=original_receive_date, and served for any search"
+   }
+  },
+  {
+   "name": "openFDA animal and veterinary events: count",
+   "priority": 3,
+   "request": {
+    "method": "GET",
+    "urlPath": "/openfda/animalandveterinary/event.json",
+    "queryParameters": {
+     "count": {
+      "matches": ".+"
+     }
+    }
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "openfda/counts.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.fda.gov/animalandveterinary/event.json?search=animal.species:\"Dog\"&count=reaction.veddra_term_name.exact&limit=5, and served for any search and count"
+   }
+  },
+  {
+   "name": "openFDA animal and veterinary events",
+   "priority": 5,
+   "request": {
+    "method": "GET",
+    "urlPath": "/openfda/animalandveterinary/event.json"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "openfda/events.json"
+   },
+   "metadata": {
+    "description": "Recorded from https://api.fda.gov/animalandveterinary/event.json?search=animal.species:\"Dog\" AND original_receive_date:[20260101 TO 20261231]&sort=original_receive_date:desc&limit=3, and served for any arguments"
+   }
+  }
+ ]
+}

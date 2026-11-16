@@ -1,0 +1,450 @@
+# Naturalis Biodiversity Center, the natural history museum of the Netherlands in Leiden, publishes
+# its collection and the Dutch Species Register through the Netherlands Biodiversity API at
+# https://api.biodiversitydata.nl. Each field below is one request. A querySpec goes to Naturalis
+# as the JSON body of the request, and the answer comes back with the names Naturalis gives its
+# properties. The input types follow the QuerySpec model of the API, and the output types its
+# Taxon and Specimen models, with the properties whose meaning is clear.
+
+extend type Query {
+
+	"""
+	Species and other taxa that Naturalis knows, from the Dutch Species Register and the Catalogue of Life:
+	POST /v2/taxon/query.
+	Without a querySpec, Naturalis answers the first 10 of all taxa.
+	"""
+	naturalisTaxonQuery(
+		"The conditions, the sorting and the paging, sent to Naturalis as the body of the request."
+		querySpec: NaturalisQuerySpec
+	): NaturalisTaxonQueryResult
+
+	"The number of taxa that match the conditions of a querySpec: POST /v2/taxon/count."
+	naturalisTaxonCount(
+		"The conditions, sent to Naturalis as the body of the request. Without it, every taxon counts."
+		querySpec: NaturalisQuerySpec
+	): Int
+
+	"One taxon: GET /v2/taxon/find/{id}. Null when Naturalis does not have it."
+	naturalisTaxonFind(
+		"The id of the taxon, for example 9I9KO475EQS@NSR."
+		id: String!
+	): NaturalisTaxon
+
+	"""
+	Specimens of the Naturalis collection, such as a mounted skin or a skeleton, and observations such as a
+	recorded animal sound: POST /v2/specimen/query.
+	Without a querySpec, Naturalis answers the first 10 of all specimens.
+	"""
+	naturalisSpecimenQuery(
+		"The conditions, the sorting and the paging, sent to Naturalis as the body of the request."
+		querySpec: NaturalisQuerySpec
+	): NaturalisSpecimenQueryResult
+
+	"The number of specimens that match the conditions of a querySpec: POST /v2/specimen/count."
+	naturalisSpecimenCount(
+		"The conditions, sent to Naturalis as the body of the request. Without it, every specimen counts."
+		querySpec: NaturalisQuerySpec
+	): Int
+
+	"One specimen: GET /v2/specimen/find/{id}. Null when Naturalis does not have it."
+	naturalisSpecimenFind(
+		"The id of the specimen, for example RMNH.MAM.63929.b@CRS."
+		id: String!
+	): NaturalisSpecimen
+
+	"The specimens with a unitID: GET /v2/specimen/findByUnitID/{unitID}. Naturalis answers an empty list for a unitID it does not know."
+	naturalisSpecimenFindByUnitID(
+		"The unitID of the specimen, for example RMNH.MAM.63929.b."
+		unitID: String!
+	): [NaturalisSpecimen!]
+
+	"Whether a specimen with a unitID exists: GET /v2/specimen/exists/{unitID}."
+	naturalisSpecimenExists(
+		"The unitID of the specimen, for example RMNH.MAM.63929.b."
+		unitID: String!
+	): Boolean
+}
+
+"""
+A query for Naturalis, with the properties of the QuerySpec model of its API.
+Example, for specimens of the genus Canis gathered in the Netherlands, latest first:
+{ conditions: [{ field: "identifications.scientificName.genusOrMonomial", operator: EQUALS, value: "Canis",
+and: [{ field: "gatheringEvent.country", operator: EQUALS, value: "Netherlands" }] }],
+sortFields: [{ path: "gatheringEvent.dateTimeBegin", sortOrder: DESC }], size: 5 }
+"""
+input NaturalisQuerySpec {
+	"The conditions a taxon or specimen must meet."
+	conditions: [NaturalisQueryCondition!]
+	"Whether a result must meet every condition (AND, the default of Naturalis) or at least one (OR)."
+	logicalOperator: NaturalisLogicalOperator
+	"The fields to sort by. Without it, Naturalis sorts by score."
+	sortFields: [NaturalisSortField!]
+	"The number of results to pass over first."
+	from: Int
+	"The number of results to return. Naturalis returns 10 without it."
+	size: Int
+}
+
+"One condition of a query, with the properties of the QueryCondition model of the Naturalis API."
+input NaturalisQueryCondition {
+	"NOT turns the condition around, together with its and and or conditions."
+	not: NaturalisNot
+	"""
+	The path of the field to test, with dots between the levels, as in the output types.
+	Examples: defaultClassification.genus for a taxon, gatheringEvent.country for a specimen.
+	"""
+	field: String!
+	"How to compare. Naturalis rejects an operator the field does not allow."
+	operator: NaturalisOperator!
+	"The value to compare with."
+	value: String
+	"Conditions that must also hold."
+	and: [NaturalisQueryCondition!]
+	"Conditions that may hold in place of this one."
+	or: [NaturalisQueryCondition!]
+}
+
+"One field to sort by, with the properties of the SortField model of the Naturalis API."
+input NaturalisSortField {
+	"The path of the field, for example gatheringEvent.dateTimeBegin."
+	path: String!
+	"ASC for ascending, DESC for descending."
+	sortOrder: NaturalisSortOrder
+}
+
+"The value that turns a condition around."
+enum NaturalisNot {
+	NOT
+}
+
+"How the conditions of a query combine."
+enum NaturalisLogicalOperator {
+	AND
+	OR
+}
+
+"The direction of a sort."
+enum NaturalisSortOrder {
+	ASC
+	DESC
+}
+
+"""
+The operators of a condition that compare with one value. IC stands for ignore case.
+The API also has IN, NOT_IN, BETWEEN and NOT_BETWEEN, which compare with a list of values.
+"""
+enum NaturalisOperator {
+	EQUALS
+	NOT_EQUALS
+	EQUALS_IC
+	NOT_EQUALS_IC
+	"The value occurs anywhere in the text of the field."
+	CONTAINS
+	NOT_CONTAINS
+	"Less than."
+	LT
+	"Less than or equal to."
+	LTE
+	"Greater than."
+	GT
+	"Greater than or equal to."
+	GTE
+	"The words of the value occur in the text of the field, as a full-text search."
+	MATCHES
+	NOT_MATCHES
+	STARTS_WITH
+	NOT_STARTS_WITH
+	STARTS_WITH_IC
+	NOT_STARTS_WITH_IC
+}
+
+"The answer to a query for taxa."
+type NaturalisTaxonQueryResult {
+	"The number of taxa that match, of which resultSet holds one page."
+	totalSize: Int
+	"The taxa of this page."
+	resultSet: [NaturalisTaxonQueryResultItem!]
+}
+
+"One taxon of an answer, with how well it matches."
+type NaturalisTaxonQueryResultItem {
+	"How well the taxon matches the conditions. A higher score is a better match. Null when the query sorts by a field."
+	score: Float
+	"The taxon."
+	item: NaturalisTaxon
+}
+
+"The answer to a query for specimens."
+type NaturalisSpecimenQueryResult {
+	"The number of specimens that match, of which resultSet holds one page."
+	totalSize: Int
+	"The specimens of this page."
+	resultSet: [NaturalisSpecimenQueryResultItem!]
+}
+
+"One specimen of an answer, with how well it matches."
+type NaturalisSpecimenQueryResultItem {
+	"How well the specimen matches the conditions. A higher score is a better match. Null when the query sorts by a field."
+	score: Float
+	"The specimen."
+	item: NaturalisSpecimen
+}
+
+"The system a record comes from."
+type NaturalisSourceSystem {
+	"The code of the system: NSR for the Dutch Species Register, COL for the Catalogue of Life, CRS for the zoology and geology catalogues, BRAHMS for the botany catalogues, XC for the animal sounds of Xeno-canto."
+	code: String
+	"The name of the system."
+	name: String
+}
+
+"A species, a subspecies or a higher group, with the properties of the Taxon model of the Naturalis API."
+type NaturalisTaxon {
+	"The system the taxon comes from."
+	sourceSystem: NaturalisSourceSystem
+	"The id of the taxon in its source system."
+	sourceSystemId: String
+	"The web page of the taxon in its source system."
+	recordURI: String
+	"The id of the taxon at Naturalis: the sourceSystemId, an @ and the code of the source system."
+	id: String
+	"The sourceSystemId of the group the taxon belongs to."
+	sourceSystemParentId: String
+	"The rank of the taxon, for example species or subspecies."
+	taxonRank: String
+	"How established the species is in the Netherlands, as its source system writes it. The Dutch Species Register writes it in Dutch."
+	occurrenceStatusVerbatim: String
+	"The scientific name that is accepted for the taxon."
+	acceptedName: NaturalisScientificName
+	"The classification of the taxon, from kingdom to species."
+	defaultClassification: NaturalisDefaultClassification
+	"The classification as the source system gives it, one entry per rank, highest rank first."
+	systemClassification: [NaturalisMonomial!]
+	"Other scientific names of the taxon."
+	synonyms: [NaturalisScientificName!]
+	"The common names of the taxon."
+	vernacularNames: [NaturalisVernacularName!]
+}
+
+"A scientific name in its parts."
+type NaturalisScientificName {
+	"The whole name with its author and year, for example Canis lupus Linnaeus, 1758."
+	fullScientificName: String
+	"What kind of name it is, for example accepted name or synonym."
+	taxonomicStatus: String
+	"The genus, or the single word of a name above the genus."
+	genusOrMonomial: String
+	"The subgenus."
+	subgenus: String
+	"The second part of the name of a species, for example lupus."
+	specificEpithet: String
+	"The third part of the name of a subspecies, for example familiaris."
+	infraspecificEpithet: String
+	"The word that marks the rank below the species, for example subsp. or var."
+	infraspecificMarker: String
+	"The author and the year as written, for example (Linnaeus, 1758)."
+	authorshipVerbatim: String
+	"Who named the taxon."
+	author: String
+	"The year the name was published."
+	year: String
+}
+
+"The classification of a taxon. Each field holds the name of the group at that rank."
+type NaturalisDefaultClassification {
+	"The domain."
+	domain: String
+	"The kingdom, for example Animalia."
+	kingdom: String
+	"The subkingdom."
+	subKingdom: String
+	"The phylum, for example Chordata."
+	phylum: String
+	"The subphylum."
+	subPhylum: String
+	"The superclass."
+	superClass: String
+	"The class, for example Mammalia."
+	className: String
+	"The subclass."
+	subClass: String
+	"The superorder."
+	superOrder: String
+	"The order, for example Carnivora."
+	order: String
+	"The suborder."
+	subOrder: String
+	"The infraorder."
+	infraOrder: String
+	"The superfamily."
+	superFamily: String
+	"The family, for example Canidae."
+	family: String
+	"The subfamily."
+	subFamily: String
+	"The tribe."
+	tribe: String
+	"The subtribe."
+	subTribe: String
+	"The genus, for example Canis."
+	genus: String
+	"The subgenus."
+	subgenus: String
+	"The second part of the name of a species, for example lupus."
+	specificEpithet: String
+	"The third part of the name of a subspecies."
+	infraspecificEpithet: String
+	"The rank below the species, for example subspecies."
+	infraspecificRank: String
+}
+
+"The name of a group at one rank."
+type NaturalisMonomial {
+	"The rank. The Dutch Species Register writes it in Latin, for example familia."
+	rank: String
+	"The name of the group at that rank, for example Canidae."
+	name: String
+}
+
+"A common name of a taxon."
+type NaturalisVernacularName {
+	"The name, for example Wolf."
+	name: String
+	"The language of the name, for example Dutch or English."
+	language: String
+	"Whether it is the preferred name in its language."
+	preferred: Boolean
+}
+
+"""
+An object of the Naturalis collection or an observation, with the properties of the Specimen model of the Naturalis API.
+"""
+type NaturalisSpecimen {
+	"The system the specimen comes from."
+	sourceSystem: NaturalisSourceSystem
+	"The id of the specimen in its source system."
+	sourceSystemId: String
+	"The web page of the specimen in its source system."
+	recordURI: String
+	"The id of the specimen at Naturalis: the unitID, an @ and the code of the source system."
+	id: String
+	"The registration number of the specimen, for example RMNH.MAM.63929.b."
+	unitID: String
+	"The permanent web address of the specimen."
+	unitGUID: String
+	"The number the collector gave the specimen in the field."
+	collectorsFieldNumber: String
+	"The identifier of the group of specimens that were gathered together."
+	assemblageID: String
+	"The institution that holds the specimen."
+	sourceInstitutionID: String
+	"The code of the catalogue the record comes from, for example CRS."
+	sourceID: String
+	"The owner of the specimen."
+	owner: String
+	"The kind of licence, for example Copyright."
+	licenseType: String
+	"The licence of the record, for example CC0 1.0."
+	license: String
+	"What the record describes, for example PreservedSpecimen, FossilSpecimen or HumanObservation."
+	recordBasis: String
+	"The part of the organism that is kept, for example skin or skeleton (partial)."
+	kindOfUnit: String
+	"The part of the Naturalis collection the specimen belongs to, for example Mammalia."
+	collectionType: String
+	"The sex: male, female, mixed, hermaphrodite, unknowable or undetermined."
+	sex: String
+	"The stage of life, for example adult or juvenile."
+	phaseOrStage: String
+	"The title of the record."
+	title: String
+	"How the specimen was prepared, for example mounted skin."
+	preparationType: String
+	"The number of individuals the record covers."
+	numberOfSpecimen: Int
+	"Whether the animal was raised in captivity."
+	fromCaptivity: Boolean
+	"Whether the record is public."
+	objectPublic: Boolean
+	"Where and when the specimen was gathered."
+	gatheringEvent: NaturalisGatheringEvent
+	"What the specimen was identified as. A specimen can have several identifications."
+	identifications: [NaturalisSpecimenIdentification!]
+}
+
+"Where and when a specimen was gathered."
+type NaturalisGatheringEvent {
+	"The project or expedition the specimen was gathered in."
+	projectTitle: String
+	"The region of the world."
+	worldRegion: String
+	"The continent."
+	continent: String
+	"The country, for example Netherlands."
+	country: String
+	"The ISO 3166 code of the country."
+	iso3166Code: String
+	"The province or state, for example Drenthe."
+	provinceState: String
+	"The island."
+	island: String
+	"The town or the place."
+	locality: String
+	"The city or municipality."
+	city: String
+	"The place within the locality."
+	sublocality: String
+	"The place as written on the label."
+	localityText: String
+	"When the gathering started, for example 2024-12-27T00:00:00+0000."
+	dateTimeBegin: String
+	"When the gathering ended."
+	dateTimeEnd: String
+	"The date as written on the label."
+	dateText: String
+	"How the specimen was gathered."
+	method: String
+	"The altitude of the place."
+	altitude: String
+	"The unit of the altitude. The name is spelled as Naturalis spells it."
+	altitudeUnifOfMeasurement: String
+	"The depth of the place."
+	depth: String
+	"The unit of the depth."
+	depthUnitOfMeasurement: String
+	"The kind of surroundings as written on the label."
+	biotopeText: String
+	"The coordinates of the place."
+	siteCoordinates: [NaturalisGatheringSiteCoordinates!]
+}
+
+"The coordinates of a place."
+type NaturalisGatheringSiteCoordinates {
+	"The longitude in degrees."
+	longitudeDecimal: Float
+	"The latitude in degrees."
+	latitudeDecimal: Float
+	"How far off the coordinates can be, in metres."
+	coordinateErrorDistanceInMeters: Int
+	"The geodetic datum of the coordinates: WGS84, NAD83 or NAD27."
+	spatialDatum: String
+}
+
+"What a specimen was identified as."
+type NaturalisSpecimenIdentification {
+	"The rank of the identification, for example species or subspecies."
+	taxonRank: String
+	"The scientific name the specimen was identified as."
+	scientificName: NaturalisScientificName
+	"The kind of type specimen it is for the name, for example holotype."
+	typeStatus: String
+	"When the specimen was identified."
+	dateIdentified: String
+	"The classification of the identification, from kingdom to species."
+	defaultClassification: NaturalisDefaultClassification
+	"The classification as the source system gives it, one entry per rank."
+	systemClassification: [NaturalisMonomial!]
+	"The common names of what it was identified as."
+	vernacularNames: [NaturalisVernacularName!]
+	"Whether this is the preferred identification of the specimen."
+	preferred: Boolean
+}

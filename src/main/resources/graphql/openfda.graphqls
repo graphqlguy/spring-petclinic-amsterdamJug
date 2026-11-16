@@ -1,0 +1,330 @@
+# openFDA is the open data service of the US Food and Drug Administration. Its animal and
+# veterinary endpoint at https://api.fda.gov/animalandveterinary/event.json publishes the
+# reports of adverse events that the FDA Center for Veterinary Medicine receives, for example a
+# dog that vomits after a medicine. Each field below is one GET request. The arguments go to
+# openFDA as query parameters of the same name, and the answer comes back with the names openFDA
+# gives its fields. The descriptions of the report fields are those of the openFDA field
+# reference at https://open.fda.gov/fields/animalandveterinaryevent.yaml.
+
+extend type Query {
+
+	"""
+	Reports of adverse events in animals after a veterinary medicinal product, from openFDA:
+	GET /animalandveterinary/event.json.
+	Null when no report matches the search.
+	"""
+	openfdaAnimalAndVeterinaryEvents(
+		"""
+		A search in the openFDA query syntax, sent as written: a field, a colon and a value, joined with AND or OR.
+		A field inside an object takes its path, such as animal.species. A range takes square brackets.
+		Example: animal.species:"Dog" AND original_receive_date:[20260101 TO 20261231]
+		"""
+		search: String
+		"The field to sort by and the direction, for example original_receive_date:desc."
+		sort: String
+		"The number of reports to return, at most 1000. openFDA returns 1 without it."
+		limit: Int
+		"The number of reports to pass over first."
+		skip: Int
+	): OpenfdaAnimalAndVeterinaryEvents
+
+	"""
+	How many adverse event reports have each value of one field, most frequent first:
+	GET /animalandveterinary/event.json with the count parameter.
+	For example, the most reported reactions of dogs. Null when no report matches the search.
+	"""
+	openfdaAnimalAndVeterinaryEventCounts(
+		"A search in the openFDA query syntax, to count the matching reports only. Example: animal.species:\"Dog\""
+		search: String
+		"""
+		The field to count by, for example animal.species. A date field, such as original_receive_date, counts by day.
+		These text fields need .exact after their name, to count whole values: reaction.veddra_term_name,
+		drug.active_ingredients.name, drug.brand_name, drug.manufacturer.name, drug.administered_by, outcome.medical_status,
+		primary_reporter, secondary_reporter, type_of_information, health_assessment_prior_to_exposure.condition and
+		health_assessment_prior_to_exposure.assessed_by. Example: reaction.veddra_term_name.exact
+		"""
+		count: String!
+		"The number of values to return. openFDA returns 100 without it."
+		limit: Int
+	): OpenfdaAnimalAndVeterinaryEventCounts
+}
+
+"The answer to a search for adverse event reports."
+type OpenfdaAnimalAndVeterinaryEvents {
+	"What openFDA says about the answer."
+	meta: OpenfdaMeta
+	"The reports."
+	results: [OpenfdaAnimalEvent!]
+}
+
+"The answer to a count of adverse event reports."
+type OpenfdaAnimalAndVeterinaryEventCounts {
+	"What openFDA says about the answer."
+	meta: OpenfdaMeta
+	"The values of the counted field, each with its number of reports."
+	results: [OpenfdaCount!]
+}
+
+"One value of a counted field."
+type OpenfdaCount {
+	"The value, when the counted field holds text."
+	term: String
+	"The day as YYYYMMDD, when the counted field holds a date."
+	time: String
+	"The number of reports with this value."
+	count: Int
+}
+
+"What openFDA says about an answer."
+type OpenfdaMeta {
+	"The disclaimer of openFDA."
+	disclaimer: String
+	"The web address of the terms of service."
+	terms: String
+	"The web address of the licence."
+	license: String
+	"The day openFDA last updated the data, for example 2026-10-05."
+	last_updated: String
+	"The paging of a search. A count leaves it out."
+	results: OpenfdaMetaResults
+}
+
+"The paging of a search."
+type OpenfdaMetaResults {
+	"The number of reports passed over."
+	skip: Int
+	"The number of reports asked for."
+	limit: Int
+	"The number of reports that match the search."
+	total: Int
+}
+
+"One report of an adverse event after an animal was given a veterinary medicinal product, with the fields of the openFDA field reference. openFDA sends every value of a report as text."
+type OpenfdaAnimalEvent {
+	"Animal(s) involved in the adverse drug event."
+	animal: OpenfdaAnimalEventAnimal
+	"The veterinary medicinal products involved in the adverse event."
+	drug: [OpenfdaAnimalEventDrug!]
+	"The actual or approximate time the adverse event lasted."
+	duration: OpenfdaAnimalEventDuration
+	"Veterinarian’s assessment of the health status of the animal(s) involved in the adverse event prior to exposure. In case of human exposure, this would be the assessment by the attending physician."
+	health_assessment_prior_to_exposure: OpenfdaAnimalEventHealthAssessmentPriorToExposure
+	"Total number of animals affected by the adverse event, whether through direct or indirect exposure (e.g. treated during pregnancy or lactation, commingled, infection spread, etc.)."
+	number_of_animals_affected: String
+	"Number of animals being treated directly by the veterinary medicinal product."
+	number_of_animals_treated: String
+	"The date (day, month or year) of the onset of the adverse event. Written YYYYMMDD, for example 20260212."
+	onset_date: String
+	"The date of the first receipt of information by the MAH responsible for reporting the adverse event to the FDA. Written YYYYMMDD, for example 20260212."
+	original_receive_date: String
+	"A flag indicating whether the product is foreign or domestic."
+	foreign_or_domestic: String
+	"This is the medical status of the animal(s) affected in the adverse event report at the time the adverse event is reported."
+	outcome: [OpenfdaAnimalEventOutcome!]
+	"The person or organization who holds or provides the most pertinent information related to the adverse event report."
+	primary_reporter: String
+	"Information about the reaction involved in the adverse event."
+	reaction: [OpenfdaAnimalEventReaction!]
+	"The receiver of the adverse event report."
+	receiver: OpenfdaAnimalEventReceiver
+	"This field is used for the sender to identify additional information that may be used to process the information into their IT systems. The format for the report identifier is the 1-character application/file identifier followed by the 6-number identifier assigned by FDA for that application/file (e.g., A200999). The application/file number is the NADA or ANADA number to which the report is being sent."
+	report_id: String
+	"A person or organization who also possesses pertinent information related to the adverse event report e.g. if the primary reporter is a veterinarian, the secondary reporter may be the animal owner."
+	secondary_reporter: String
+	"A list of values (Yes or No) characterizing the seriousness of the adverse event. The API answers true or false, as text."
+	serious_ae: String
+	"The length of time between the first exposure to the veterinary medicinal product and the onset of the adverse event."
+	time_between_exposure_and_onset: String
+	"A list of values (T or F) describing whether or not the human or animal affected received treatment in response to the adverse event. The API answers true or false, as text."
+	treated_for_ae: String
+	"A list of values regarding the type of information in the report."
+	type_of_information: String
+	"For the purposes of OpenFDA, this number represents a unique report identification number documented in the FDA CVM database."
+	unique_aer_id_number: String
+}
+
+"Animal(s) involved in the adverse drug event."
+type OpenfdaAnimalEventAnimal {
+	"Describes the age of the affected animal(s)."
+	age: OpenfdaAnimalEventAnimalAge
+	"Describes the breed of the animal(s) associated with the species."
+	breed: OpenfdaAnimalEventAnimalBreed
+	"Describes the pregnancy and lactation status of affected female animal(s)."
+	female_animal_physiological_status: String
+	"Described whether the affected animal(s) is male or female."
+	gender: String
+	"Describes whether the affected animal(s) is intact or neutered."
+	reproductive_status: String
+	"A list of values regarding the species of animal affected."
+	species: String
+	"Describes the weight of the animals involved in the adverse event."
+	weight: OpenfdaAnimalEventAnimalWeight
+}
+
+"Describes the age of the affected animal(s)."
+type OpenfdaAnimalEventAnimalAge {
+	"This is the age of the oldest of the affected animals."
+	max: String
+	"This is the age of the youngest of the affected animals, or the age of a single affected animal."
+	min: String
+	"This describes the method used to determine the age of the affected animal(s)."
+	qualifier: String
+	"The unit of measurement for age."
+	unit: String
+}
+
+"Describes the breed of the animal(s) associated with the species."
+type OpenfdaAnimalEventAnimalBreed {
+	"Identifies an animal made up of more than one breed. The API answers true or false, as text."
+	is_crossbred: String
+}
+
+"Describes the weight of the animals involved in the adverse event."
+type OpenfdaAnimalEventAnimalWeight {
+	"This is the maximum weight of the affected animals."
+	max: String
+	"This is the minimum weight of the affected animals, or the weight of a single affected animal."
+	min: String
+	"This list describes how the weight of the affected animal(s) was determined."
+	qualifier: String
+	"Units of measurement for weight."
+	unit: String
+}
+
+"The veterinary medicinal products involved in the adverse event."
+type OpenfdaAnimalEventDrug {
+	"Active ingredients for the veterinary medicinal product."
+	active_ingredients: [OpenfdaAnimalEventDrugActiveIngredients!]
+	"Describes the individual who administered the veterinary medicinal product(s) to the animal(s) involved in the adverse event."
+	administered_by: String
+	"A list of values (Yes, No, Unknown, or Not Applicable) describing whether the adverse event abated after stopping the veterinary medicinal product. The API answers true or false, as text."
+	ae_abated_after_stopping_drug: String
+	"A list of values (Yes, No, Unknown, or Not Applicable) describing whether the adverse event reappeared after re-introduction of the veterinary medicinal product. The API answers true or false, as text."
+	ae_reappeared_after_resuming_drug: String
+	"The Anatomic Therapeutic Chemical system for the classification of substance intended for therapeutic use, which can serve as a tool for the classification of Veterinary Medicinal Products."
+	atc_vet_code: String
+	"The name by which the product is presented by the marketing authorization holder."
+	brand_name: String
+	"The labeled dosage form of the veterinary medicinal product(s) involved in the adverse event."
+	dosage_form: String
+	"The dose of the veterinary medicinal product that was given."
+	dose: OpenfdaAnimalEventDose
+	"The date (day, month and year) on which the animal was first treated with the veterinary medicinal product. Written YYYYMMDD, for example 20260212."
+	first_exposure_date: String
+	"Frequency of administration of the veterinary medicinal product(s) involved in the adverse event."
+	frequency_of_administration: OpenfdaAnimalEventDrugFrequencyOfAdministration
+	"The date (day, month and year) on which the animal was last treated with the veterinary medicinal product. Written YYYYMMDD, for example 20260212."
+	last_exposure_date: String
+	"The expiration date of the veterinary medicinal product(s) involved in the adverse event. Written YYYYMMDD, for example 20260212."
+	lot_expiration: String
+	"The lot number of the veterinary medicinal product(s) involved in the adverse event."
+	lot_number: String
+	"The manufacturer of the veterinary medicinal product."
+	manufacturer: OpenfdaAnimalEventDrugManufacturer
+	"The date the veterinary medicinal product was manufactured. Written YYYYMMDD, for example 20260212."
+	manufacturing_date: String
+	"The number of defective items of the veterinary medicinal product described in the adverse event, based on the applicable retail unit."
+	number_of_defective_items: String
+	"The number of veterinary medicinal products returned as described in the adverse event."
+	number_of_items_returned: String
+	"A list of values (Yes, No, Unknown, or Not Applicable) describing whether or not the affected animal(s) experienced an adverse event when exposed to the veterinary medicinal product on a date previous to this adverse event report. The API answers true or false, as text."
+	previous_ae_to_drug: String
+	"A list of values (Yes, No, or Unknown) describing whether or not the affected animal(s) had been exposed to the veterinary medicinal product on a date previous to the adverse event report. The API answers true or false, as text."
+	previous_exposure_to_drug: String
+	"The national drug code number for the veterinary medicinal product(s) involved in the adverse event."
+	product_ndc: String
+	"Route by which the veterinary medicinal product was administered."
+	route: String
+	"A list of values (Yes, No, or Unknown) describing whether the veterinary medicinal product was used according to its labeled recommendations/directions of use. The API answers true or false, as text."
+	used_according_to_label: String
+}
+
+"Active ingredients for the veterinary medicinal product."
+type OpenfdaAnimalEventDrugActiveIngredients {
+	"Name of the active ingredient."
+	name: String
+	"The dose of the active ingredient in the product."
+	dose: OpenfdaAnimalEventDose
+}
+
+"Frequency of administration of the veterinary medicinal product(s) involved in the adverse event."
+type OpenfdaAnimalEventDrugFrequencyOfAdministration {
+	"These are the units that qualify the numeric value of the frequency of administration."
+	unit: String
+	"This is a number that characterizes the frequency of administration of the veterinary medicinal product(s)."
+	value: String
+}
+
+"The manufacturer of the veterinary medicinal product."
+type OpenfdaAnimalEventDrugManufacturer {
+	"The name of the manufacturer."
+	name: String
+	"A combination of the 3-character ISO 3166 code for the country where the veterinary medicinal product is approved, the 8-character RA Identifier code, and the registration number of the veterinary medicinal product involved in the adverse event."
+	registration_number: String
+}
+
+"The actual or approximate time the adverse event lasted."
+type OpenfdaAnimalEventDuration {
+	"The unit of measurement for duration."
+	unit: String
+	"The numeric value for duration associated with the unit of measurement."
+	value: String
+}
+
+"Veterinarian’s assessment of the health status of the animal(s) involved in the adverse event prior to exposure. In case of human exposure, this would be the assessment by the attending physician."
+type OpenfdaAnimalEventHealthAssessmentPriorToExposure {
+	"Who the animal affected by the adverse event was assessed by."
+	assessed_by: String
+	"The animal's medical condition prior to exposure."
+	condition: String
+}
+
+"This is the medical status of the animal(s) affected in the adverse event report at the time the adverse event is reported."
+type OpenfdaAnimalEventOutcome {
+	"The animal's medical status after treatment."
+	medical_status: String
+	"Total number of animals affected by the adverse event, whether through direct or indirect exposure (e.g. treated during pregnancy or lactation, commingled, infection spread, etc.)."
+	number_of_animals_affected: String
+}
+
+"Information about the reaction involved in the adverse event."
+type OpenfdaAnimalEventReaction {
+	"Indicates whether the integer provided by `number_of_animals_affected` is an actual or estimated number."
+	accuracy: String
+	"Total number of animals affected by the adverse event, whether through direct or indirect exposure (e.g. treated during pregnancy or lactation, commingled, infection spread, etc.)."
+	number_of_animals_affected: String
+	"The code indicating the lowest level term as used in VeDDRA for each adverse clinical manifestation observed in the adverse event."
+	veddra_term_code: String
+	"The lowest level term as used in VeDDRA for each adverse clinical manifestation observed in the adverse event."
+	veddra_term_name: String
+	"The version of VeDDRA from which the veddra codes and terms have been supplied for use in this adverse event report."
+	veddra_version: String
+}
+
+"The receiver of the adverse event report."
+type OpenfdaAnimalEventReceiver {
+	"The city in which the adverse event report is received."
+	city: String
+	"The country in which the adverse event report is received."
+	country: String
+	"The organization receiving the adverse event report."
+	organization: String
+	"The postal code for the area in which the adverse event report is received."
+	postal_code: String
+	"The state in which the adverse event report is received."
+	state: String
+	"The street address of the organization receiving the adverse event report."
+	street_address: String
+}
+
+"A dose: an amount for a quantity, for example 30 Milligram for 1 Animal."
+type OpenfdaAnimalEventDose {
+	"The amount of the dose."
+	numerator: String
+	"The unit of the amount, for example Milligram."
+	numerator_unit: String
+	"The quantity the amount is given for, for example 1."
+	denominator: String
+	"The unit of that quantity, for example Animal or kilogram."
+	denominator_unit: String
+}

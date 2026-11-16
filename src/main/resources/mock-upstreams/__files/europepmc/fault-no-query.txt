@@ -1,0 +1,1 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><soap:Fault><faultcode>soap:Server</faultcode><faultstring>No search criteria provided. Please provide a search criteria which is less than 1500 characters. </faultstring><detail><ns1:QueryException xmlns:ns1="http://webservice.cdb.ebi.ac.uk/"/></detail></soap:Fault></soap:Body></soap:Envelope>

@@ -1,0 +1,11 @@
+{
+  "odata.metadata":"https://opendata.cbs.nl/ODataFeed/OData/84952ENG/$metadata#Cbs.OData.WebAPI.DataProperties","value":[
+    {
+      "odata.type":"Cbs.OData.Dimension","ID":0,"Position":0,"ParentID":null,"Type":"Dimension","Key":"FarmAnimals","Title":"Farm animals","Description":""
+    },{
+      "odata.type":"Cbs.OData.TimeDimension","ID":1,"Position":1,"ParentID":null,"Type":"TimeDimension","Key":"Periods","Title":"Periods","Description":"","ReleasePolicy":true
+    },{
+      "odata.type":"Cbs.OData.Topic","ID":2,"Position":2,"ParentID":null,"Type":"Topic","Key":"Livestock_1","Title":"Livestock","Description":"Total livestock includes the following livestock categories observed in the agricultural census: - cattle; - sheep and goats; - fattening pigs and breeding pigs (including piglets); - poultry (excluding other poultry: geese, pheasants, ostriches, guinea fowls and such).","Datatype":"Long","Unit":"x 1000","Decimals":0,"Default":"Missing"
+    }
+  ]
+}

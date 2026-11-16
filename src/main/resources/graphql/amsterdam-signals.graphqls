@@ -1,0 +1,234 @@
+# The City of Amsterdam takes reports from residents about public space: a loose dog, rats, a
+# broken street light. The city calls a report a signal (melding in Dutch) and runs the open source
+# system Signalen for them. The public part of its API at https://api.meldingen.amsterdam.nl reads
+# without a key. Each field below is one GET request. The arguments go to the city as query
+# parameters of the same name, and the answer comes back with the names the API gives its fields.
+# The field names are English, and the city writes the names of its categories in Dutch.
+
+extend type Query {
+
+	"""
+	The reports of residents of Amsterdam that the city shows on its public map, as GeoJSON:
+	GET /signals/v1/public/signals/geography/.
+	Each one has a place, a category and the time it was made. For example the reports of loose or aggressive dogs:
+	category_slug ["loslopende-agressieve-honden"]. The answer holds at most 4,000 reports.
+	"""
+	amsterdamSignalsGeography(
+		"""
+		The box to search in: the west longitude, the south latitude, the east longitude and the north latitude,
+		separated by commas. All of Amsterdam is 4.72,52.27,5.08,52.44.
+		"""
+		bbox: String!
+		"The slugs of main categories from amsterdamSignalsCategories, for example overlast-van-dieren (nuisance from animals)."
+		maincategory_slug: [String!]
+		"""
+		The slugs of sub categories, for example loslopende-agressieve-honden (loose or aggressive dogs), ratten (rats),
+		wespen (wasps), dode-dieren (dead animals) or eikenprocessierups (oak processionary caterpillar).
+		"""
+		category_slug: [String!]
+		"The field to sort by, for example created_at."
+		ordering: String
+	): AmsterdamSignalsGeography
+
+	"""
+	The main categories a report in Amsterdam can have, each with its sub categories:
+	GET /signals/v1/public/terms/categories/.
+	"""
+	amsterdamSignalsCategories(
+		"The page to return, starting at 1."
+		page: Int
+		"The number of categories on a page."
+		page_size: Int
+	): AmsterdamSignalsCategories
+
+	"One main category with its sub categories: GET /signals/v1/public/terms/categories/{slug}/. Null when the city does not have it."
+	amsterdamSignalsCategory(
+		"The slug of the main category, for example overlast-van-dieren."
+		slug: String!
+	): AmsterdamSignalsCategory
+
+	"""
+	The sub categories of one main category:
+	GET /signals/v1/public/terms/categories/{maincategory_slug}/sub_categories/.
+	"""
+	amsterdamSignalsSubCategories(
+		"The slug of the main category, for example overlast-van-dieren."
+		maincategory_slug: String!
+		"The page to return, starting at 1."
+		page: Int
+		"The number of sub categories on a page."
+		page_size: Int
+	): AmsterdamSignalsSubCategories
+
+	"""
+	One sub category, with what the city tells a resident who reports it:
+	GET /signals/v1/public/terms/categories/{maincategory_slug}/sub_categories/{slug}/.
+	Null when the city does not have it.
+	"""
+	amsterdamSignalsSubCategory(
+		"The slug of the main category, for example overlast-van-en-door-personen-of-groepen."
+		maincategory_slug: String!
+		"The slug of the sub category, for example loslopende-agressieve-honden."
+		slug: String!
+	): AmsterdamSignalsSubCategory
+
+	"""
+	The areas of Amsterdam that reports are assigned to, such as its districts: GET /signals/v1/public/areas/.
+	"""
+	amsterdamSignalsAreas(
+		"The codes of the types of area, for example stadsdeel for the districts of the city."
+		type_code: [String!]
+		"The codes of the areas."
+		code: [String!]
+		"The page to return, starting at 1."
+		page: Int
+		"The number of areas on a page."
+		page_size: Int
+		"The field to sort by."
+		ordering: String
+	): AmsterdamSignalsAreas
+}
+
+"Reports on the public map of Amsterdam, as a GeoJSON feature collection."
+type AmsterdamSignalsGeography {
+	"The GeoJSON type: FeatureCollection."
+	type: String
+	"The reports, one feature each."
+	features: [AmsterdamSignalsFeature!]
+}
+
+"One report on the map, as a GeoJSON feature."
+type AmsterdamSignalsFeature {
+	"The GeoJSON type: Feature."
+	type: String
+	"The place of the report."
+	geometry: AmsterdamSignalsPoint
+	"What the report is about and when it was made."
+	properties: AmsterdamSignalsFeatureProperties
+}
+
+"The place of a report, as a GeoJSON point."
+type AmsterdamSignalsPoint {
+	"The GeoJSON type: Point."
+	type: String
+	"The longitude and then the latitude, in degrees."
+	coordinates: [Float!]
+}
+
+"What a report is about and when it was made."
+type AmsterdamSignalsFeatureProperties {
+	"The sub category of the report."
+	category: AmsterdamSignalsFeatureCategory
+	"When the resident made the report, for example 2026-11-10T10:36:21.515178+00:00."
+	created_at: String
+}
+
+"The category of a report on the map."
+type AmsterdamSignalsFeatureCategory {
+	"The name of the sub category, in Dutch, for example Loslopende of agressieve honden."
+	name: String
+	"The slug of the sub category, which the category_slug argument takes."
+	slug: String
+	"The main category it belongs to."
+	parent: AmsterdamSignalsFeatureCategoryParent
+}
+
+"The main category of a report on the map."
+type AmsterdamSignalsFeatureCategoryParent {
+	"The name of the main category, in Dutch."
+	name: String
+	"The slug of the main category, which the maincategory_slug argument takes."
+	slug: String
+}
+
+"One page of main categories."
+type AmsterdamSignalsCategories {
+	"The number of main categories."
+	count: Int
+	"The main categories of this page."
+	results: [AmsterdamSignalsCategory!]
+}
+
+"A main category of reports, for example Overlast van dieren (nuisance from animals)."
+type AmsterdamSignalsCategory {
+	"The name as the city shows it."
+	_display: String
+	"The name of the category, in Dutch."
+	name: String
+	"The slug of the category, which the maincategory_slug argument takes."
+	slug: String
+	"The name the city shows to the public, when it differs from name."
+	public_name: String
+	"Whether reports of this category appear on the public map."
+	is_public_accessible: Boolean
+	"The sub categories of the category."
+	sub_categories: [AmsterdamSignalsSubCategory!]
+}
+
+"One page of sub categories."
+type AmsterdamSignalsSubCategories {
+	"The number of sub categories."
+	count: Int
+	"The sub categories of this page."
+	results: [AmsterdamSignalsSubCategory!]
+}
+
+"A sub category of reports, for example Loslopende of agressieve honden (loose or aggressive dogs)."
+type AmsterdamSignalsSubCategory {
+	"The name as the city shows it."
+	_display: String
+	"The name the city uses for the sub category, in Dutch, for example Loslopende/agressieve honden."
+	name: String
+	"The slug of the sub category, which the category_slug argument takes."
+	slug: String
+	"The name the city shows to the public, in Dutch, for example Loslopende of agressieve honden. The map uses this name."
+	public_name: String
+	"What belongs in the sub category, in Dutch."
+	description: String
+	"What the city tells a resident who makes such a report: what it will do and how soon, in Dutch."
+	handling_message: String
+	"The departments of the city that handle such reports."
+	departments: [AmsterdamSignalsDepartment!]
+	"Whether the city uses the sub category."
+	is_active: Boolean
+	"Whether reports of this sub category appear on the public map."
+	is_public_accessible: Boolean
+}
+
+"A department of the City of Amsterdam."
+type AmsterdamSignalsDepartment {
+	"The code of the department."
+	code: String
+	"The name of the department, in Dutch."
+	name: String
+}
+
+"One page of areas."
+type AmsterdamSignalsAreas {
+	"The number of areas that match."
+	count: Int
+	"The areas of this page."
+	results: [AmsterdamSignalsArea!]
+}
+
+"An area of Amsterdam, such as a district."
+type AmsterdamSignalsArea {
+	"The name of the area, for example Centrum."
+	name: String
+	"The code of the area."
+	code: String
+	"The type of the area."
+	type: AmsterdamSignalsAreaType
+	"The bounding box of the area: the west longitude, the south latitude, the east longitude and the north latitude."
+	bbox: [Float!]
+}
+
+"A type of area."
+type AmsterdamSignalsAreaType {
+	"The ID of the type."
+	id: Int
+	"The name of the type, for example stadsdeel (district)."
+	name: String
+	"The code of the type, which the type_code argument takes."
+	code: String
+}

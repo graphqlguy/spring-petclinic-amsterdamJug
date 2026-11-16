@@ -1,0 +1,243 @@
+{
+ "mappings": [
+  {
+   "name": "Naturalis: a condition on a field that does not exist",
+   "priority": 1,
+   "request": {
+    "method": "POST",
+    "urlPathPattern": "/naturalis/v2/(taxon|specimen)/(query|count)",
+    "bodyPatterns": [
+     {
+      "matchesJsonPath": "$.conditions[?(@.field == 'nope')]"
+     }
+    ]
+   },
+   "response": {
+    "status": 400,
+    "headers": {
+     "Content-Type": "text/plain;charset=UTF-8"
+    },
+    "body": "nl.naturalis.nba.api.InvalidConditionException: Invalid element \"nope\" in path \"nope\"\n"
+   },
+   "metadata": {
+    "description": "Recorded for a condition on the field nope"
+   }
+  },
+  {
+   "name": "Naturalis taxon/query",
+   "priority": 2,
+   "request": {
+    "method": "POST",
+    "urlPath": "/naturalis/v2/taxon/query"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "naturalis/taxon-query.json"
+   },
+   "metadata": {
+    "description": "Recorded from POST https://api.biodiversitydata.nl/v2/taxon/query for the genus Canis with size 3, and served for any query"
+   }
+  },
+  {
+   "name": "Naturalis taxon/count",
+   "priority": 2,
+   "request": {
+    "method": "POST",
+    "urlPath": "/naturalis/v2/taxon/count"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "text/plain;charset=UTF-8"
+    },
+    "body": "92"
+   },
+   "metadata": {
+    "description": "Recorded from POST https://api.biodiversitydata.nl/v2/taxon/count for the genus Canis, and served for any query"
+   }
+  },
+  {
+   "name": "Naturalis taxon/find",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/naturalis/v2/taxon/find/9I9KO475EQS(@|%40)NSR"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "naturalis/taxon-find.json"
+   },
+   "metadata": {
+    "description": "Recorded from GET https://api.biodiversitydata.nl/v2/taxon/find/9I9KO475EQS@NSR"
+   }
+  },
+  {
+   "name": "Naturalis taxon/find: an id that does not exist",
+   "priority": 5,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/naturalis/v2/taxon/find/.*"
+   },
+   "response": {
+    "status": 404,
+    "headers": {
+     "Content-Type": "text/plain;charset=UTF-8"
+    },
+    "body": "404 (NOT FOUND)\nNo Specimen exists with ID nope"
+   },
+   "metadata": {
+    "description": "Recorded for the id nope. Naturalis says Specimen for a taxon too"
+   }
+  },
+  {
+   "name": "Naturalis specimen/query",
+   "priority": 2,
+   "request": {
+    "method": "POST",
+    "urlPath": "/naturalis/v2/specimen/query"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "naturalis/specimen-query.json"
+   },
+   "metadata": {
+    "description": "Recorded from POST https://api.biodiversitydata.nl/v2/specimen/query for the genus Canis gathered in the Netherlands, latest first, with size 3, and served for any query"
+   }
+  },
+  {
+   "name": "Naturalis specimen/count",
+   "priority": 2,
+   "request": {
+    "method": "POST",
+    "urlPath": "/naturalis/v2/specimen/count"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "text/plain;charset=UTF-8"
+    },
+    "body": "569"
+   },
+   "metadata": {
+    "description": "Recorded from POST https://api.biodiversitydata.nl/v2/specimen/count for the genus Canis gathered in the Netherlands, and served for any query"
+   }
+  },
+  {
+   "name": "Naturalis specimen/find",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/naturalis/v2/specimen/find/RMNH\\.MAM\\.63929\\.b(@|%40)CRS"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "naturalis/specimen-find.json"
+   },
+   "metadata": {
+    "description": "Recorded from GET https://api.biodiversitydata.nl/v2/specimen/find/RMNH.MAM.63929.b@CRS"
+   }
+  },
+  {
+   "name": "Naturalis specimen/find: an id that does not exist",
+   "priority": 5,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/naturalis/v2/specimen/find/.*"
+   },
+   "response": {
+    "status": 404,
+    "headers": {
+     "Content-Type": "text/plain;charset=UTF-8"
+    },
+    "body": "404 (NOT FOUND)\nNo Specimen exists with ID nope"
+   },
+   "metadata": {
+    "description": "Recorded for the id nope"
+   }
+  },
+  {
+   "name": "Naturalis specimen/findByUnitID",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/naturalis/v2/specimen/findByUnitID/RMNH.MAM.63929.b"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "bodyFileName": "naturalis/specimen-findByUnitID.json"
+   },
+   "metadata": {
+    "description": "Recorded from GET https://api.biodiversitydata.nl/v2/specimen/findByUnitID/RMNH.MAM.63929.b"
+   }
+  },
+  {
+   "name": "Naturalis specimen/findByUnitID: a unitID that does not exist",
+   "priority": 5,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/naturalis/v2/specimen/findByUnitID/.*"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "application/json"
+    },
+    "body": "[]"
+   },
+   "metadata": {
+    "description": "Naturalis answers an empty list"
+   }
+  },
+  {
+   "name": "Naturalis specimen/exists",
+   "priority": 2,
+   "request": {
+    "method": "GET",
+    "urlPath": "/naturalis/v2/specimen/exists/RMNH.MAM.63929.b"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "text/plain;charset=UTF-8"
+    },
+    "body": "true"
+   },
+   "metadata": {
+    "description": "Recorded from GET https://api.biodiversitydata.nl/v2/specimen/exists/RMNH.MAM.63929.b"
+   }
+  },
+  {
+   "name": "Naturalis specimen/exists: a unitID that does not exist",
+   "priority": 5,
+   "request": {
+    "method": "GET",
+    "urlPathPattern": "/naturalis/v2/specimen/exists/.*"
+   },
+   "response": {
+    "status": 200,
+    "headers": {
+     "Content-Type": "text/plain;charset=UTF-8"
+    },
+    "body": "false"
+   },
+   "metadata": {
+    "description": "Recorded for the unitID nope"
+   }
+  }
+ ]
+}

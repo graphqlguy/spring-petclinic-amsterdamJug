@@ -1,0 +1,300 @@
+# RASFF Window publishes the notifications of the EU's Rapid Alert System for Food and Feed.
+# RasffApi calls it, and RasffGraphQLController maps its answers to the types below.
+
+extend type Query {
+
+	"""
+	Notifications of the EU's Rapid Alert System for Food and Feed (RASFF) about risks found in food, feed and
+	pet food, one page at a time, the most recently validated first. For the notifications about pet food, filter on
+	the id of the product category pet food, which rasffProductCategories lists.
+	RASFF holds about 33,000 notifications, and a notification with every field is about 130 tokens. Narrow the
+	list with the filter, and select only the fields the question needs. To count notifications, select only
+	totalNotifications.
+	"""
+	rasffNotifications(
+		"The filters. Leave it out for every notification."
+		filter: RasffNotificationFilter = {}
+		"The page to return. Pages count from 0, and a value below 0 returns the first page."
+		page: Int! = 0
+		"The number of notifications on a page, from 1 to 50. A value outside that range is moved to the nearest limit."
+		size: Int! = 10
+	): RasffNotificationPage!
+
+	"One RASFF notification with its details, or null when RASFF does not publish a notification with this id."
+	rasffNotification(
+		"The id of the notification, as rasffNotifications returns it."
+		id: ID!
+	): RasffNotification
+
+	"The product categories of RASFF notifications, such as pet food, sorted by description."
+	rasffProductCategories: [RasffTerm!]!
+
+	"The product types of RASFF notifications, such as food and feed, sorted by description."
+	rasffProductTypes: [RasffTerm!]!
+
+	"The hazard categories of RASFF notifications, such as foreign bodies or pathogenic micro-organisms, sorted by description."
+	rasffHazardCategories: [RasffTerm!]!
+
+	"The risk decisions of RASFF notifications, such as serious or not serious, sorted by description."
+	rasffRiskDecisions: [RasffTerm!]!
+
+	"The classifications of RASFF notifications, such as alert notification or border rejection notification, sorted by description."
+	rasffNotificationClassifications: [RasffTerm!]!
+
+	"What can lead to a RASFF notification, such as a consumer complaint or a border control, sorted by description."
+	rasffNotificationBases: [RasffTerm!]!
+
+	"The measures that authorities take about a product, such as a recall from consumers, sorted by description."
+	rasffActionsTaken: [RasffTerm!]!
+
+	"The statuses of RASFF notifications, sorted by description."
+	rasffNotificationStatuses: [RasffTerm!]!
+
+	"The countries that RASFF notifications name as the origin or a destination of a product, sorted by name."
+	rasffCountries: [RasffCountry!]!
+
+	"The members of the RASFF network, which send the notifications, sorted by name."
+	rasffNetworkMembers: [RasffMember!]!
+}
+
+"""
+A notification of the EU's Rapid Alert System for Food and Feed (RASFF), as a search lists it.
+The rasffNotification query returns its details.
+"""
+type RasffNotificationSummary {
+	"The id of the notification, which the rasffNotification query takes."
+	id: ID!
+	"The public reference, for example 2026.8625."
+	reference: String
+	"What the notification is about, for example Foreign body in pet food for cats from Germany."
+	subject: String
+	"The day the European Commission validated the notification."
+	validationDate: Date
+	"The member of the RASFF network that sent the notification."
+	notifyingCountry: RasffCountryRef
+	"The category of the product, for example pet food."
+	productCategory: RasffTerm
+	"Whether the product is food, feed or food contact material."
+	productType: RasffTerm
+	"The kind of notification, for example alert notification."
+	classification: RasffTerm
+	"How serious the risk is, for example serious or not serious."
+	riskDecision: RasffTerm
+	"The countries the product came from."
+	originCountries: [RasffCountryRef!]!
+}
+
+"One page of RASFF notifications, the most recently validated first."
+type RasffNotificationPage {
+	"The notifications on this page."
+	notifications: [RasffNotificationSummary!]!
+	"The page that was returned. Pages count from 0."
+	page: Int!
+	"The number of pages available for the same filters and size."
+	totalPages: Int!
+	"The number of notifications that match the filters, counted across every page."
+	totalNotifications: Int!
+}
+
+"""
+A RASFF notification with its details: the product, the hazards found in it, the risk, the countries involved
+and the measures they took.
+"""
+type RasffNotification {
+	"The id of the notification."
+	id: ID!
+	"The public reference, for example 2026.8625."
+	reference: String
+	"What the notification is about."
+	subject: String
+	"The day the European Commission validated the notification."
+	validationDate: Date
+	"The day of the latest change to the notification."
+	lastUpdateDate: Date
+	"The kind of notification, for example alert notification."
+	classification: RasffTerm
+	"Whether the product is food, feed or food contact material."
+	productType: RasffTerm
+	"What led to the notification, for example a consumer complaint or an official control on the market."
+	basis: RasffTerm
+	"The status in RASFF's own words, for example ec_validated."
+	status: String
+	"The product and what was found in it."
+	product: RasffProduct
+	"The assessment of the risk."
+	risk: RasffRisk
+	"The countries involved, with the part each one plays."
+	countries: [RasffCountryInvolvement!]!
+	"The follow-ups that members of the network sent after the notification."
+	followUps: [RasffFollowUp!]!
+	"Websites with information for consumers, run by the authorities of the countries involved."
+	consumerInformationLinks: [String!]!
+}
+
+"The product of a RASFF notification."
+type RasffProduct {
+	"What the product is, for example cat food."
+	name: String
+	"The category of the product, for example pet food."
+	category: RasffTerm
+	"Whether and where the product was distributed, for example distribution to other member countries."
+	distributionStatus: RasffTerm
+	"What was found in the product."
+	hazards: [RasffHazard!]!
+	"The packaging, batches and weights of the product as it was sold."
+	details: [RasffProductDetail!]!
+	"What the authorities did about the product, such as a recall."
+	measures: [RasffMeasure!]!
+}
+
+"A hazard found in a product."
+type RasffHazard {
+	"The hazard, for example zinc - too high content - composition."
+	name: String
+	"The category of the hazard, for example foreign bodies or composition."
+	category: String
+	"The measured value, as RASFF writes it, for example 336 +/-44."
+	analyticalResult: String
+	"The unit of the measured value, for example mg/kg - ppm."
+	unit: String
+	"The highest level the law permits, with its unit, for example 200 mg/kg - ppm."
+	maximumPermittedLevel: String
+	"The day the sample was taken."
+	samplingDate: Date
+}
+
+"A description of a product as it was sold."
+type RasffProductDetail {
+	"The packaging or presentation, for example canned pet food."
+	aspect: String
+	"What the label says, for example a batch number."
+	labelling: String
+	"The weight of one package."
+	weight: Float
+	"The unit of the weight, for example g or kg."
+	weightUnit: RasffTerm
+	"How the product is kept, for example ambient."
+	temperature: RasffTerm
+}
+
+"A measure that an authority took about a product."
+type RasffMeasure {
+	"The measure, for example recall from consumer."
+	action: RasffTerm
+	"The country whose authority took the measure."
+	takenBy: RasffCountryRef
+	"A page about the measure, such as a recall notice."
+	url: String
+}
+
+"The assessment of the risk of a RASFF notification."
+type RasffRisk {
+	"How serious the risk is, for example serious or potential risk."
+	decision: String
+	"What was observed, in the words of the notifying country."
+	hazardObserved: String
+	"The number of people who fell ill. For pet food, RASFF counts the animals here."
+	personsAffected: Int
+	"The illness they had."
+	illness: String
+}
+
+"A country involved in a RASFF notification."
+type RasffCountryInvolvement {
+	"The name of the country."
+	country: String
+	"The ISO 3166 alpha-2 code of the country."
+	code: String
+	"The parts the country plays: NOTIFYING, ORIGIN, DISTRIBUTION, FOR_FOLLOW_UP, FOR_ATTENTION or OPERATOR."
+	roles: [String!]!
+}
+
+"A follow-up to a RASFF notification."
+type RasffFollowUp {
+	"The number of the follow-up, starting at 1."
+	number: Int!
+	"The day it was sent."
+	date: Date
+	"What the follow-up reports, for example outcome of investigations."
+	type: RasffTerm
+	"The authority that sent it: a country, or a region of one."
+	sender: String
+	"The ISO 3166 alpha-2 code of the sender's country."
+	senderCode: String
+}
+
+"A term of one of the lists that classify RASFF notifications. Its id is what the filters of rasffNotifications take."
+type RasffTerm {
+	"The id of the term."
+	id: ID!
+	"The term in English, for example pet food."
+	description: String!
+}
+
+"A country that RASFF notifications name as the origin or a destination of a product."
+type RasffCountry {
+	"The id that the originCountryIds and distributionCountryIds filters take."
+	id: ID!
+	"The English name of the country."
+	name: String!
+	"The ISO 3166 alpha-2 code, for example BE."
+	code: String
+}
+
+"""
+A member of the RASFF network, which can send notifications: an EU country, another country of the European
+Economic Area, Switzerland, or the European Commission.
+"""
+type RasffMember {
+	"The id that the notifyingMemberIds filter takes."
+	id: ID!
+	"The English name of the member."
+	name: String!
+	"The ISO 3166 alpha-2 code, or EU for the European Commission."
+	code: String
+}
+
+"A country as a RASFF notification names it."
+type RasffCountryRef {
+	"The English name of the country."
+	name: String
+	"The ISO 3166 alpha-2 code of the country."
+	code: String
+}
+
+"""
+The filters of a RASFF notification search. Each filter is optional, and a notification must match every filter given.
+An id filter takes the ids that the rasff lists return, and matches a notification that has any of them.
+"""
+input RasffNotificationFilter {
+	"Text that the subject contains, for example salmonella."
+	subject: String
+	"The reference of one notification, for example 2026.8625."
+	reference: String
+	"Only notifications validated on or after this day."
+	validatedFrom: Date
+	"Only notifications validated on or before this day."
+	validatedTo: Date
+	"Product categories, as rasffProductCategories lists them. Pet food is one of them."
+	productCategoryIds: [ID!]
+	"Product types, as rasffProductTypes lists them."
+	productTypeIds: [ID!]
+	"Hazard categories, as rasffHazardCategories lists them."
+	hazardCategoryIds: [ID!]
+	"Risk decisions, as rasffRiskDecisions lists them."
+	riskDecisionIds: [ID!]
+	"Classifications, as rasffNotificationClassifications lists them."
+	classificationIds: [ID!]
+	"What led to the notification, as rasffNotificationBases lists it."
+	basisIds: [ID!]
+	"Measures taken, as rasffActionsTaken lists them."
+	actionTakenIds: [ID!]
+	"Statuses, as rasffNotificationStatuses lists them."
+	statusIds: [ID!]
+	"Members that sent the notification, as rasffNetworkMembers lists them."
+	notifyingMemberIds: [ID!]
+	"Countries the product came from, as rasffCountries lists them."
+	originCountryIds: [ID!]
+	"Countries the product was distributed to, as rasffCountries lists them."
+	distributionCountryIds: [ID!]
+}
