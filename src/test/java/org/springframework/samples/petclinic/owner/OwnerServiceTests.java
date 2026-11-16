@@ -96,7 +96,7 @@ class OwnerServiceTests {
 	@Test
 	void addOwner() {
 		Owner owner = owners
-			.addOwner(new AddOwnerInput("Ana", "Sousa", "Rua de Santa Catarina 3", "Porto", "2221234567"));
+			.addOwner(new AddOwnerInput("Anna", "de Vries", "Overtoom 12", "Amsterdam", "0612345678"));
 		assertThat(owner.getId()).isNotNull();
 		assertThat(owners.findAll()).hasSize(12);
 	}
@@ -104,7 +104,7 @@ class OwnerServiceTests {
 	@Test
 	void addOwnerRefusesATelephoneThatIsNotTenDigits() {
 		assertThatExceptionOfType(InvalidInputException.class)
-			.isThrownBy(() -> owners.addOwner(new AddOwnerInput("Ana", "", "Rua de Santa Catarina 3", "Porto", "123")))
+			.isThrownBy(() -> owners.addOwner(new AddOwnerInput("Anna", "", "Overtoom 12", "Amsterdam", "123")))
 			.satisfies((ex) -> assertThat(ex.getFieldErrors()).containsOnlyKeys("lastName", "telephone"));
 	}
 

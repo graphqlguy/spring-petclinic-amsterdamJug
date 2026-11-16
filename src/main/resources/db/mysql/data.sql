@@ -32,7 +32,7 @@ INSERT IGNORE INTO owners VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona'
 INSERT IGNORE INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683');
 INSERT IGNORE INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435');
 INSERT IGNORE INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487');
-INSERT IGNORE INTO owners VALUES (11, 'Porto', 'Tech', 'Alfândega do Porto, Rua Nova da Alfândega', 'Porto', '2212345678');
+INSERT IGNORE INTO owners VALUES (11, 'Dev', 'Oxx', 'Overtoom 100', 'Amsterdam', '0123456789');
 
 INSERT IGNORE INTO pets VALUES (1, 'Leo', '2010-09-07', 1, 1);
 INSERT IGNORE INTO pets VALUES (2, 'Basil', '2012-08-06', 6, 2);
@@ -47,7 +47,7 @@ INSERT IGNORE INTO pets VALUES (10, 'Mulligan', '2007-02-24', 2, 8);
 INSERT IGNORE INTO pets VALUES (11, 'Freddy', '2010-03-09', 5, 9);
 INSERT IGNORE INTO pets VALUES (12, 'Lucky', '2010-06-24', 2, 10);
 INSERT IGNORE INTO pets VALUES (13, 'Sly', '2012-06-08', 1, 10);
-INSERT IGNORE INTO pets VALUES (14, 'Ronaldo', '2026-01-01', 2, 11);
+INSERT IGNORE INTO pets VALUES (14, 'Woofy', '2026-01-01', 2, 11);
 INSERT IGNORE INTO pets VALUES (15, 'Rosa', '2025-06-14', 1, 11);
 
 INSERT IGNORE INTO visits VALUES (1, 7, 1, '2013-01-01', 'rabies shot');
