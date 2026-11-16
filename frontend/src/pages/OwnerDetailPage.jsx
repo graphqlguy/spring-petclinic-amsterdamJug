@@ -68,7 +68,7 @@ export default function OwnerDetailPage() {
     return (
       <div>
         <Errors errors={errors} />
-        {!errors && <p>No owner has the id {ownerId}.</p>}
+        {!errors && <p>An owner with the id {ownerId} could not be found.</p>}
       </div>
     )
   }
