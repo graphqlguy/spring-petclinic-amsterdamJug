@@ -27,7 +27,7 @@ public final class Text {
 	}
 
 	/**
-	 * The text in lower case and without accents, so that "Guimarães", "GUIMARAES" and "guimaraes"
+	 * The text in lower case and without accents, so that "Curaçao", "CURACAO" and "curacao"
 	 * compare as equal.
 	 */
 	public static String withoutAccents(String text) {
