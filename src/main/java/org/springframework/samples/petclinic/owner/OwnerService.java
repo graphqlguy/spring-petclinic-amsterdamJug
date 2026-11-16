@@ -105,7 +105,7 @@ public class OwnerService {
 
 	/**
 	 * Changes the fields the input sets, and keeps the rest.
-	 * @throws EntityNotFoundException when no owner has the id
+	 * @throws EntityNotFoundException when an owner cannot be found for the id
 	 * @throws InvalidInputException when a changed field breaks a rule
 	 */
 	@Transactional

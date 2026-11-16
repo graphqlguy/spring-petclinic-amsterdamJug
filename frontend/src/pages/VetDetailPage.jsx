@@ -21,7 +21,7 @@ export default function VetDetailPage() {
   }
   const vet = data?.vet
   if (!vet) {
-    return <Errors errors={errors ?? [{ message: `No vet has the id ${vetId}.` }]} />
+    return <Errors errors={errors ?? [{ message: `A vet with the id ${vetId} could not be found.` }]} />
   }
   return (
     <div>

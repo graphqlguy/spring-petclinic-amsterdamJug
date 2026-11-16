@@ -10,7 +10,7 @@ type Query {
     "Every owner of the clinic, in one list, without filters."
     ownersAll: [Owner!]! @deprecated(reason: "Unbounded. Use 'owners' instead.")
 
-    "One owner, or null when no owner has the id. The owners query gives the ids of owners."
+    "One owner. The owners query gives the ids of owners. If an owner cannot be found for the given id, the result is null."
     owner(id: ID!): Owner
 
     """
