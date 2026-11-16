@@ -73,6 +73,50 @@ npx -y @modelcontextprotocol/inspector@2.9.0
 
 Connect it to `http://localhost:8080/mcp` with the Streamable HTTP transport. The endpoint answers without a sign-in, which suits a demo on a laptop.
 
+## The public services
+
+On this branch the schema grows from the clinic's 6 root fields to 292. The other 286 read ten public services, and each service has a schema file of its own in `src/main/resources/graphql`:
+
+| File | What it reads | Who runs it | Read over | Root fields |
+| --- | --- | --- | --- | --- |
+| `gbif.graphqls` | The names and classification of species, their occurrences, and the datasets and collections behind them | GBIF, the Global Biodiversity Information Facility | REST | 226 |
+| `rasff.graphqls` | Notifications about risks found in food, feed and pet food | RASFF, the EU's Rapid Alert System for Food and Feed | REST | 12 |
+| `cbs.graphqls` | Dutch statistics, such as pet prices and farm animals | CBS, Statistics Netherlands | OData | 11 |
+| `luchtmeetnet.graphqls` | The air quality of the Netherlands | Luchtmeetnet | REST | 9 |
+| `naturalis.graphqls` | Species and museum specimens | Naturalis Biodiversity Center | REST | 8 |
+| `amsterdam-signals.graphqls` | The reports of Amsterdam residents about public space, such as loose dogs | The City of Amsterdam | REST | 6 |
+| `inaturalist.graphqls` | The animals seen in a place | iNaturalist | REST | 6 |
+| `eu-feed-additives.graphqls` | The EU register of feed additives | The European Commission | REST | 3 |
+| `europepmc.graphqls` | Veterinary research papers | Europe PMC | SOAP | 3 |
+| `openfda.graphqls` | Adverse reactions to veterinary medicines | openFDA | REST | 2 |
+
+GBIF's 226 fields are generated from its OpenAPI documents, and one fetcher serves them all from the operation table in `src/main/resources/gbif/operations.json`. The other services are written by hand, each in a package of its own. Pages count from 0 in the fields that take `page` and `size`, as they do for the clinic's owners.
+
+At its first start on this branch, GATool embeds 2,606 schema coordinates, which took 30 seconds in one run on a Mac. One `searchSchema` call returns up to 5,000 tokens of results.
+
+## Without wifi
+
+Start the backend with the `mock` profile:
+
+```bash
+./mvnw spring-boot:run -Dspring-boot.run.profiles=mock
+```
+
+A [WireMock](https://wiremock.org) server inside the application then answers in place of the ten services, on port 9091, from the 303 answers recorded in `src/main/resources/mock-upstreams`. The profile also sets the application's clock to 15 November 2026 at 17:00 UTC, the time of the newest recordings, so the assistant takes that day as today. The tests start the application with this profile, so they run without the internet.
+
+## Questions to ask
+
+Ask them in the frontend's chat panel, or in an MCP client connected to `/mcp`. The results were read from the live services through `executeGraphql` on 15 November 2026, and a live answer can differ today.
+
+- **What is the share of household spending that goes to pets in the Netherlands?** About 1.2% in 2026, which is 0.87% for pets and pet products plus 0.33% for veterinary services (CBS table 86144ENG, the HICP). The CPI table 86141ENG gives 0.74% and 0.27%, about 1.0%, so the answer depends on the table the model picks.
+- **Did veterinary care get more expensive in the Netherlands over the past year?** Up 5.5% in October 2026 against October 2025. October is the latest month CBS has.
+- **Did veterinary care or pet products get more expensive in the Netherlands in 2026?** Veterinary care. In October 2026 it was up 5.5% on a year before, and pets and pet products were up 1.0%. In every month of 2026 veterinary care was up between 5.5% and 6.6%, and pets and pet products changed between -0.8% and 3.7%.
+- **Where in Amsterdam did residents report loose or aggressive dogs?** 16 reports on the city's public map, each with its coordinates and the time it was made. The newest is from 15 November 2026. The city adds and closes reports during the day, so the number changes.
+- **Is taurine authorised in the food of cats and dogs in the EU, and until when?** Yes, for Canidae, Felidae, Mustelidae and carnivorous fish, until 19 August 2036 (Regulation (EU) 2026/1859). The earlier authorisation of 2015 is being phased out and ends on 19 August 2028.
+- **How many research papers are there about parvovirus vaccines for dogs, and which is the newest?** 2,734 papers for the search "canine parvovirus vaccine". The newest is "Canine parvovirus in Africa: Explaining persistent disease despite vaccination." in Vet Anim Sci, 5 September 2026. The count depends on the words the model searches for.
+
+The questions about CBS take complex inputs, filters and comparisons.
+
 ## Changing the port
 
 If port 8080 is taken, start the backend on another port:
