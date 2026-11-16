@@ -74,7 +74,7 @@ export default function ChatPanel() {
             <input
               value={question}
               onChange={(event) => setQuestion(event.target.value)}
-              placeholder="Which visits are booked next week?"
+              placeholder="Which vets are surgeons?"
               className="flex-1 px-3 py-2 text-sm focus:outline-none"
             />
             <button className="px-4 text-sm text-spring-dark-green" disabled={waiting}>
