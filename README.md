@@ -25,15 +25,15 @@ The demo is built up on the branches below, and each branch adds to the one befo
 Pull the two models the application uses. The assistant needs the chat model from `checkpoint-03-in-app-assistant` on, and the schema search needs the embedding model from `checkpoint-04-dynamic-tools` on:
 
 ```bash
-# the chat model of the assistant, 5.2 GB
-ollama pull qwen3:8b
+# the chat model of the assistant, 17 GB
+ollama pull qwen3.6:27b
 
 # an embedding model tuned for GraphQL schemas, 639 MB, under the name the project uses
 ollama pull hf.co/xthor/Qwen3-Embedding-0.6B-GraphQL:Q8_0
 ollama cp hf.co/xthor/Qwen3-Embedding-0.6B-GraphQL:Q8_0 qwen3-graphql-embedder
 ```
 
-`spring.ai.ollama.chat.model` in `src/main/resources/application.properties` names the chat model, so another model that calls tools works as well.
+`spring.ai.ollama.chat.model` in `src/main/resources/application.properties` names the chat model, so another model that calls tools works as well. `qwen3.6:27b` takes about 16 GB of memory while it runs. With less memory, pull `qwen3:8b` (5.2 GB) with `ollama pull qwen3:8b` and switch the two model lines in that file. In our runs on `checkpoint-05-large-schema`, `qwen3.6:27b` answered 12 of 12 demo questions correctly and `qwen3:8b` answered 8.
 
 ## Running the backend
 
@@ -107,6 +107,8 @@ A [WireMock](https://wiremock.org) server inside the application then answers in
 ## Questions to ask
 
 Ask them in the frontend's chat panel, or in an MCP client connected to `/mcp`. The results were read from the live services through `executeGraphql` on 15 November 2026, and a live answer can differ today.
+
+The answers depend on the chat model. On 16 November 2026 each question was asked twice against the live services: `qwen3.6:27b`, the default, answered all twelve correctly, and `qwen3:8b` answered eight, with three of its six CBS answers and one about the research papers wrong.
 
 - **What is the share of household spending that goes to pets in the Netherlands?** About 1.2% in 2026, which is 0.87% for pets and pet products plus 0.33% for veterinary services (CBS table 86144ENG, the HICP). The CPI table 86141ENG gives 0.74% and 0.27%, about 1.0%, so the answer depends on the table the model picks.
 - **Did veterinary care get more expensive in the Netherlands over the past year?** Up 5.5% in October 2026 against October 2025. October is the latest month CBS has.
